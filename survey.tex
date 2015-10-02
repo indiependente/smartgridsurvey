@@ -33,7 +33,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass{article}
+\documentclass[11pt,oneside]{book}
 %\documentclass[DIV=calc, paper=a4, fontsize=11pt, twocolumn]{scrartcl}	 % A4 paper and 11pt font size
 %----------------------------------------------------------------------------------------
 
@@ -76,14 +76,14 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
-\usepackage[english]{babel} % English language/hyphenation
+\usepackage[english,italian]{babel} % English language/hyphenation
 \usepackage[protrusion=true,expansion=true]{microtype} % Better typography
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
 \usepackage[svgnames]{xcolor} % Enabling colors by their 'svgnames'
 \usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
 \usepackage{booktabs} % Horizontal rules in tables
 \usepackage{fix-cm}	 % Custom font sizes - used for the initial letter in the document
-
+\usepackage{graphicx}
 \usepackage{sectsty} % Enables custom section titles
 \allsectionsfont{\usefont{OT1}{phv}{b}{n}} % Change the font of all section commands
 
@@ -130,6 +130,8 @@
 \author{Marco Amoruso, Daniele Anello, Francesco Farina, \\Iolanda Rinaldi } % Your name
 
 \postauthor{\footnotesize \usefont{OT1}{phv}{m}{sl} \color{Black} % Configuration for the institution name
+\newline
+\newline
 Università degli Studi di Salerno % Your institution
 
 \par\end{flushleft}\HorRule} % Horizontal rule after the title
@@ -149,19 +151,13 @@ Università degli Studi di Salerno % Your institution
 %----------------------------------------------------------------------------------------
 
 % The first character should be within \initial{}
-\initial{Q}\textbf{}
 
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
-
-\section{Smart Grid}
-\subsection{Che cos'è la smart grid?}
-\subsection{Architettura}
-\subsection{Stato dell'arte}
-
-
-\section{}
+\tableofcontents
+\chapter{Introduzione}
+\input{Capitolo1.tex}
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
