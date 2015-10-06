@@ -53,15 +53,51 @@ Considerando, per esempio, che quasi il 90\% dei guasti alla rete elettrica prov
 \end{figure}
 
 La figura 1.5 mostra che gli investimenti degli ultimi anni si sono focalizzati principalmente sull'aspetto della rete elettrica che riguarda le misurazioni (\textit{metering}). \newline I primi progetti in questo settore hanno visto la nascita dei sistemi di \textbf{automated meter reading} (AMR) all'interno del sistema di distribuzione. \newline
-L'infrastruttura AMR (nata nel 1977) ha introdotto l'automazione nella rete elettrica. Attraverso una combinazione di tecnologie, incluse reti wireless e wired,   AMR ha permesso alle compagnie di leggere le misurazioni da remoto, di ottenere le informazioni quasi in real-time e di fornire agli utenti bollette basate sui consumi (in precedenza le compagnie emettevano le bollette basandosi sulle stime dei consumi del cliente).  \newline Inoltre, attraverso questo meccanismo di recupero informazioni tempestivo, le aziende sono state capaci di migliorare la produzione di energia attraverso un controllo più stretto durante periodi di alta e bassa richiesta. \newline \newline
-Sebbene la teconologia AMR all'inizio abbia attirato molta attenzione, le aziende presto si sono rese conto che non risolve il loro problema principale: la gestione demand-side. A causa della sua comunicazione unidirezionale, le capacità di AMR sono ridotte alla sola lettura dei dati e non è permesso, per esempio, effettuare modifiche nel comportamento della rete a seconda delle informazioni ricevute. \newline Pertanto AMR ha avuto vita breve; le aziende, piuttosto che continuare ad investire su di essa, hanno preferito spostarsi verso l'\textbf{advanced metering infrastructure} (AMI). \newline
-L'AMI (di cui si parlerà in dettaglio nel capitolo 2), è un'architettura che permette la comunicazione automatizzata e bidirezionale tra uno smart meter e una società di servizi. L'obiettivo è quello di fornire a tali società informazioni real-time circa i consumi energetici e permettere agli utenti di fare scelte informate sull'utilizzo dell'energia basate sui costi all'istante di utilizzo.
+L'infrastruttura AMR, nata nel 1977, ha introdotto l'automazione nella rete elettrica. Attraverso una combinazione di tecnologie, incluse reti wireless e wired,   AMR ha permesso alle compagnie di leggere le misurazioni da remoto, di ottenere le informazioni quasi in real-time e di fornire agli utenti bollette basate sui loro consumi reali (in precedenza le compagnie emettevano le bollette basandosi sulle stime dei consumi del cliente).  \newline Inoltre, attraverso questo meccanismo di recupero informazioni tempestivo, le aziende sono state capaci di migliorare la produzione di energia attraverso un maggiore controllo durante periodi di alta e bassa richiesta. \newline \newline
+Sebbene la teconologia AMR all'inizio abbia attirato molta attenzione, le aziende presto si sono rese conto che non risolve il loro problema principale: la gestione demand-side. A causa della sua comunicazione unidirezionale, le capacità di AMR sono ridotte alla sola lettura dei dati e non è permesso, per esempio, modificare il comportamento della rete a seconda delle informazioni ricevute. \newline Pertanto AMR ha avuto vita breve; le aziende, piuttosto che continuare ad investire su di essa, hanno preferito spostarsi verso l'\textbf{advanced metering infrastructure} (AMI). \newline
+L'AMI (di cui si parlerà in dettaglio nel capitolo 2), è un'architettura che permette la comunicazione automatizzata e bidirezionale tra uno smart meter e una società di servizi. L'obiettivo è quello di fornire a tali società informazioni real-time circa i consumi energetici e permettere agli utenti di fare scelte consapevoli sull'utilizzo dell'energia basate sui costi all'istante di utilizzo.
 \newline
 \newline
-Il passo successivo nell'evoluzione della distribuzione della corrente elettrica è costituito dalla smart grid, che utilizza l'AMI come componente core per il recupero delle informazioni circa lo stato della rete e i consumi utente.
+Il passo successivo nell'evoluzione della distribuzione della corrente elettrica è costituito dalla \textbf{Smart Grid}, che utilizza l'AMI come componente core per il recupero delle informazioni circa lo stato della rete e i consumi utente.
 \newpage
-\section{Perchè la Smart Grid}
 
+\section{Perchè la Smart Grid}
+Le industrie del settore dei servizi pubblici di tutto il mondo attualmente cercano di risolvere numerosi problemi, tra cui 
+\begin{itemize}
+\item diversificazione della generazione di energia
+\item gestione delle richieste utente
+\item conservazione dell'energia
+\item riduzione globale dell'emissione di anidride carbonica
+\end{itemize}
+È evidente che tali problemi non possono essere risolti all'interno dei confini della rete elettrica esistente. \newline
+Come detto in precedenza, la natura della comunicazione della rete attuale è unidirezionale. Essa converte solo un terzo di energia combustibile in elettricità, senza preoccuparsi del calore disperso. Circa l'8\% della corrente prodotta, viene dissipata poi attraverso i cavi elettrici, mentre il 20\% esiste solo per prepararsi ad un eventuale picco di carico di richieste utente (ed è in uso solo il 5\% delle volte). \newline
+In aggiunta a tali problemi, vi è l'inadeguatezza della struttura gerarchica della rete. A causa di tale organizzazione, infatti, si ha quello che viene definito come \textit{effetto domino dei guasti}. \newline
+La rete elettrica di nuova generazione, la Smart Grid, si propone di occuparsi delle maggiori carenze della rete attuale.
+\begin{figure}[h]\centering{
+  \includegraphics[scale=0.3, natwidth=669,natheight=553]{imgs/differences.png}
+  \caption{Differenze tra la rete elettrica attuale e la Smart Grid}
+}
+\end{figure}
+
+A partire dal 2005, c'è stato un interesse sempre più crescente verso le Smart Grid. Il riconoscere che l'ICT (\textbf{Information and Communication Technology}) offre significative opportunità per modernizzare il funzionamento delle reti elettriche unito alla consapevolezza che la produzione di energia può essere migliorata solo con un continuo ed efficiente monitoraggio, ha fatto si che si muovessero i primi passi verso la Smart Grid. In aggiunta a tali fattori, ci sono anche altre motivazioni a favore del passaggio verso una rete elettrica moderna.
+\begin{itemize}
+\item \textit{Strutture non più adeguate}: in molte zone del mondo (per esempio in USA e in alcuni paesi dell'Europa), i sistemi si sono rapidamente espansi a partire dal 1950 e le strutture relative alla trasmissione e alla distribuzione che furono installate a quel tempo non sono più adatte e hanno bisogno di essere sostituite. \newline Il bisogno di rinnovare tali componenti è un'ovvia opportunità di innovazione e, quindi, di introduzione di nuovi modelli e pratiche operative. \newline A ciò si aggiunge il fatto che, in molti paesi, i circuiti elettrici hanno bisogno di adattarsi ai carichi sempre più crescenti e all'introduzione di nuove fonti di energia rinnovabili. Ciò richiede, quindi, metodi più intelligenti sia per aumentare la capacità di trasmissione dell'energia, sia per reindirizzare il flusso di corrente verso circuiti meno carichi.
+
+\item \textit{Vincoli termici}: tali vincoli si riferiscono ai limiti dei sistemi di trasmissione e distribuzione relativamente alla loro capacità di diffusione dell'energia. Quando le attrezzature trasportano la corrente eccedendo la loro potenza termica, si surriscaldano e i materiali atti all'isolamento si deteriorano rapidamente. Ciò comporta una riduzione della lifetime delle attrezzature e un aumento di possibilità fallimenti.\newline I vincoli termici dipendono molto dalle condizioni dell'ambiente esterno, che cambiano durante gli anni. Pertanto l'uso di rate di trasmissione e distribuzione dinamici può aumentare la capacità del circuito in qualsiasi momento.
+
+\item \textit{Vincoli operativi}: qualsiasi sistema opera all'interno di predefiniti vincoli di voltaggio e frequenza. Se il voltaggio eccede il limite, i materiali isolanti dei componenti del sistema e le attrezzature degli utenti possono essere danneggiate, portando a corto-circuito. Per quanto riguarda la frequenza invece, gli operatori tendono a mantenerla all'interno di un range molto piccolo e, quando varia, intervengono dei servizi appositi con il compito di riportarla nell'intervallo prestabilito. \newline
+La generazione di energia rinnovabile, però, ha un output variabile che non può essere previsto con certezza qualche ora prima. Pertanto mantenere il bilancio erogazione-richiesta e la frequenza del sistema nei limiti risulta essere un compito arduo. Per tale motivo gli operatori dei sistemi sono sempre alla ricerca di nuovi servizi per la gestione della frequenza. \newline Si pensa che in futuro l'utilizzo delle Smart Grid in vari ambiti, per esempio domestico e automobilistico, porterà ad avere carichi sempre più flessibili. Ciò aiuterà nel mantenere la stabilità della rete.
+
+\item \textit{Sicurezza delle forniture}: la società moderna richiede una fornitura di energia che sia sempre più affidabile, man mano che carichi sempre più critici vengono connessi alla rete. L'approccio tradizionale per migliorare l'affidabilità, come visto in precedenza, era quello di installare cammini ridondanti, con notevole impatto sia sui costi che sull'ambiente. \newline L'approccio della Smart Grid in caso di guasti, invece, prevede l'utilizzo di intelligenti meccanismi di riconfigurazione, in modo tale da mantenere attiva la fornitura ai clienti ma evitando i costi addizionali portati da ulteriori circuiti.
+\item \textit{Iniziative nazionali}: molti governi nazionali incoraggiano le iniziative delle Smart Grid poichè le vedono come un meccanismo redditizio ma allo stesso tempo economico per rinnovare le loro infrastrutture e, contemporaneamente, introdurre risorse rinnovabili.
+\end{itemize}
+
+\begin{figure}[h]\centering{
+  \includegraphics[scale=0.3, natwidth=759,natheight=572]{imgs/benefits.png}
+  \caption{Benefici introdotti dalla Smart Grid}
+}
+\end{figure}
+\newpage
 \section{Cos'è una Smart Grid}
 
 \section{Tecnologie coinvolte}
