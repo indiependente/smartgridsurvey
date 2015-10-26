@@ -42,8 +42,14 @@ Quale sarebbe il rischio per l'intero sistema Smart Grid se il sistema stesso, o
 Nel paragrafo precedente, sono state descritte una serie di potenziali minacce e di funzioni di sicurezza che sono importanti per sistemi complessi ed interdipendenti come le Smart Grid. \newline In questo paragrafo, si esaminerà una possibile architettura di sicurezza che comprende tutte le funzioni precedentemente analizzate e che cerca di creare una struttura adatta a risolvere tutte le vulnerabilità descritte nel paragrafo 3.2.
 
 \subsection{Layered Security Model}
-Il concetto di modello di sicurezza \textit{stratificato} non è un concetto nuovo: i sistemi operativi ed i microprocessori, infatti, lo utilizzano da tempo per controllare gli accessi a  risorse privilegiate. \newline Immaginare tale concetto applicato ad una Smart Grid non è difficile. \newline Dalla figura (num) è possibile vedere che la struttura di tale modello è una struttura ad anello in cui la comunicazione tra gli strati del sistema è sicura. In generale, uno strato esterno non può avere libero accesso alle risorse presenti su uno strato più interno; inoltre, le richieste per le risorse non dovrebbero essere in grado di ``saltare" i vari anelli: una richiesta che parte dal terzo anello, non dovrebbe poter accedere direttamente alla risorsa del primo, ma gli accessi sono regolati da opportune interfacce progettate in modo tale da assicurare la sicurezza di tutto il sistema.
-\newline \newline
+Il concetto di modello di sicurezza \textit{stratificato} non è un concetto nuovo: i sistemi operativi ed i microprocessori, infatti, lo utilizzano da tempo per controllare gli accessi a  risorse privilegiate. \newline Immaginare tale concetto applicato ad una Smart Grid non è difficile. \newline Dalla figura 3.2 è possibile vedere che la struttura di tale modello è una struttura ad anello in cui la comunicazione tra gli strati del sistema è sicura. In generale, uno strato esterno non può avere libero accesso alle risorse presenti su uno strato più interno; inoltre, le richieste per le risorse non dovrebbero essere in grado di ``saltare" i vari anelli: una richiesta che parte dal terzo anello, non dovrebbe poter accedere direttamente alla risorsa del primo, ma gli accessi sono regolati da opportune interfacce progettate in modo tale da assicurare la sicurezza di tutto il sistema.
+
+\begin{figure}[h]\centering{
+  \includegraphics[scale=0.25, natwidth=877,natheight=768]{imgs/ring.png}
+  \caption{Layered security model}
+}
+\end{figure}
+
 Una Smart Grid ben progettata, dovrebbe essere in grado di offrire una simile protezione: i sistemi e le risorse poste agli estremi, come ad esempio dispositivi HAN (home area network) o smart meter, non dovrebbero avere la possibilità di accedere direttamente agli strati operativi (ring 0) della Smart Grid e, in più, i dati che passano per il sistema dovrebbero attraversare opportune interfacce che ne assicurino l'integrità prima di procedere verso strati più interni. \newline
 Indipendentemente dal meccanismo specifico utilizzato per separare gli strati, ci sono diversi principi architetturali chiave che dovrebbero essere considerati nel percorso dei dati tra gli anelli: il primo e il più importante è assicurarsi che un fallimento in uno strato non abbia impatto né in uno strato più basso né in qualsiasi sistema dello stesso strato. Con il termine ``impatto" ci si riferisce al fatto che nessuna tra confidentiality, integrity, o availability degli strati sottostanti debba essere colpita. È importante notare, però, che il viceversa non è vero: molto spesso danni ai livelli più bassi si propagano verso gli strati superiori e ciò è dovuto alla natura gerarchica del sistema.
 \newline \newline 
@@ -61,8 +67,25 @@ L'autorizzazione è il processo che verifica ciò che la persona o il servizio a
 Spesso i sistemi più semplici prevedono solo due modalità: ``read-write" e ``write-only"; i sistemi più complessi, invece, dovrebbero fornire regole di autorizzazione più specifiche, includendo la possibilità di indicare quali campi si possono modificare e quali no, solo ad un certo orario del giorno e solamente se autenticati su specifiche macchine.
 
 \subsection{Auditing}
+Il cuore di una qualsiasi analisi dei rischi è costituito dal programma di controllo. Senza revisioni periodiche dell'efficacia dei meccanismi di sicurezza che sono in atto nella Smart Grid, non ci sarebbe nessuna garanzia che il sistema sia sicuro. \newline
+Un buon programma di controllo dovrebbe essere eseguito periodicamente e dovrebbe testare quelle componenti che sono ritenute essenziali dall'azienda per mettere in sicurezza le operazioni del sistema. Tra i meccanismi più utili per eseguire tali revisioni, vi sono i seguenti:
+\begin{itemize}
+\item \textit{Logging}: utilizzare file di log e memorizzare al loro interno tutti gli accessi critici al sistema e tutti i cambiamenti avvenuti
+\item \textit{Time Synchronization}: in un sistema unificato come una Smart Grid, è essenziale che tutti i dispositivi condividano lo stesso tempo.
+\end{itemize}
+
 \subsection{Key Management}
+È il processo che gestisce le emissioni delle chiavi per utenti, applicazioni e dispositivi. Tali chiavi sono utilizzate per stabilire l'identità e per assicurare l'integrità dei messaggi quando si inviano comandi tra sistemi. \newline 
+Se consideriamo centinaia di chiavi, la loro gestione è relativamente semplice; ma quando ci si trova di fronte a centinaia di migliaia, o addirittura milioni, di dispositivi, la gestione diventa più complessa. Ogni chiave nel sistema sia relativa ad applicazioni, al sistema, ad un dispositivo o ad una persona, dovrebbe poter essere modificata o revocata su richiesta. 
+\newline Per fare ciò, si utilizza la ben nota \textit{Public Key Infrastructure} (PKI) [ref.].
+
 \subsection{Message Integrity}
+Per trattare l'integrità dei messaggi, consideriamo tre meccanismi: signing, nonrepudiation ed encryption.
+Per quanto riguarda il meccanismo di \textit{signing}, quando un messaggio viene inviato da un sistema ad un altro, vi è prima un processo di autenticazione per dimostrare un'identità, seguito da un processo di autorizzazione, per verificare ciò che l'identità può fare. Una volta effettuati questi due controlli, può iniziare lo scambio di messaggi tra i due sistemi.
+\textit{Nonrepudiation}
+\textit{Encryption}
+\end{itemize}
+
 \subsection{Network Integrity}
 \subsection{System Integrity}
 
