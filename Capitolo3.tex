@@ -80,14 +80,25 @@ Se consideriamo centinaia di chiavi, la loro gestione è relativamente semplice;
 \newline Per fare ciò, si utilizza la ben nota \textit{Public Key Infrastructure} (PKI) [ref.].
 
 \subsection{Message Integrity}
-Per trattare l'integrità dei messaggi, consideriamo tre meccanismi: signing, nonrepudiation ed encryption.
-Per quanto riguarda il meccanismo di \textit{signing}, quando un messaggio viene inviato da un sistema ad un altro, vi è prima un processo di autenticazione per dimostrare un'identità, seguito da un processo di autorizzazione, per verificare ciò che l'identità può fare. Una volta effettuati questi due controlli, può iniziare lo scambio di messaggi tra i due sistemi.
-\textit{Nonrepudiation}
-\textit{Encryption}
+Per trattare l'integrità dei messaggi, consideriamo tre meccanismi: signing, nonrepudiation ed encryption. \newline
+Per quanto riguarda il meccanismo di \textit{signing}, quando un messaggio viene inviato da un sistema ad un altro, vi è prima un processo di autenticazione per dimostrare un'identità, seguito da un processo di autorizzazione, per verificare ciò che l'identità può fare. Una volta effettuati questi due controlli, può iniziare lo scambio di messaggi tra i due sistemi. Ci sono due motivazioni principali per cui conviene firmare un messaggio: la prima è assicurare che il contenuto del messaggio non sia stato modificato durante la trasmissione tra i sistemi; la seconda è permettere di verificare l'identità del mittente indipendentemente dal processo di autenticazione. \newline
+La \textit{nonrepudiation} entra in gioco quando il mittente di un messaggio necessita di essere riconosciuto (o confermato). Tale termine, infatti, si riferisce alla capacità di fornire una prova inconfutabile, ad una terza parte, di chi ha iniziato una certa azione nel sistema, anche se la persona in questione non sta partecipando al momento. \newline
+Il termine \textit{encryption} porta con sé una serie di problematiche e di discussioni ampiamente trattate in letteratura, pertanto è impossibile riassumerlo in poche righe. Si può, però, riassumere il suo scopo: assicurarsi che un messaggio non possa essere letto da una persona o da un sistema che non sono i diretti destinatari dell'informazione. Ciò può essere messo in pratica attraverso innumerevoli algoritmi di cifratura, i quali fanno affidamento sul preservare l'integrità della chiave utilizzata per cifrare i dati; pertanto se tale chiave viene compromessa, lo sarà anche il messaggio. 
 
 \subsection{Network Integrity}
-\subsection{System Integrity}
+Vi è un'infinità di modi per garantire l'integrità di rete, ognuno dei quali dipende dai dispositivi che la compongono e dalle loro necessità. Infatti, poiché ogni rete ha bisogni diversi, non vi è una configurazione che sia adatta a tutte quante.
+\newline Due dei meccanismi principali sono i seguenti:
+\begin{itemize}
+\item \textit{Firewall}, utilizzato per restringere il traffico sulla rete ad uno specifico insieme di regole. Per esempio, potrebbe limitare il traffico a specifici canali di comunicazione tra un dispositivo e un insieme noto di altri dispositivi.
+\item \textit{Rilevamento e prevenzione delle intrusioni}, messo in atto analizzando il traffico della rete per identificare specifici pattern di dati che corrispondono ad attacchi noti.
+\end{itemize}
 
+\subsection{System Integrity}
+\begin{itemize}
+\item \textit{Protezione da malware}, o più comunemente nota come protezione antivirus: ogni sistema dovrebbe avere una strategia che lo protegga da questo tipo di minacce; una protezione robusta, infatti, non solo può evitare che file maliziosi vengano memorizzati, ma può anche far si che si possa avvisare un operatore del ritrovamento del malware. 
+\item \textit{Gestione della configurazione del sistema}: le specifiche su come un sistema è configurato possono impattare enormemente sulla sua sicurezza. La gestione è necessaria per assicurarsi che il sistema non cambi rispetto alle basi di funzionamento stabilite.
+\item \textit{Validazione e testing}: essenziali per garantire l'integrità del sistema. Prima di effettuare qualsiasi cambiamento e di distribuire nuovi sistemi, bisogna valutare le nuove modifiche e capire che impatto hanno sull'intero sistema. I cambiamenti devono essere testati per sicurezza e per garantire che non abbiano conseguenze negative sull'affidabilità di tutto il sistema.
+\end{itemize}
 
 \section{Minacce e loro impatto}
 
