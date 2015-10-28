@@ -1,15 +1,15 @@
 Il termine \textbf{``sicurezza"} si riferisce alle tecniche, ai processi e ai provvedimenti adottati per proteggere dati, reti di comunicazione, tecnologie informatiche e sistemi di calcolo da attacchi o da accessi non autorizzati. \newline
-L'approccio tradizionale prevede che la maggior parte delle risorse a disposizione per mettere in sicurezza il sistema si focalizzi sulle componenti più cruciali e che le protegga dalle minacce più grandi e più note; questo meccanismo fa si che le componenti secondarie siano indifese e, inoltre, non protette da attacchi meno pericolosi. Tale approccio, però, risulta inefficiente nell'ambito della Smart Grid. \newline Per adattarsi al nuovo sistema, le organizzazioni promuovono un metodo più proattivo ed adattivo: il NIST, per esempio, ha recentemente pubblicato delle linee guida che consigliano uno spostamento verso il continuo monitoraggio e verso valutazioni real-time [ref].\newline \newline
+L'approccio tradizionale prevede che la maggior parte delle risorse a disposizione per mettere in sicurezza il sistema si focalizzi sulle componenti più cruciali e che le protegga dalle minacce più grandi e più note; questo meccanismo fa si che le componenti secondarie siano indifese e, inoltre, non protette da attacchi meno pericolosi. Tale approccio, però, risulta inefficiente nell'ambito della Smart Grid. \newline Per adattarsi al nuovo sistema, le organizzazioni promuovono un metodo più proattivo ed adattivo: il NIST, per esempio, ha recentemente pubblicato delle linee guida che consigliano uno spostamento verso il continuo monitoraggio e verso valutazioni real-time \cite{smartgrids}.\newline \newline
 La sicurezza della Smart Grid, in relazione al suo sviluppo, è un tema fortemente discusso: tutti concordano nel sostenere che la Smart Grid dovrebbe avere un modello di sicurezza robusto; il problema è che ci si trova dinanzi a due sfide: come poter rispondere ai requisiti richiesti e come poter applicare le numerose alternative esistenti quando si cerca di rendere sicuro un ambiente complesso come la Smart Grid.
 \newline \newline
 Quando si sente parlare di ``nuova tecnologia", di ``interconnessione" e di ``condivisione dei dati", subito ci si focalizza sui benefici e sulle nuove funzionalità che tali concetti portano con loro. C'è da considerare, però, anche i nuovi rischi che queste nuove funzionalità introducono all'interno del sistema.\newline Per questo motivo, lo scopo della sicurezza è quello di garantire che le funzionalità del sistema operino correttamente e siano protette da abusi. È importante sottolineare, però, che non esistono applicazioni, reti o sistemi completamente sicuri e le Smart Grid non sono un'eccezione. Sebbene ogni componente della nuova rete elettrica porti con se numerosi miglioramenti operazionali  o funzionali, introduce anche nuove vulnerabilità e rischi addizionali che, se non propriamente gestiti, possono portare il sistema ad essere esposto ad attacchi di varia natura.
 \section{Cenni storici}
 
 \section{Definire la sicurezza}
-La sicurezza tradizionale fa affidamento sulla cosiddetta \textbf{CIA triad} [ref.], che ne costituisce il cuore. La CIA triad comprende tre concetti: \emph{confidentiality}, \emph{integrity} ed \emph{availability}. \newline Una concezione più moderna, e più adatta all'ambiente della Smart Grid, prevede l'utilizzo del \textbf{Parkerian hexad}, proposto da Parker nel 2002 [ref.]. Tale modello propone, in aggiunta ai tre classici concetti precedenti, altri tre principi: \emph{control} (o \emph{possession}), \emph{authenticity} ed \emph{usability} (o \emph{utility}). \newline All'interno di questi sei pilastri, è possibile trovare tutti i problemi relativi alla Smart Grid.
+La sicurezza tradizionale fa affidamento sulla cosiddetta \textbf{CIA triad}, che ne costituisce il cuore. La CIA triad comprende tre concetti: \emph{confidentiality}, \emph{integrity} ed \emph{availability}. \newline Una concezione più moderna, e più adatta all'ambiente della Smart Grid, prevede l'utilizzo del \textbf{Parkerian hexad}, figura \ref{fig:31}, proposto da Parker nel 2002. Tale modello propone, in aggiunta ai tre classici concetti precedenti, altri tre principi: \emph{control} (o \emph{possession}), \emph{authenticity} ed \emph{usability} (o \emph{utility}). \newline All'interno di questi sei pilastri, è possibile trovare tutti i problemi relativi alla Smart Grid \cite{smartgrids}.
 \begin{figure}[h]\centering{
   \includegraphics[scale=0.5, natwidth=674,natheight=679]{imgs/hexad.png}
-  \caption{Parkerian hexad}
+  \caption{Parkerian hexad}\label{fig:31}
 }
 \end{figure}
 \subsection{Confidentiality}
@@ -42,11 +42,11 @@ Quale sarebbe il rischio per l'intero sistema Smart Grid se il sistema stesso, o
 Nel paragrafo precedente, sono state descritte una serie di potenziali minacce e funzioni di sicurezza che sono importanti per sistemi complessi ed interdipendenti come le Smart Grid. \newline In questo paragrafo, si esaminerà una possibile architettura di sicurezza che comprende tutte le funzioni precedentemente analizzate e che cerca di creare una struttura adatta a risolvere tutte le vulnerabilità descritte nel paragrafo 3.2.
 
 \subsection{Layered Security Model}
-Il concetto di modello di sicurezza \textit{stratificato} non è un concetto nuovo: i sistemi operativi ed i microprocessori, infatti, lo utilizzano da tempo per controllare gli accessi a  risorse privilegiate. \newline Immaginare tale concetto applicato ad una Smart Grid non è difficile. \newline Dalla figura 3.2 è possibile vedere che la struttura di tale modello è una struttura ad anello in cui la comunicazione tra gli strati del sistema è sicura. In generale, uno strato esterno non può avere libero accesso alle risorse presenti su uno strato più interno; inoltre, le richieste per le risorse non dovrebbero essere in grado di ``saltare" i vari anelli: una richiesta che parte dal terzo anello, non dovrebbe poter accedere direttamente alla risorsa del primo, ma gli accessi sono regolati da opportune interfacce progettate in modo tale da assicurare la sicurezza di tutto il sistema.
+Il concetto di modello di sicurezza \textit{stratificato} non è un concetto nuovo: i sistemi operativi ed i microprocessori, infatti, lo utilizzano da tempo per controllare gli accessi a  risorse privilegiate. \newline Immaginare tale concetto applicato ad una Smart Grid non è difficile. \newline Dalla figura \ref{fig:32} è possibile vedere che la struttura di tale modello è una struttura ad anello in cui la comunicazione tra gli strati del sistema è sicura. In generale, uno strato esterno non può avere libero accesso alle risorse presenti su uno strato più interno; inoltre, le richieste per le risorse non dovrebbero essere in grado di ``saltare" i vari anelli: una richiesta che parte dal terzo anello, non dovrebbe poter accedere direttamente alla risorsa del primo, ma gli accessi sono regolati da opportune interfacce progettate in modo tale da assicurare la sicurezza di tutto il sistema.
 
 \begin{figure}[h]\centering{
   \includegraphics[scale=0.25, natwidth=877,natheight=768]{imgs/ring.png}
-  \caption{Layered security model}
+  \caption{Layered security model}\label{fig:32}
 }
 \end{figure}
 
@@ -58,7 +58,7 @@ Nelle prossime sezioni si analizzano le principali funzioni che costituiscono le
 \subsection{Authentication}
 L'autenticazione è il processo di verifica dell'identità di una persona o di un servizio che richiede l'accesso ad una risorsa. \newline Un meccanismo di autenticazione robusto potrebbe richiedere un certo numero di componenti, ognuna delle quali offre una particolare funzione di tutto il processo. \newline Spesso si tende a pensare all'autenticazione in termini di username e password, il che è corretto, ma non è solo questo: vi può essere autenticazione anche tra sistemi, processi o componenti hardware. Ci sono due componenti base per un meccanismo di autenticazione:
 \begin{itemize}
-\item \textit{Identity Database}, contiene le informazioni necessarie per determinare chi e cosa sta tentando di accedere al sistema
+\item \textit{Identity Database}, contiene le informazioni necessarie per determinare chi e cosa sta tentando di accedere al sistema;
 \item \textit{Identity Management System}, repository centrale di tutte le risorse che richiedono servizi di autenticazione.
 \end{itemize}
 
@@ -70,14 +70,14 @@ Spesso i sistemi più semplici prevedono solo due modalità: ``read-write" e ``w
 Il cuore di una qualsiasi analisi dei rischi è costituito dal programma di controllo. Senza revisioni periodiche dell'efficacia dei meccanismi di sicurezza che sono in atto nella Smart Grid, non ci sarebbe nessuna garanzia che il sistema sia sicuro. \newline
 Un buon programma di controllo dovrebbe essere eseguito periodicamente e dovrebbe testare quelle componenti che sono ritenute essenziali dall'azienda per mettere in sicurezza le operazioni del sistema. Tra i meccanismi più utili per eseguire tali revisioni, vi sono i seguenti:
 \begin{itemize}
-\item \textit{Logging}: utilizzare file di log e memorizzare al loro interno tutti gli accessi critici al sistema e tutti i cambiamenti avvenuti
+\item \textit{Logging}: utilizzare file di log e memorizzare al loro interno tutti gli accessi critici al sistema e tutti i cambiamenti avvenuti;
 \item \textit{Time Synchronization}: in un sistema unificato come una Smart Grid, è essenziale che tutti i dispositivi condividano lo stesso tempo.
 \end{itemize}
 
 \subsection{Key Management}
 È il processo che gestisce le emissioni delle chiavi per utenti, applicazioni e dispositivi. Tali chiavi sono utilizzate per stabilire l'identità e per assicurare l'integrità dei messaggi quando si inviano comandi tra sistemi. \newline 
 Se consideriamo centinaia di chiavi, la loro gestione è relativamente semplice; ma quando ci si trova di fronte a centinaia di migliaia, o addirittura milioni, di dispositivi, la gestione diventa più complessa. Ogni chiave nel sistema sia relativa ad applicazioni, al sistema, ad un dispositivo o ad una persona, dovrebbe poter essere modificata o revocata su richiesta. 
-\newline Per fare ciò, si utilizza la ben nota \textit{Public Key Infrastructure} (PKI) [ref.].
+\newline Per fare ciò, si utilizza la ben nota \textit{Public Key Infrastructure} (PKI) \cite{smartgrid}.
 
 \subsection{Message Integrity}
 Per trattare l'integrità dei messaggi, consideriamo tre meccanismi: signing, nonrepudiation ed encryption. \newline
@@ -89,20 +89,18 @@ Il termine \textit{encryption} porta con sé una serie di problematiche e di dis
 Vi è un'infinità di modi per garantire l'integrità di rete, ognuno dei quali dipende dai dispositivi che la compongono e dalle loro necessità. Infatti, poiché ogni rete ha bisogni diversi, non vi è una configurazione che sia adatta a tutte quante.
 \newline Due dei meccanismi principali sono i seguenti:
 \begin{itemize}
-\item \textit{Firewall}, utilizzato per restringere il traffico sulla rete ad uno specifico insieme di regole. Per esempio, potrebbe limitare il traffico a specifici canali di comunicazione tra un dispositivo e un insieme noto di altri dispositivi.
+\item \textit{Firewall}, utilizzato per restringere il traffico sulla rete ad uno specifico insieme di regole. Per esempio, potrebbe limitare il traffico a specifici canali di comunicazione tra un dispositivo e un insieme noto di altri dispositivi;
 \item \textit{Rilevamento e prevenzione delle intrusioni}, messo in atto analizzando il traffico della rete per identificare specifici pattern di dati che corrispondono ad attacchi noti.
 \end{itemize}
 
 \subsection{System Integrity}
 \begin{itemize}
-\item \textit{Protezione da malware}, o più comunemente nota come protezione antivirus: ogni sistema dovrebbe avere una strategia che lo protegga da questo tipo di minacce; una protezione robusta, infatti, non solo può evitare che file maliziosi vengano memorizzati, ma può anche far si che si possa avvisare un operatore del ritrovamento del malware. 
-\item \textit{Gestione della configurazione del sistema}: le specifiche su come un sistema è configurato possono impattare enormemente sulla sua sicurezza. La gestione è necessaria per assicurarsi che il sistema non cambi rispetto alle basi di funzionamento stabilite.
+\item \textit{Protezione da malware}, o più comunemente nota come protezione antivirus: ogni sistema dovrebbe avere una strategia che lo protegga da questo tipo di minacce; una protezione robusta, infatti, non solo può evitare che file maliziosi vengano memorizzati, ma può anche far si che si possa avvisare un operatore del ritrovamento del malware;
+\item \textit{Gestione della configurazione del sistema}: le specifiche su come un sistema è configurato possono impattare enormemente sulla sua sicurezza. La gestione è necessaria per assicurarsi che il sistema non cambi rispetto alle basi di funzionamento stabilite;
 \item \textit{Validazione e testing}: essenziali per garantire l'integrità del sistema. Prima di effettuare qualsiasi cambiamento e di distribuire nuovi sistemi, bisogna valutare le nuove modifiche e capire che impatto hanno sull'intero sistema. I cambiamenti devono essere testati per sicurezza e per garantire che non abbiano conseguenze negative sull'affidabilità di tutto il sistema.
 \end{itemize}
 
 \section{Minacce e loro impatto}
-
-\section{Sforzo dello stato (?)}
 
 \section{Compagnie}
 
