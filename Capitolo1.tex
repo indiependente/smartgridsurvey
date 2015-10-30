@@ -1,5 +1,19 @@
-inserire introduzione generale e per ogni capitolo nome e breve descrizione del contenuto (eventualmente in un abstract e non qui)\newline
-inserire referenze 
+L'infrastruttura elettrica attuale, non subisce modifiche da circa un centinaio d'anni: le componenti della rete, organizzate in una struttura gerarchica, sono vicine alla fine della loro vita. \newline Mentre la rete invecchia sempre più, la richiesta di energia elettrica aumenta gradualmente e l'attuale organizzazione è troppo complessa e poco adatta per soddisfare i bisogni del 21-esimo secolo. \newline Tra le mancanze dell'infrastruttura corrente vi sono: mancanza di analisi automatizzate, tempi di risposta lenti, mancanza di consapevolezza della situazione, ecc. A tali fattori, si uniscono anche l'aumento della popolazione sul pianeta e la conseguente richiesta di energia, il cambiamento del clima globale, i fallimenti delle apparecchiature che costituiscono la rete, i problemi di conservazione dell'energia, capacità limitata della generazione di energia, comunicazione unidirezionale, diminuzione di combustibili fossili e scarse capacità di recupero in caso di guasti. \newline È facile capire, analizzando tutti questi fattori, che vi è un bisogno urgente di una nuova infrastruttura elettrica in grado di risolvere tutti questi problemi. \newline \newline
+L'attuale rivoluzione dei sistemi di comunicazione, particolarmente stimolata anche dalla crescita di Internet, offre la possibilità di migliorare il monitoraggio e, in generale, le funzionalità dei sistemi energetici e di rendere, quindi, le operazioni più efficaci e flessibili ma, allo stesso tempo, meno costose. \newline
+La \textbf{Smart Grid} è l'opportunità per utilizzare le novità introdotte dall'ICT   (\textit{Information and Communication Technology}) al fine di rivoluzionare il sistema energetico. Tuttavia, a causa delle grandi dimensioni sia del sistema che dell'entità degli investimenti che sono stati fatti nel corso degli anni, qualsiasi cambiamento significativo sarà costoso e richiederà un'attenta giustificazione. \newline La Smart Grid è una rete elettrica moderna che offre migliore efficienza, affidabilità e sicurezza, permettendo anche una facile integrazione di nuove fonti di energia rinnovabile. \newline \newline
+In confronto ai sistemi precedenti, la Smart Grid è concepita per integrare pienamente, all'interno di milioni di dispositivi, tecnologie che permettano comunicazioni veloci e bidirezionali e che permettano di formare un'infrastruttura dinamica ed interattiva con nuove e migliori capacità di gestione dell'energia. Tuttavia, una dipendenza così forte dal \textit{networking} di informazioni, inevitabilmente sottopone la Smart Grid ad una serie di potenziali vulnerabilità associate ai sistemi di comunicazione e di rete. Ciò, in pratica, aumenta il rischio di compromettere l'affidabilità e la sicurezza delle operazioni dell'infrastruttura che costituiscono gli obiettivi principali della Smart Grid. Per esempio, una potenziale intrusione nella rete da parte di un individuo non autorizzato, potrebbe portare ad una serie di conseguenze negative che vanno dall'\textit{information leakage} alla generazione di fallimenti in cascata, come ad esempio un blackout totale e la distruzione dell'intero sistema. \newline Pertanto, lo scopo di questa tesina è analizzare i problemi legati alla \textbf{sicurezza} della Smart Grid, che è critica nella progettazione delle reti di comunicazione ed è considerata una delle più alte priorità nello sviluppo della rete elettrica moderna.
+\newline \newline
+La tesina è strutturata nel seguente modo:
+\begin{itemize}
+\item Capitolo 1
+\item Capitolo 2
+\item Capitolo 3
+\item Capitolo 4
+\item Capitolo 5
+\item Capitolo 6
+\end{itemize}
+
+ 
 \section{Panorama energetico attuale}
 La \textit{rete elettrica} attuale è il risultato di una rapida urbanizzazione e di un rapido sviluppo di infrastrutture in varie zone del mondo. Sebbene tali reti esistano ormai in molte aree geografiche diverse, le aziende generalmente tendono ad adottare tecnologie molto simili tra di loro. Ciononostante, restano altri fattori  di varia natura (economica, politica, geografica) legati allo sviluppo energetico che si diversificano a seconda dell'azienda. \newline
 In generale però, pur tenendo in considerazione le differenze portate da tali fattori, la topologia base della rete elettrica attuale è rimasta immutata.
@@ -7,15 +21,15 @@ In generale però, pur tenendo in considerazione le differenze portate da tali f
 \includegraphics[scale=0.3, natwidth=1003,natheight=490]{imgs/elect_grid.png}}
 \caption{La rete elettrica attuale}\label{fig:1}
 \end{figure}
-\newline La struttura della rete attuale è una struttura strettamente gerarchica. La figura \ref{fig:1} mostra l'esistenza di tre sottosistemi distinti: generazione, trasmissione e distribuzione. \newline Le centrali elettriche sono composte da generatori elettromeccanici i quali, durante la fase di \textbf{generazione}, spinti dal flusso dell'acqua corrente o da motori termici alimentati da combustioni chimiche, generano energia. Tale energia viene successivamente inviata ai trasformatori del livello di \textbf{trasmissione}, i quali la convertiranno in energia ad alto voltaggio per permetterne la diffusione a lunga distanza. Dopo tale step, si passa alla \textbf{distribuzione}, in cui si applica prima una trasformazione a medio e basso voltaggio e, in seguito, si procede all'erogazione agli utenti finali.
+\newline La struttura della rete attuale è una struttura strettamente gerarchica. La figura \ref{fig:1} mostra l'esistenza di tre sottosistemi distinti: generazione, trasmissione e distribuzione \cite{pathsg}. \newline Le centrali elettriche sono composte da generatori elettromeccanici i quali, durante la fase di \textbf{generazione}, spinti dal flusso dell'acqua corrente o da motori termici alimentati da combustioni chimiche, generano energia. Tale energia viene successivamente inviata ai trasformatori del livello di \textbf{trasmissione}, i quali la convertiranno in energia ad alto voltaggio per permetterne la diffusione a lunga distanza. Dopo tale step, si passa alla \textbf{distribuzione}, in cui si applica prima una trasformazione a medio e basso voltaggio e, in seguito, si procede all'erogazione agli utenti finali.
 \newline Tale sistema è basato sostanzialmente su una comunicazione \textit{unidirezionale} in cui la sorgente non ha nessuna informazione real-time circa le necessità degli ultimi punti della catena. Pertanto si tende a sovraccaricare la rete, facendole raggiungere a priori i picchi massimi di carico; poiché è raro che le richieste degli utenti raggiungano tali valori, questo approccio porta a rendere la rete elettrica un meccanismo inefficiente.
 \newline
 Inoltre, le reti elettriche attuali sono interconnesse tra loro a formare reti regionali o nazionali con lo scopo di fornire rotte ridondanti e alternative per il flusso della corrente in caso di problemi. \newline
 La distribuzione dell'energia è gestita da un \textit{controllore centralizzato} che ha il compito di amministrare diverse regioni da un'unica posizione centrale. 
-\newpage
+
 \section{Cenni storici}
 Le tecnologie relative alle reti elettriche hanno radici che risalgono alla fine del XIX secolo: la \textit{corrente continua} di Thomas Edison e la \textit{corrente alternata} di Nikola Tesla continuano ad essere utilizzate tutt'ora. Oggi, infatti, l'energia viene trasmessa utilizzando la corrente alternata, mentre quella continua ha applicazioni specifiche, solitamente all'interno di plessi residenziali e commerciali. \newline \newline
-Le principali topologie di rete elettrica attualmente in uso sono due: \textbf{radial grid} e \textbf{mesh grid}.
+In accordo a \cite{securingSG}, le principali topologie di rete elettrica attualmente in uso sono due: \textbf{radial grid} e \textbf{mesh grid}.
 
 
 \begin{figure}[h]\centering{
@@ -54,7 +68,7 @@ Considerando, per esempio, che quasi il 90\% dei guasti alla rete elettrica prov
 }
 \end{figure}
 
-La figura \ref{fig:5} mostra che gli investimenti degli ultimi anni si sono focalizzati principalmente sull'aspetto della rete elettrica che riguarda le misurazioni (\textit{metering}). \newline I primi progetti in questo settore hanno visto la nascita dei sistemi di \textbf{automated meter reading} (AMR) all'interno del sistema di distribuzione. \newline
+La figura \ref{fig:5} mostra che gli investimenti degli ultimi anni si sono focalizzati principalmente sull'aspetto della rete elettrica che riguarda le misurazioni (\textit{metering}). \newline I primi progetti in questo settore hanno visto la nascita dei sistemi di \textbf{automated meter reading} (AMR) all'interno del sistema di distribuzione \cite{securingSG}. \newline
 L'infrastruttura AMR, nata nel 1977, ha introdotto l'automazione nella rete elettrica. Attraverso una combinazione di tecnologie, incluse reti wireless e wired,   AMR ha permesso alle compagnie di leggere le misurazioni da remoto, di ottenere le informazioni quasi in real-time e di fornire agli utenti bollette basate sui loro consumi reali (in precedenza le compagnie emettevano le bollette basandosi sulle stime dei consumi del cliente).  \newline Inoltre, grazie a questo meccanismo di recupero informazioni tempestivo, le aziende sono state capaci di migliorare la produzione di energia attraverso un maggiore controllo durante periodi di alta e bassa richiesta. \newline \newline
 Sebbene la teconologia AMR all'inizio abbia attirato molta attenzione, le aziende presto si sono rese conto che non risolve il loro problema principale: la gestione demand-side. A causa della sua comunicazione unidirezionale, le capacità di AMR sono ridotte alla sola lettura dei dati e non è permesso, per esempio, modificare il comportamento della rete a seconda delle informazioni ricevute. \newline Pertanto AMR ha avuto vita breve; le aziende, piuttosto che continuare ad investire su di essa, hanno preferito spostarsi verso l'\textbf{advanced metering infrastructure} (AMI). \newline
 L'AMI (di cui si parlerà in dettaglio nel capitolo 2), è un'architettura che permette la comunicazione automatizzata e bidirezionale tra uno smart meter e una società di servizi. L'obiettivo è quello di fornire a tali società informazioni real-time circa i consumi energetici e permettere agli utenti di fare scelte consapevoli sull'utilizzo dell'energia basate sui costi all'istante di utilizzo.
@@ -66,10 +80,10 @@ Il passo successivo nell'evoluzione della distribuzione della corrente elettrica
 \section{Perché la Smart Grid?}
 Le industrie del settore dei servizi pubblici di tutto il mondo attualmente cercano di risolvere numerosi problemi, tra cui 
 \begin{itemize}
-\item diversificazione della generazione di energia
-\item gestione delle richieste utente
-\item conservazione dell'energia
-\item riduzione globale dell'emissione di anidride carbonica
+\item Diversificazione della generazione di energia;
+\item Gestione delle richieste utente;
+\item Conservazione dell'energia;
+\item Riduzione globale dell'emissione di anidride carbonica.
 \end{itemize}
 È evidente che tali problemi non possono essere risolti facendo affidamento sulla rete elettrica esistente. \newline
 Come detto in precedenza, la natura della comunicazione della rete attuale è unidirezionale. Essa, inoltre, converte solo un terzo di energia in elettricità, senza preoccuparsi del calore disperso. Circa l'8\% della corrente prodotta, viene dissipata poi attraverso i cavi elettrici, mentre il 20\% viene riservata ad eventuali picchi di carico di richieste utente (ed è in uso solo il 5\% delle volte). \newline
@@ -81,18 +95,18 @@ La rete elettrica di nuova generazione, la Smart Grid, si propone di occuparsi d
 }
 \end{figure}
 
-A partire dal 2005, c'è stato un interesse sempre più crescente verso le Smart Grid. Il riconoscere che l'ICT (\textit{Information and Communication Technology}) offre significative opportunità per modernizzare il funzionamento delle reti elettriche unito alla consapevolezza che la produzione di energia può essere migliorata solo con un continuo ed efficiente monitoraggio, ha fatto sì che si muovessero i primi passi verso la Smart Grid. In aggiunta a tali fattori, ci sono anche altre motivazioni a favore del passaggio verso una rete elettrica moderna:
+A partire dal 2005, c'è stato un interesse sempre più crescente verso le Smart Grid. Il riconoscere che l'ICT (\textit{Information and Communication Technology}) offre significative opportunità per modernizzare il funzionamento delle reti elettriche unito alla consapevolezza che la produzione di energia può essere migliorata solo con un continuo ed efficiente monitoraggio, ha fatto sì che si muovessero i primi passi verso la Smart Grid. In aggiunta a tali fattori, ci sono anche altre motivazioni a favore del passaggio verso una rete elettrica moderna \cite{smartgrid}
 \begin{itemize}
-\item \textit{Strutture non più adeguate}: in molte zone del mondo (per esempio in USA e in alcuni paesi dell'Europa), i sistemi si sono rapidamente espansi a partire dal 1950; le strutture relative alla trasmissione e alla distribuzione che furono installate a quel tempo non sono più adatte e devono essere sostituite. \newline Il bisogno di rinnovare tali componenti è un'ovvia opportunità di innovazione e, quindi, di introduzione di nuovi modelli e pratiche operative. \newline A ciò si aggiunge il fatto che, in molti paesi, i circuiti elettrici hanno bisogno di adattarsi ai carichi sempre più crescenti e all'introduzione di nuove fonti di energia rinnovabili. Ciò richiede, quindi, metodi più intelligenti sia per aumentare la capacità di trasmissione dell'energia, sia per reindirizzare il flusso di corrente verso circuiti meno carichi.
+\item \textit{Strutture non più adeguate}: in molte zone del mondo (per esempio in USA e in alcuni paesi dell'Europa), i sistemi si sono rapidamente espansi a partire dal 1950; le strutture relative alla trasmissione e alla distribuzione che furono installate a quel tempo non sono più adatte e devono essere sostituite. \newline Il bisogno di rinnovare tali componenti è un'ovvia opportunità di innovazione e, quindi, di introduzione di nuovi modelli e pratiche operative. \newline A ciò si aggiunge il fatto che, in molti paesi, i circuiti elettrici hanno bisogno di adattarsi ai carichi sempre più crescenti e all'introduzione di nuove fonti di energia rinnovabili. Ciò richiede, quindi, metodi più intelligenti sia per aumentare la capacità di trasmissione dell'energia, sia per reindirizzare il flusso di corrente verso circuiti meno carichi;
 
-\item \textit{Vincoli termici}: si riferiscono ai limiti dei sistemi di trasmissione e distribuzione relativamente alla loro capacità di diffusione dell'energia. Quando le attrezzature trasportano la corrente eccedendo la loro potenza termica, si surriscaldano e i materiali atti all'isolamento si deteriorano rapidamente. Ciò comporta una riduzione della vita delle attrezzature e un aumento di possibilità di fallimenti.\newline I vincoli termici dipendono molto dalle condizioni dell'ambiente esterno, che cambiano durante gli anni. Pertanto l'uso di rate di trasmissione e distribuzione dinamici può aumentare la capacità del circuito.
+\item \textit{Vincoli termici}: si riferiscono ai limiti dei sistemi di trasmissione e distribuzione relativamente alla loro capacità di diffusione dell'energia. Quando le attrezzature trasportano la corrente eccedendo la loro potenza termica, si surriscaldano e i materiali atti all'isolamento si deteriorano rapidamente. Ciò comporta una riduzione della vita delle attrezzature e un aumento di possibilità di fallimenti.\newline I vincoli termici dipendono molto dalle condizioni dell'ambiente esterno, che cambiano durante gli anni. Pertanto l'uso di rate di trasmissione e distribuzione dinamici può aumentare la capacità del circuito;
 
 
 
 \item \textit{Vincoli operativi}: qualsiasi sistema opera all'interno di predefiniti vincoli di voltaggio e frequenza. Se il voltaggio eccede il limite, i materiali isolanti dei componenti del sistema e le attrezzature degli utenti possono essere danneggiate e causare corto-circuito. \newline Per quanto riguarda la frequenza invece, si tende a mantenerla all'interno di un range molto piccolo e, quando varia, intervengono dei servizi appositi che hanno il compito di riportarla nell'intervallo prestabilito. \newline
-La generazione di energia rinnovabile, però, ha un output variabile che non può essere previsto con certezza in anticipo. Pertanto mantenere il bilancio erogazione-richiesta e la frequenza del sistema nei limiti risulta essere un compito arduo. Per tale motivo si è sempre alla ricerca di nuovi servizi per la gestione della frequenza. \newline Si pensa che in futuro l'utilizzo delle Smart Grid in vari ambiti, per esempio domestico e automobilistico, porterà ad avere carichi sempre più flessibili; ciò aiuterà nel mantenere la stabilità della rete.
+La generazione di energia rinnovabile, però, ha un output variabile che non può essere previsto con certezza in anticipo. Pertanto mantenere il bilancio erogazione-richiesta e la frequenza del sistema nei limiti risulta essere un compito arduo. Per tale motivo si è sempre alla ricerca di nuovi servizi per la gestione della frequenza. \newline Si pensa che in futuro l'utilizzo delle Smart Grid in vari ambiti, per esempio domestico e automobilistico, porterà ad avere carichi sempre più flessibili; ciò aiuterà nel mantenere la stabilità della rete;
 
-\item \textit{Sicurezza delle forniture}: la società moderna richiede che la fornitura di energia sia sempre più affidabile, man mano che carichi sempre più critici vengono connessi alla rete. L'approccio tradizionale per migliorare l'affidabilità, come visto in precedenza, era quello di installare cammini ridondanti, con notevole impatto sia sui costi che sull'ambiente. \newline L'approccio della Smart Grid in caso di guasti, invece, prevede l'utilizzo di intelligenti meccanismi di riconfigurazione, in modo tale da mantenere costante la fornitura ai clienti ma evitando i costi addizionali portati da ulteriori circuiti.
+\item \textit{Sicurezza delle forniture}: la società moderna richiede che la fornitura di energia sia sempre più affidabile, man mano che carichi sempre più critici vengono connessi alla rete. L'approccio tradizionale per migliorare l'affidabilità, come visto in precedenza, era quello di installare cammini ridondanti, con notevole impatto sia sui costi che sull'ambiente. \newline L'approccio della Smart Grid in caso di guasti, invece, prevede l'utilizzo di intelligenti meccanismi di riconfigurazione, in modo tale da mantenere costante la fornitura ai clienti ma evitando i costi addizionali portati da ulteriori circuiti;
 \item \textit{Iniziative nazionali}: molti governi nazionali incoraggiano le iniziative delle Smart Grid poiché le considerano un meccanismo redditizio ma, allo stesso tempo, economico per rinnovare le loro infrastrutture e introdurre risorse rinnovabili.
 \end{itemize}
 
@@ -106,10 +120,10 @@ La figura \ref{fig:7} mostra i vantaggi introdotti dall'utilizzo delle Smart Gri
 \newline 
 Di estrema importanza nell'implementazione delle soluzioni proposte dalla Smart Grid sono i seguenti aspetti:
 \begin{itemize}
-\item migliorare l'affidabilità dell'energia dei servizi pubblici, le performance operative e la produttività generale
-\item aumentare l'efficienza energetica e diminuire le emissioni di anidride carbonica
-\item permettere agli utenti di gestire i loro consumi energetici risparmiando energia ma, allo stesso tempo, senza modificare il loro stile di vita
-\item ottimizzare l'integrazione di energie rinnovabili 
+\item Migliorare l'affidabilità dell'energia dei servizi pubblici, le performance operative e la produttività generale;
+\item Aumentare l'efficienza energetica e diminuire le emissioni di anidride carbonica;
+\item Permettere agli utenti di gestire i loro consumi energetici risparmiando energia ma, allo stesso tempo, senza modificare il loro stile di vita;
+\item Ottimizzare l'integrazione di energie rinnovabili.
 \end{itemize}
 
 \section{Cos'è la Smart Grid?}
@@ -127,10 +141,10 @@ Secondo 	\emph{Smarter Grids: The Opportunity}, invece, la Smart Grid è definit
 \end{quote}
 \cite{smartgrid} suggerisce, inoltre, i seguenti attributi per una Smart Grid:
 \begin{itemize}
-\item permette la gestione ``demand side" sia attraverso l'integrazione di smart meter, elettrodomestici intelligenti, micro-generazione e conservazione dell'energia sia fornendo agli utenti informazioni circa i loro utilizzi e i prezzi
-\item facilita l'introduzione di fonti di energia rinnovabile e di generazione distribuita, riducendo così l'impatto ambientale dell'intero settore energetico 
-\item Assicura e migliora l'affidabilità e la sicurezza delle forniture, resistendo agli attacchi, ai disturbi e ai disastri naturali, anticipando e affrontando i problemi del sistema e migliorando le funzionalità di trasferimento dell'energia
-\item mantiene alta la qualità della fornitura di energia elettrica per soddisfare le apparecchiature sempre più sofisticate che aumentano con l'economia digitale
+\item Permette la gestione ``demand side" sia attraverso l'integrazione di smart meter, elettrodomestici intelligenti, micro-generazione e conservazione dell'energia sia fornendo agli utenti informazioni circa i loro utilizzi e i prezzi;
+\item Facilita l'introduzione di fonti di energia rinnovabile e di generazione distribuita, riducendo così l'impatto ambientale dell'intero settore energetico; 
+\item Assicura e migliora l'affidabilità e la sicurezza delle forniture, resistendo agli attacchi, ai disturbi e ai disastri naturali, anticipando e affrontando i problemi del sistema e migliorando le funzionalità di trasferimento dell'energia;
+\item Mantiene alta la qualità della fornitura di energia elettrica per soddisfare le apparecchiature sempre più sofisticate che aumentano con l'economia digitale.
 \end{itemize}
 \begin{figure}[h]\centering{
   \includegraphics[scale=0.25, natwidth=1522,natheight=466]{imgs/wordcloud.png}
@@ -138,7 +152,7 @@ Secondo 	\emph{Smarter Grids: The Opportunity}, invece, la Smart Grid è definit
 \end{figure}
 \section{Requisiti di una Smart Grid}
 Monitoraggio/\emph{sensing}, comunicazione e controllo sono i tre \emph{building block} fondamentali che convertono un sistema di distribuzione di energia in una Smart Grid. Le componenti di monitoraggio/sensing devono essere capaci di rilevare malfunzionamenti o deviazioni dal normale range operativo della rete elettrica. Inoltre, poichè in una Smart Grid un punto di consumo elettrico può diventare anche un punto di generazione, il processo di sensing deve essere strettamente collegato al processo di \emph{metering}. \newline
-I sistemi di comunicazione devono permettere che l'input dei sensori raggiunga gli elementi di controllo della Smart Grid, i quali genereranno dei messaggi con il compito di assicurarsi che la trasmissione nei vari punti della rete sia conforme alle aspettative. Ci sono, inoltre, altri requisiti importanti per le infrastrutture di comunicazione, di cui si discutono i dettagli nel resto di questo paragrafo.
+I sistemi di comunicazione devono permettere che l'input dei sensori raggiunga gli elementi di controllo della Smart Grid, i quali genereranno dei messaggi con il compito di assicurarsi che la trasmissione nei vari punti della rete sia conforme alle aspettative. Ci sono, inoltre, altri requisiti importanti per le infrastrutture di comunicazione, di cui si discutono i dettagli nel resto di questo paragrafo \cite{surveymotiv}.
 \newline \newline
 \textit{Quality of Service:} è necessario garantire la \emph{QoS} per le tecnologie di comunicazione e di rete utilizzate all'interno della Smart Grid, partendo dalla generazione dell'energia, passando per trasmissione e distribuzione e finendo alle applicazioni utente. In particolare, ci si focalizza su due parametri: \emph{latenza} e \emph{larghezza di banda}.\newline
 Per quanto riguarda la latenza, la comunicazione in una Smart Grid è caratterizzata dal fatto che la maggior parte delle interazioni devono avvenire in tempo reale. Per scopi di sensing/misurazione, i messaggi di lettura dovrebbero essere trasmessi all'interno di un \emph{frame temporale} molto piccolo. Per esempio, il tempo massimo di trasmissione ammesso è nel range dei 12-20 ms. I valori misurati non dovrebbero essere generati da più di 15 secondi quando arrivano al centro di controllo. \newline
@@ -150,37 +164,37 @@ Il \emph{NIST} ha sviluppato un framework che include protocolli e standard per 
 \textit{Scalabilità:} è necessaria per facilitare l'inserimento all'interno della Smart Grid sia di tanti nuovi dispositivi e servizi, che di tanti meccanismi di monitoraggio real-time dell'interazione dell'utente finale. \newline
 \cite{surveymotiv} propone una rete \emph{IP-based} come soluzione efficace per i bisogni dell'infrastruttura di comunicazione.
 \newline \newline
-\textit{Sicurezza:} in accordo all'\emph{Electric Power Research Institute (EPRI)}, uno dei requisiti emergenti dello sviluppo delle Smart Grid è relato alla \textbf{cyber security} dei sistemi. Come indicato nel loro repor \cite{surveymotiv}, la sicurezza informatica del sistema di comunicazione è un problema critico, a causa dell'aumento del potenziale degli attacchi e degli incidenti che si verificano in esso. \newline 
+\textit{Sicurezza:} in accordo all'\emph{Electric Power Research Institute (EPRI)}, uno dei requisiti emergenti dello sviluppo delle Smart Grid è relato alla \textbf{cyber security} dei sistemi. Come indicato nel loro report \cite{surveymotiv}, la sicurezza informatica del sistema di comunicazione è un problema critico, a causa dell'aumento del potenziale degli attacchi e degli incidenti che si verificano in esso. \newline 
 La cyber security deve occuparsi non solo di attacchi deliberati(?), come quelli provenienti, ad esempio, da dipendenti non contenti, da spionaggio industriale e da terroristi, ma anche di manomissioni involontarie dell'infrastruttura di informazione dovute ad errori degli utenti, fallimenti delle attrezzature e disastri naturali. Le vulnerabilità potrebbero permettere, infatti, ad un attaccante di penetrare nella rete, ottenere accesso al software di controllo e alterare le condizioni di carico per destabilizzare la rete. \newline
 Attualmente, molte organizzazioni lavorano sullo sviluppo dei requisiti di sicurezza nella Smart Grid, tra cui North American Electrical Reliability Corporation-Critical Infrastructure Protection (NERC-CIP), IEEE, National Infrastructure Protection Plan (NIPP), e NIST. \newline 
 Denominatore comune di tutti gli standard in via di sviluppo è il seguente concetto: la sicurezza delle comunicazioni nella Smart Grid dipenderà fortemente da autenticazione, autorizzazione e tecnologie per la \emph{privacy}. \newline Tutte le tecnologie sviluppate, poggiano su una sorta di gestione della chiave (?). Considerando il fatto che la Smart Grid conterrà milioni di dispositivi, diffusi tra tante organizzazioni, i sistemi di gestione della chiave utilizzati dovranno essere altamente scalabili e garantire i livelli massimi possibili di efficienza.
 \newline \newline
 \textit{Standardizzazione:} la Smart Grid coinvolge al suo interno una serie di standard come, ad esempio, nella generazione dell'energia, nella distribuzione e nel controllo oltre che nella comunicazione. IEEE recentemente ha preso l'iniziativa per definire questi standard e linee guida su come la Smart Grid dovrebbe operare utilizzando le ultime tecnologie nell'ingegnerizzazione dell'energia, controllo, comunicazione e informazione; il gruppo che è stato creato prende il nome di IEEE P2030 group \cite{surveymotiv}. \newline Per quanto riguarda l'ingegnerizzazione dell'energia, ci si focalizza sui requisiti di interoperabilità. Per quanto riguarda l'informazione, invece, si affrontano problemi relativi alla privacy, sicurezza, integrità dei dati, interoperabilità e interfacce. Per la comunicazione, infine, si definiscono i requisiti per l'interazione tra i dispositivi e si stabiliscono limiti per generazione, distribuzione e trasmissione in collaborazione con i clienti.
  
-\newpage
+
 \section{Tecnologie coinvolte}
 Per soddisfare tutti i requisiti della Smart Grid, è necessario sviluppare ed implementare le seguenti tecnologie \cite{smartgrid}:
 \begin{enumerate}
 \item \textit{Tecnologie per l'informazione e la comunicazione}, che includono
 	\begin{itemize}
-	\item meccanismi per la comunicazione bidirezionale tra le varie componenti del sistema
-	\item architetture aperte per il collegamento e l'utilizzo semplice di elettrodomestici e veicoli elettrici
-	\item componenti hardware e software necessari per fornire ai clienti sempre più informazioni
-	\item software per garantire la sicurezza delle informazioni e standard per fornire scalabilità e interoperabilità tra i sistemi di informazione e comunicazione
+	\item Meccanismi per la comunicazione bidirezionale tra le varie componenti del sistema;
+	\item Architetture aperte per il collegamento e l'utilizzo semplice di elettrodomestici e veicoli elettrici;
+	\item Componenti hardware e software necessari per fornire ai clienti sempre più informazioni;
+	\item Software per garantire la sicurezza delle informazioni e standard per fornire scalabilità e interoperabilità tra i sistemi di informazione e comunicazione.
 	\end{itemize} 
 \item \textit{Tecnologie per misurazioni, sensing, controllo ed automazione}, che includono
 	\begin{itemize}
-	\item \textit{Intelligent Electronic Devices} (IED) per fornire inoltro, misurazioni e memorizzazione di fallimenti ed eventi per il sistema energetico in maniera avanzata
-	\item \textit{Phasor Measurement Units} (PMU) e \textit{Wide Area Monitoring, Protection and Control} (WAMPAC) per garantire la sicurezza del sistema
-	\item sistemi integrati di sensing, misurazione, controllo ed automazione e tecnologie per l'informazione e la comunicazione per fornire rapide diagnosi e risposte tempestive a qualsiasi evento in qualsiasi parte della rete
-	\item elettrodomestici, comunicazione, controllo e monitoraggio più intelligenti per massimizzare la sicurezza, il comfort e il risparmio energetico delle abitazioni
-	\item smart meter e tutti i software che permettano ai clienti di avere una maggiore scelta e un maggiore controllo sull'utilizzo di elettricità e gas. \newline Tali meccanismi permetteranno, inoltre, di fornire ai clienti bollette più accurate e informazioni real-time più precise sui loro consumi
+	\item \textit{Intelligent Electronic Devices} (IED) per fornire inoltro, misurazioni e memorizzazione di fallimenti ed eventi per il sistema energetico in maniera avanzata;
+	\item \textit{Phasor Measurement Units} (PMU) e \textit{Wide Area Monitoring, Protection and Control} (WAMPAC) per garantire la sicurezza del sistema;
+	\item Sistemi integrati di sensing, misurazione, controllo ed automazione e tecnologie per l'informazione e la comunicazione per fornire rapide diagnosi e risposte tempestive a qualsiasi evento in qualsiasi parte della rete;
+	\item Elettrodomestici, comunicazione, controllo e monitoraggio più intelligenti per massimizzare la sicurezza, il comfort e il risparmio energetico delle abitazioni;
+	\item Smart meter e tutti i software che permettano ai clienti di avere una maggiore scelta e un maggiore controllo sull'utilizzo di elettricità e gas. Tali meccanismi permetteranno, inoltre, di fornire ai clienti bollette più accurate e informazioni real-time più precise sui loro consumi.
 	\end{itemize}
 \item \textit{Tecnologie per la conservazione dell'energia}, che includono
 	\begin{itemize}
-	\item \textit{High Voltage Direct Current} (HVDC) e \textit{Flexible Alternate Current Transmission Systems} (FACTS) per abilitare le trasmissioni a lungo raggio e l'integrazione delle energie rinnovabili
-	\item differenti interfacce e differenti dispositivi per fornire una connessione efficiente delle risorse rinnovabili e dei dispositivi per la conservazione dell'energia
-	\item dispositivi per fornire un maggiore controllo sui flussi di energia nella rete a corrente alternata
-	\item  HDVC e FACTS in unione ad altri filtri, integrati nei meccanismi di comunicazione e controllo per assicurare una maggiore affidabilità e flessibilità del sistema e una migliore qualità dell'energia
+	\item \textit{High Voltage Direct Current} (HVDC) e \textit{Flexible Alternate Current Transmission Systems} (FACTS) per abilitare le trasmissioni a lungo raggio e l'integrazione delle energie rinnovabili;
+	\item Differenti interfacce e differenti dispositivi per fornire una connessione efficiente delle risorse rinnovabili e dei dispositivi per la conservazione dell'energia;
+	\item Dispositivi per fornire un maggiore controllo sui flussi di energia nella rete a corrente alternata;
+	\item  HDVC e FACTS in unione ad altri filtri, integrati nei meccanismi di comunicazione e controllo per assicurare una maggiore affidabilità e flessibilità del sistema e una migliore qualità dell'energia.
 	\end{itemize}
 \end{enumerate}
