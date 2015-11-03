@@ -5,10 +5,10 @@ Le Smart Grid richiedono sia una complessa infrastruttura di comunicazione, che 
 \newline 
 La figura \ref{fig:1} riassume le principali tematiche relative alle Smart Grid:
 \begin{itemize}
-	\item \emph{energy infrastructure} rappresenta la base fisica ed organizzativa necessaria per la generazione, trasmissione e distribuzione dell'energia;
-	\item \emph{communication infrastructure} è responsabile del trasferimento di informazioni critiche attraverso la rete;
-	\item \emph{information technology} fornisce modelli, analisi, visualizzazioni web e transazioni commerciali;
-	\item \emph{potential applications} offre tecniche di generazione, gestione, automatizzazione e rilevamento per l'intero sistema.
+	\item \emph{Energy infrastructure} rappresenta la base fisica ed organizzativa necessaria per la generazione, trasmissione e distribuzione dell'energia;
+	\item \emph{Communication infrastructure} è responsabile del trasferimento di informazioni critiche attraverso la rete;
+	\item \emph{Information technology} fornisce modelli, analisi, visualizzazioni web e transazioni commerciali;
+	\item \emph{Potential applications} offre tecniche di generazione, gestione, automatizzazione e rilevamento per l'intero sistema.
 \end{itemize} 
 
 \begin{figure}[h] \centering{
@@ -35,9 +35,9 @@ Il concetto di Smart Grid mira a realizzare un sofisticato sistema, integrando i
 \newline
 L'architettura \emph{end-to-end} delle Smart Grid (fig. \ref{fig:3}) fondamentalmente comprendono tre livelli principali:
 \begin{itemize}
-	\item \emph{application layer}, include applicazioni avanzate fornendo interoperabilità fra di esse; si occupa principalmente della gestione della domanda/risposta, interruzioni, infrastruttura di metering, delle risose ed rilevamento di frodi;
-	\item \emph{power layer} 
-	\item \emph{communication layer}
+	\item \emph{Application layer}, include applicazioni avanzate fornendo interoperabilità fra di esse; si occupa principalmente della gestione della domanda/risposta, interruzioni, infrastruttura di metering, delle risose ed rilevamento di frodi;
+	\item \emph{Power layer}, comprende i sistemi di generazione, trasmissione e distribuzione, l'integrazione di risorse rinnovabili ed il sistema di comunicazione bidirezionale;  
+	\item \emph{Communication layer}, rappresenta il cuore del sistema fornendo la connettività fra tutte le parti e dispositivi di esso. 
 \end{itemize}     
 
 \begin{figure}[h] \centering{
@@ -45,5 +45,28 @@ L'architettura \emph{end-to-end} delle Smart Grid (fig. \ref{fig:3}) fondamental
 \caption{Architettura end-to-end}\label{fig:3}
 \end{figure}
 
+Il communication layer consiste di tre categorie di trasmissione:
+\begin{itemize}
+	\item \emph{Wide-area network} (WAN);
+	\item \emph{Field-area network} (FAN);
+	\item \emph{Home-area network} (HAN).
+\end{itemize}
+
+\subsection{Wide-area network}
+La WAN consente la comunicazione fra le entità che forniscono energia e le substations; deve estendersi su tutte le substation, strutture di distribuzione, generazione energetica e di conservazione dell'energia, per poter essere efficace e scalabile. Essa è rete di comunicazione bidirezionale ad alta larghezza di banda che gestisce le trasmissioni a lunga distanza dei dati con avanzate applicazioni di misurazione e monitoraggio. La comunicazione remota fra le \emph{utility} e gli smart meter è essenziale per lo scambio di importanti informazioni, quali prezzi e tariffe dei clienti. Le reti cellulari, WiMAX e comunicazioni cablate, in particolare comunicazioni basate su fibra ottica e microwave, sono i migliori candidati come tecnlogie per WAN (vedi cap. 4).
+\newline
+Il sistema di distribuzione agisce da punto di aggregazione fra FAN e WAN, come ad esempio una substation o una torre di comunicazione che colleziona tutte le informazioni di prodotte dagli smart meter e le trasferisce alla rete di comunicazione principale. Oltre che da punto di aggregazione tali dispositivi possono fungere da punti di conservazione dell'energia per eventuali interruzioni o guasti.
+
+\subsection{Field-area network}
+La FAN può essere descritta come una rete di comunicazione per aree di distribuzione dell'energia e che mette in contatto l'automazione della distribuzione e dispositivi di controllo alle sedi dei consumatori. Essa agisce, quindi, come un intermediario fra le substation e le sedi dei clienti, con nodi intelligenti in grado di raccogliere e controllare i dati da remoto. Tali nodi sono connessi ad un gateway centralizzato, il quale è alimentato costantemente in modo da poter trasmettere i dati raccolti. I canali a bassa larghezza di banda della FAN sono altamente robusti per la trasmissione di dati affidabile. 
+\newline 
+La scelta delle tecnologie di comunicazione  variano per la FAN in base alle esigenze della Smart Grid: fibra ottica per avere bassa latenza e perfomance di comunicazione superiori, oppure WiMAX se le reti cellulari non riescono a coprire l'area, ma l'attuale orientamento ricade sull'utilizzo dello standard IEC 61850 (vedi cap. ), il quale fornisce interoperabilità e comunicazione fra i dispositivi elettronici intelligenti.
+
+\subsection{Home-area network}
+Gli smart meter riescono a connettersi alla HAN, cosicché i consumatori sono in grado di conoscere l'importo da pagare e gestire il loro consumo ed avere il controllo dei propri elettrodomestici intelligenti, attraverso display presenti in casa e interfacce web. 
+\newline 
+Le migliori tecnologie di comunicazione per HAN sono ZigBee,Wi-Fi, HomePlug, Z-wave e M-Bus (vedi cap.).
+
+ 
 
 % http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6298960 
