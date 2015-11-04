@@ -1,9 +1,14 @@
-L'odierna rete elettrica è stata progettata come un sistema centralizzato, in cui l'energia elettrica fluisce attraverso linee unidirezionali di trasmissione e distribuzione dai generatori fino ai clienti finali. La logica applicativa è concentrata in zona centrale e solo parzialmente nelle \emph{substations}, mentre le componenti restanti sono totalmente passive. Le Smart Grid forniscono una più elevata ed ampia intelligenza distribuita incorporata nei dispositivi locali, comunicazione e scambio bidirezionale di informazioni ed elettricità.
+L'odierna rete elettrica è stata progettata come un sistema centralizzato, in cui l'energia elettrica fluisce attraverso linee unidirezionali di trasmissione e distribuzione dai generatori fino ai clienti finali. La logica applicativa è concentrata in zona centrale e solo parzialmente nelle \emph{substation}, mentre le componenti restanti sono quasi totalmente passive. Una Smart Grid, mostrata dal punto di vista strutturale in figura \ref{fig:1}, fornisce una più elevata ed ampia intelligenza distribuita incorporata nei dispositivi locali, comunicazione e scambio bidirezionale di informazioni ed elettricità.
+
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.95]{imgs/architecture.jpg}}
+\caption{Smart Grid}\label{fig:1}
+\end{figure}
 
 \section{Smart Grid Framework}
 Le Smart Grid richiedono sia una complessa infrastruttura di comunicazione, che sofisticate tecnologie di comunicazione e computazione. Entrambe consentono la conservazione di parte dell'energia prodotta e l'introduzione di nuovi metodi di gestione della domanda energetica, per adottare politiche di bilanciamento del carico, controllare instabilità energetiche causate dalla natura delle risorse rinnovabili e prevenire la diffusione di fallimenti in cascata nella rete. 
 \newline 
-La figura \ref{fig:1} riassume le principali tematiche relative alle Smart Grid:
+La figura \ref{fig:2} riassume le principali tematiche relative alle Smart Grid:
 \begin{itemize}
 	\item \emph{Energy infrastructure} rappresenta la base fisica ed organizzativa necessaria per la generazione, trasmissione e distribuzione dell'energia;
 	\item \emph{Communication infrastructure} è responsabile del trasferimento di informazioni critiche attraverso la rete;
@@ -13,7 +18,7 @@ La figura \ref{fig:1} riassume le principali tematiche relative alle Smart Grid:
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.3, natwidth=1003,natheight=490]{imgs/ict.png}}
-\caption{Smart Grid framework}\label{fig:1}
+\caption{Smart Grid framework}\label{fig:2}
 \end{figure}
 
 La communication infrastructure svolge un ruolo cruciale, ossia collegare tutte le componenti della rete collezionando informazioni sulle loro condizioni, per scopi di controllo, monitoraggio e manutenzione. Eventuali problemi legati all'energy instrastructure possono essere evitati se corrette operazioni vengono prese con l'aiuto della communication infrastructure. 
@@ -21,36 +26,44 @@ La communication infrastructure svolge un ruolo cruciale, ossia collegare tutte 
 Differenti tecnologie di comunicazione posso essere usate per diversi scopi e requisiti in base all'applicazione. L'information technology fornisce una piattaforma comune di scambio di informazioni proveniente da differenti attività legate alla Smart Grid, che permette l'integrazione di informazioni da diversi livelli, dando sostegno alla raccolta di diverse informazioni, all'analisi e ad applicazioni avanzate.
 \newline
 Le tecniche dell'applications layer generalmente mirano a ridurre il consumo energetico dei clienti, cambiando i loro comportamenti di consumo, dotandoli di strumenti di monitoraggio.    
-
-\newpage
-La figura \ref{fig:2} mostra le componenti della Smart Grid, illustrate dall'energy infrastructure al potentional applications.
+\newline
+La figura \ref{fig:3} mostra le componenti della Smart Grid, illustrate dall'energy infrastructure al potentional applications.
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/sgframework.png}}
-\caption{Smart Grid framework}\label{fig:2}
+\caption{Smart Grid framework}\label{fig:3}
 \end{figure}
 
-\section{Communication architecture}
+%\section{Communication architecture}
+\newpage
 Il concetto di Smart Grid mira a realizzare un sofisticato sistema, integrando information technology e communication infrastructure al corrente sistema di alimentazione e il nuovo sistema di generazione distribuito, in modo da sfruttare pienamente l'uso di risorse rinnovabili e di massimizzare l'efficienza energetica. Da una prospettiva leggermente diversa, una Smart Grid può essere considerata come una rete di comunicazione di dati che riesce, grazie al supporto di specifici dispositivi di gestione dell'energia, a far collaborare le diverse componenti della rete in maniera flessibile e senza discontinuità, per un utilizzo efficiente dell'energia.
-\newline
-L'architettura \emph{end-to-end} delle Smart Grid (fig. \ref{fig:3}) fondamentalmente comprendono tre livelli principali:
-\begin{itemize}
-	\item \emph{Application layer}, include applicazioni avanzate fornendo interoperabilità fra di esse; si occupa principalmente della gestione della domanda/risposta, interruzioni, infrastruttura di metering, delle risose ed rilevamento di frodi;
-	\item \emph{Power layer}, comprende i sistemi di generazione, trasmissione e distribuzione, l'integrazione di risorse rinnovabili ed il sistema di comunicazione bidirezionale;  
-	\item \emph{Communication layer}, rappresenta il cuore del sistema fornendo la connettività fra tutte le parti e dispositivi di esso. 
-\end{itemize}     
+%\newline
+%L'architettura \emph{end-to-end} delle Smart Grid (fig. \ref{fig:4}) fondamentalmente comprendono tre livelli principali:
+%\begin{itemize}
+%	\item \emph{Application layer}, include applicazioni avanzate fornendo interoperabilità fra di esse; si occupa principalmente della gestione della domanda/risposta, interruzioni, infrastruttura di metering, delle risose ed rilevamento di frodi;
+%	\item \emph{Power layer}, comprende i sistemi di generazione, trasmissione e distribuzione, l'integrazione di risorse rinnovabili ed il sistema di comunicazione bidirezionale;  
+%	\item \emph{Communication layer}, rappresenta il cuore del sistema fornendo la connettività fra tutte le parti e dispositivi di esso. 
+%\end{itemize}     
 
-\begin{figure}[h] \centering{
-\includegraphics[scale=0.4, natwidth=1003,natheight=490]{imgs/endtoendtax.jpg}}
-\caption{Architettura end-to-end}\label{fig:3}
-\end{figure}
+%\begin{figure}[h] \centering{
+%\includegraphics[scale=0.4, natwidth=1003,natheight=490]{imgs/endtoendtax.jpg}}
+%\caption{Architettura end-to-end}\label{fig:4}
+%\end{figure}
 
-Il communication layer consiste di tre categorie di trasmissione:
+%\newpage
+La comunicazione consiste di tre categorie di trasmissione, con relativi standard e protocolli (vedi cap.):
 \begin{itemize}
 	\item \emph{Wide-area network} (WAN);
 	\item \emph{Field-area network} (FAN);
 	\item \emph{Home-area network} (HAN).
 \end{itemize}
+
+%Il communication layer consiste di tre categorie di trasmissione:
+%\begin{itemize}
+%	\item \emph{Wide-area network} (WAN);
+%	\item \emph{Field-area network} (FAN);
+%	\item \emph{Home-area network} (HAN).
+%\end{itemize}
 
 \subsection{Wide-area network}
 La WAN consente la comunicazione fra le entità che forniscono energia e le substations; deve estendersi su tutte le substation, strutture di distribuzione, generazione energetica e di conservazione dell'energia, per poter essere efficace e scalabile. Essa è rete di comunicazione bidirezionale ad alta larghezza di banda che gestisce le trasmissioni a lunga distanza dei dati con avanzate applicazioni di misurazione e monitoraggio. La comunicazione remota fra le \emph{utility} e gli smart meter è essenziale per lo scambio di importanti informazioni, quali prezzi e tariffe dei clienti. Le reti cellulari, WiMAX e comunicazioni cablate, in particolare comunicazioni basate su fibra ottica e microwave, sono i migliori candidati come tecnlogie per WAN (vedi cap. 4).
@@ -67,6 +80,30 @@ Gli smart meter riescono a connettersi alla HAN, cosicché i consumatori sono in
 \newline 
 Le migliori tecnologie di comunicazione per HAN sono ZigBee,Wi-Fi, HomePlug, Z-wave e M-Bus (vedi cap.).
 
- 
+
+\section{Energy infrastracture}
+
+\subsection{smart substation} 3.3 , 3.3.8 role
+IED, sensor, scada, RTU, 
+
+\subsection{energy storage}
+veicoli, microgrid (3.2.4)
+
+\subsection{generazione di energia da risorse rinnovabili}
+
+\subsection{trasmission systems} 3.4 (pag.154) role 209
+facts hdvc 3.4.2 (pag.168), WAMPC 3.4.3 (pag.187) 202 role
+
+\subsection{distribution systems} 3.5 pag.211
+distribution scada, Fault Detection, Isolation, and Service Restoration 244, componenti, outage management
+
+\subsection{communication systems} 265
+ami, 
+
+\subsection{monitoring and diagnostics}
+
+\subsection{SMART METERS AND ADVANCED METERING INFRASTRUCTURE}
+
+vedere anche 3.4.1.4 
 
 % http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6298960 
