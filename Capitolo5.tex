@@ -96,8 +96,44 @@ Ciò può essere realizzato in uno dei seguenti modi: passivamente, ascoltando i
 	\label{wireshark_img}
 \end{figure}
 
-Per l'identificazione passiva, può essere utilizzato Wireshark fig.\ref{wireshark_img}.\cite{wireshark} Wireshark cattura il traffico che attraversa qualsiasi rete in tempo reale e fornisce l'ispezione di centinaia di protocolli. È possibile inoltre specificare gli indirizzi IP di cui effettuare lo sniffing, così da limitare la raccolta di informazione ai possibili target.\\
+Per l'identificazione passiva, può essere utilizzato Wireshark fig. \ref{wireshark_img}.\cite{wireshark} Wireshark cattura il traffico che attraversa qualsiasi rete in tempo reale e fornisce l'ispezione di centinaia di protocolli. È possibile inoltre specificare gli indirizzi IP di cui effettuare lo sniffing, così da limitare la raccolta di informazione ai possibili target.\\
 Per quanto riguarda l'identificazione attiva, invece, è possibile utilizzare la tecnica del \emph{ping sweep}: essa si avvale del Internet Control Message Protocol (ICMP) per individuare i target attivi in rete analizzando le loro response. Nel caso in cui il traffico ICMP sia bloccato, è spesso utilizzato il ping di TCP. Per entrambi i casi è utilizzato il tool di sicurezza Nmap.\cite{nmap}
+
+\paragraph{Port Scanning}\mbox{}\\
+Consiste nel fare \emph{probing} sul target in attesa di risposte sulle 65,536 porte TCP e/o UDP. Ottenere una response significa che dei servizi sono in esecuzione sulle porte associate e che potrebbero contenere debolezze che esporrebbero il target. Il tool di port-scanning più utilizzato è Nmap, che permette di effettuare scan TCP completando l'\emph{handshake}, o attraverso scan TCP SYN che utilizza solamente i messaggi iniziali di SYN e SYN ACK dell'\emph{handshake} TCP.\\
+L'OSSTMM suggerisce che la scelta di quali delle 65,536 porte da analizzare è a discrezione dell'attaccante e dipende dal contesto.
+
+\paragraph{Services Identification and System Identification}\mbox{}\\
+Lo scopo di questi due moduli è di enumerare i servizi in esecuzione sulle porte TCP o UDP che hanno prodotto una response nella fase di port scanning, così come identificare il sistema operativo del target.\\
+Entrambi i compiti sono svolti dal tool Nmap, attivando lo switch \textbf{-sV} che fornisce informazioni addizionali ad esempio il numero di versione, come è possibile verificare nella fig. \ref{nmap_sv_img}.\\
+In questo caso il target utilizzato, \emph{webserver.domain.com}, fornisce informazioni quali il sistema operativo in quanto esposte dal server web Apache. Un attaccante userebbe le informazioni ottenute per verificare la presenza di falle nelle specifiche versioni dei servizi, per poi preparare un attacco.
+\begin{figure}[hbtp]
+	\centering
+	\includegraphics[scale=.3]{imgs/attack/nmap_sv.png}
+	\caption{Nmap version detection ouput}
+	\label{nmap_sv_img}
+\end{figure}
+
+\paragraph{Vulnerability Research and Verification}\mbox{}\\
+Una volta noti sistema operativo e servizi in esecuzione con relative versioni si passa alla ricerca  e verifica di vulnerabilità tramite testing manuale ed automatizzato.\\
+Un tool comunemente utilizzato per effettuare tale scan è Nessus \cite{nessus}, sviluppato dalla Tenable Network Security mostrato in fig. \ref{nessus_img}. Sebbene Nessus sia ottimo per eseguire scanning automatizzato per determinare debolezze come una versione non aggiornata di Apache, il testing manuale dovrebbe coadiuvare quello automatizzato per individuare debolezze che potenzialmente potrebbero essere trascurate.\\
+\begin{figure}[hbtp]
+	\centering
+	\includegraphics[scale=.3]{imgs/attack/nessus.png}
+	\caption{Interfaccia web di Nessus}
+	\label{nessus_img}
+\end{figure}
+L'OSSTMM consiglia che il testing automatizzato venga effettuato da almeno due scanner seguito da una verifica manuale. Le tecniche utilizzate per la verifica manuale di vulnerabilità variano molto in funzione della vulnerabilità che si sta cercando, come ad esempio l'uso di Telnet per osservare la versione di uno specifico servizio connettendocisi, o l'utilizzo di un client FTP per connettersi ad un server FTP anonimo.\\
+Nel processo di attacco a smart meter, la fase in esame è un passo critico in quanto fornisce i potenziali punti d'ingresso nello smart meter che potrebbero essere sfruttati nel modulo che segue.
+
+\paragraph{Internet Application Testing}\mbox{}\\
+Spesso, gli scanner di vulnerabilità non includono la possibilità di eseguire identificazione di vulnerabilità e verifica per Web application.\\
+Con l'aumentare delle misure di sicurezza adottate dai produttori di sistemi all'interno del proprio ciclo di sviluppo, il numero di servizi in esecuzione a disposizione di attaccanti si è man mano ridotto. Ciò ha portato questi ultimi a concentrarsi sulle web application in esecuzione sui dispositivi target. Nel caso degli smart meter, tali applicazioni consentono al consumatore di visualizzare o configurare le informazioni di utilizzo, o permettono ai tecnici di configurare il dispositivo. Lo scopo di questo modulo è lo stesso del precedente, ma in un ambiente differente.\\
+Effettuare identificazione e verifica di vulnerabilità su web application è significativamente più complesso che eseguire lo stesso test su servizi in esecuzione. Questo è il risultato del livello di personalizzazione trovato in ogni web application: è raro il caso che una web application sia esattamente come un'altra, ed anche nel caso di due \emph{webapp} identiche trovate in esecuzione, la loro infrastruttura di backend potrebbe differire. Per questo il testing manuale gioca un ruolo significativo e i tool a supporto di tale operazione sono molteplici. L' Open Web Application Security Project (OWASP) ha sviluppato una guida al testing per le web application, disponibile a questo indirizzo \url{https://www.owasp.org/index.php/Category:OWASP_Testing_Project}.
+
+\paragraph{Password Cracking}\mbox{}\\
+Questo modulo consiste nell'individuazione delle credenziali valide di un servizio in esecuzione o di una web application. Il testing può essere effettuato sia a partire da una lista precompilata di password, noto come attacco basato su dizionario, che provando ogni possibile combinazione di un certo alfabeto di caratteri, noto come attacco brute force.\\
+
 
 \section{False Data Injection}
 \section{Time Delay Attack}
@@ -116,6 +152,7 @@ Per quanto riguarda l'identificazione attiva, invece, è possibile utilizzare la
 \bibitem{wep2} Erik Tews, Ralf-Philipp Weinmann, and Andrei Pyshkin. \emph{Breaking 104 bit WEP in less than 60 seconds.} In Sehun Kim, Moti Yung, and Hyung-Woo Lee, editors, Information Security Applications, 8th International Workshop, WISA 2007, Jeju Island, Korea, August 27-29, 2007, Revised Selected Papers, volume 4867 of Lecture Notes in Computer Science, pages 188–202. Springer, 2007.
 \bibitem{aircrackng} Aircrack-ng. \textbf{http://www.aircrack-ng.org/}
 \bibitem{kali} Kali Linux. \textbf{https://www.kali.org/}
-\bibitem{wireshark} Wireshark \textbf{https://www.wireshark.org/}
-\bibitem{nmap} Nmap \textbf{https://www.nmap.org/}
+\bibitem{wireshark} Wireshark. \textbf{https://www.wireshark.org/}
+\bibitem{nmap} Nmap. \textbf{https://www.nmap.org/}
+\bibitem{nessus} Nessus. \textbf{https://www.nessus.org/}
 \end{thebibliography}
