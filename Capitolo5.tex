@@ -157,7 +157,18 @@ Metasploit è un exploit tool disponibile gratuitamente che offre ai tester di s
 	\label{metasploit_img}
 \end{figure}
 Per un security tester, lo scopo finale è spesso quello di compromettere il target, laddove per un attaccante, la sola compromissione dello smart meter possa essere un altro passo nella propria metodologia personale di raggiungere l'obiettivo preposto.
+
+
+
 \section{False Data Injection}
+Nelle moderne reti di Smart Grid, la rete elettrica tradizionale è potenziata dai più recenti progressi nei campi del sensing, della misurazione e dei dispositivi di controllo con una comunicazione bidirezionale tra produttore e consumatore. La produzione di elettricità, la sua trasmissione, la distribuzione ed il consumo, scambiano informazioni sullo stato della griglia che vengono recapitate agli utenti del sistema, agli operatori ed ai dispositivi.\\
+La stima dello stato ha una funzione chiave nella costruzione di modelli \emph{real-time} della rete elettrica nei centri di gestione dell'energia (EMC) \cite{monticelli}. Un modello \emph{real-time} è una rappresentazione matematica quasi statica delle attuali condizioni all'interno di una rete elettrica interconnessa. Questa rappresentazione matematica è solitamente ottenuta dai dati provenienti dalle misurazioni e dalla telemetria che avvengono a distanza di pochi secondi nel centro di controllo dell'energia (ECC). Modelli \emph{real-time} della rete possono essere utilizzati per fare scelte ottimali, rispettando vincoli tecnici come congestione delle linee di trasmissione, voltaggio e stabilità transiente. In pratica, sia economicamente che in termini di fattibilità, non è possibile misurare tutti i possibili stati nella rete; quindi, la stima dello stato è uno strumento utile per stimare tali quantità, a partire da un insieme limitato di misurazioni. Solitamente sono usati due tipi di informazione per la stima dello stato:
+\begin{itemize}
+	\item Dati analogici di sistemi come flussi Megavar sulle linee principali, il carico \emph{P} e \emph{Q} sui generatori e trasformatori, e i voltaggi dei bus di sistema
+	\item Lo stato on/off dei dispositivi di switch come interruttori di circuito, switch di disconnessione, e tap dei trasformatori che determinano la topologia di rete
+\end{itemize}
+A causa dell'importanza della stima dello stato, gli effetti negativi dell'\emph{iniettare} misurazioni scorrette sono studiati in letteratura \cite{baddatainj}.  Le misurazioni scorrette possono avvenire a causa di anormalità di misura impreviste, o iniezioni dovute ad attacchi malevoli. Ad esempio, \cite{falsedatainj} è il lavoro pionieristico nello studio degli attacchi di \emph{bad data injection} che non possono essere rilevati (chiamati \emph{stealth attacks}), e mostra come un attaccante possa portare a compimento tali attacchi ``\emph{stealth}" falsificando le misure del flusso elettrico alle unità terminali remote (RTUs), manomettendo l'eterogenea rete di comunicazione o infiltrandosi all'interno del sistema di controllo della supervisione di controllo e dell'acquisizione dati (SCADA) attraverso la LAN dell'ufficio del centro di controllo.
+
 \section{Time Delay Attack}
 \section{Replay Attack}
 \section{Jamming}
@@ -179,4 +190,7 @@ Per un security tester, lo scopo finale è spesso quello di compromettere il tar
 \bibitem{nessus} Nessus. \url{https://www.nessus.org/}
 \bibitem{cainabel} Cain \& Abel. \url{http://www.oxid.it/}
 \bibitem{metasploit} Metasploit. \url{http://www.metasploit.com/}
+\bibitem{monticelli} A. Monticelli, ``Electric Power System State Estimation," Proc. IEEE, vol. 88, Feb. 2000, pp. 262–82.
+\bibitem{baddatainj} M. Esmalifalak, Z. Han, and L. Song, ``Effect of Stealthy Bad Data Injection On Network Congestion In Market Based Power System," IEEE WCNC 2012, Paris, France, Apr. 2010.
+\bibitem{falsedatainj} Y. Liu, M. K. Reiter, and P. Ning, ``False Data Injection Attacks Against State Estimation in Electric Power Grids," 16th ACM Conf. Computer and Commun. Security, Gaithersburg, MD, Nov. 2009, pp. 21–30.
 \end{thebibliography}
