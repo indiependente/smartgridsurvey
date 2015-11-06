@@ -167,7 +167,32 @@ La stima dello stato ha una funzione chiave nella costruzione di modelli \emph{r
 	\item Dati analogici di sistemi come flussi Megavar sulle linee principali, il carico \emph{P} e \emph{Q} sui generatori e trasformatori, e i voltaggi dei bus di sistema
 	\item Lo stato on/off dei dispositivi di switch come interruttori di circuito, switch di disconnessione, e tap dei trasformatori che determinano la topologia di rete
 \end{itemize}
-A causa dell'importanza della stima dello stato, gli effetti negativi dell'\emph{iniettare} misurazioni scorrette sono studiati in letteratura \cite{baddatainj}.  Le misurazioni scorrette possono avvenire a causa di anormalità di misura impreviste, o iniezioni dovute ad attacchi malevoli. Ad esempio, \cite{falsedatainj} è il lavoro pionieristico nello studio degli attacchi di \emph{bad data injection} che non possono essere rilevati (chiamati \emph{stealth attacks}), e mostra come un attaccante possa portare a compimento tali attacchi ``\emph{stealth}" falsificando le misure del flusso elettrico alle unità terminali remote (RTUs), manomettendo l'eterogenea rete di comunicazione o infiltrandosi all'interno del sistema di controllo della supervisione di controllo e dell'acquisizione dati (SCADA) attraverso la LAN dell'ufficio del centro di controllo.
+A causa dell'importanza della stima dello stato, gli effetti negativi dell'\emph{iniettare} misurazioni scorrette sono studiati in letteratura \cite{baddatainj}.  Le misurazioni scorrette possono avvenire a causa di anormalità di misura impreviste, o iniezioni dovute ad attacchi malevoli. Ad esempio, \cite{falsedatainj} è il lavoro pionieristico nello studio degli attacchi di \emph{bad data injection} che non possono essere rilevati (chiamati \emph{stealth attacks}), e mostra come un attaccante possa portare a compimento tali attacchi ``\emph{stealth}" falsificando le misure del flusso elettrico alle unità terminali remote (RTUs), manomettendo l'eterogenea rete di comunicazione o infiltrandosi all'interno del sistema di controllo della supervisione di controllo e dell'acquisizione dati (SCADA) attraverso la LAN dell'ufficio del centro di controllo. Si consideri che un sistema SCADA o un sistema mi misurazione su larga area (WAMS) ottiene informazioni sulla rete elettrica (valori delle misure, stato degli interruttori, ecc.) a specifici tempi e luoghi. I centri di controllo usano le informazioni collezionate per scopi diversi, ad esempio la risoluzione di un problema di stima dello stato. In \cite{baddatainj2}, viene mostrata la fattibilità degli  attacchi di bad data injection non rilevabili, con l'obiettivo di manipolare i prezzi del mercato elettrico.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.3]{imgs/attack/fourbuspowernet.png}
+	\caption{Illustrazione di una rete elettrica a quattro bus, centro di controllo, varie funzioni principali (AGC, OPF, EMS), e l'operatore. G rappresenta un generatore, il punto nero rappresenta misurazioni attive sul flusso di corrente ed il triangolo sul bus rappresenta il carico della regione o città.}
+	\label{fourbuspowernet_img}
+\end{figure}
+
+\subsection{Stima dello stato e Bad Data Injection}
+I sistemi di corrente in generale consistono di tre sottosistemi: generazione, trasmissione e distribuzione. Le linee di trasmissione sono utilizzate per trasmettere la corrente elettrica generata ai consumatori. In teoria, la corrente complessiva trasmessa tra il bus \emph{i} ed il bus \emph{j} dipende dalla differenza di voltaggio tra i due bus, ed è funzione dell'impedenza tra questi bus. In genere, le linee di trasmissione hanno un alto rapporto reattanza/resistenza ($X/R$), e quindi l'impedenza di una trasmissione può essere approssimata con la sua reattanza. La corrente attiva trasmessa dal bus \emph{i} al bus \emph{j} può essere scritta come 
+\\
+\\
+\indent$P_{ij} = \frac{V_{i}V_{j}}{X_{ij}}sin(\theta_{i} - \theta_{j})$,
+\\
+\\
+dove $V_{i}$ è la tensione, $\theta_{i}$ è l'angolo di fase del voltaggio nel bus \emph{i}, ed $X_{ij}$ è la reattanza della linea trasmissiva tra il bus \emph{i} ed il bus \emph{j}.\\
+Negli studi del flusso di corrente DC (che in questo caso sta per linearità delle equazioni piuttosto che corrente diretta), solitamente si assume che le differenze di fase tra due bus siano piccole, e che le ampiezze dei voltaggi nei bus siano vicine all'unità (dopo essere state normalizzate). Per cui, un'ulteriore semplificazione porta ad una relazione lineare tra gli angoli di fase e la reattanza delle linee,
+\\
+\\
+\indent$P_{ij} = \frac{\theta_{i}\theta_{j}}{X_{ij}}$.
+\\
+\\
+Negli studi sui flussi di potenza, l'angolo di fase del voltaggio ($q_i$) del bus di riferimento è fissato e noto; quindi, solamente $n - 1$ angoli devono essere stimati. I vettori di stato sono definiti come $\textbf{x} = [\theta_1, \ldots, \theta_n]^T$, cioè il vettore degli $n$ angoli di fase dei bus $\theta_i, i = 1, \ldots, n$.\\
+Il problema della stima dello stato consiste nello stimare gli $n$ angoli di fase $\theta_i$, osservando $m$ misure in tempo reale, denotate dal vettore $\textbf{z}$ al centro di controllo. Queste misure potrebbero essere sia di corrente attiva trasmessa dal bus $i$ al $j$, $P_{ij}$, sia di corrente attiva al bus $i$, $P_i$. La corrente attiva iniettata nel bus $i$ è la super composizione della corrente trasmessa tramite le linee connesse al bus $i$ come $P_i = \sum_j{P_{ij}}$. Il vettore delle osservazioni $\textbf{z}$ puuò essere descritto come $\textbf{z} = \textbf{h(x)} + \textbf{e}$, dove $\textbf{h(x)}$ è la relazione non lineare tra le misure $\textbf{z}$ e lo stato del sistema $\textbf{x}$, ed $\textbf{e} = [e_1, \ldots, e_m]^T$ è il vettore del rumore Gaussiano delle misure con matrice di covarianza $\Sigma_e$.\\
+La matrice del Jacobiano $\textbf{H} \in {\rm I\!R}$ come
+$\textbf{H}=\frac{\sigma\textbf{h(x)}}{\sigma\textbf{x}}|_{x=0}$.
 
 \section{Time Delay Attack}
 \section{Replay Attack}
@@ -193,4 +218,5 @@ A causa dell'importanza della stima dello stato, gli effetti negativi dell'\emph
 \bibitem{monticelli} A. Monticelli, ``Electric Power System State Estimation," Proc. IEEE, vol. 88, Feb. 2000, pp. 262–82.
 \bibitem{baddatainj} M. Esmalifalak, Z. Han, and L. Song, ``Effect of Stealthy Bad Data Injection On Network Congestion In Market Based Power System," IEEE WCNC 2012, Paris, France, Apr. 2010.
 \bibitem{falsedatainj} Y. Liu, M. K. Reiter, and P. Ning, ``False Data Injection Attacks Against State Estimation in Electric Power Grids," 16th ACM Conf. Computer and Commun. Security, Gaithersburg, MD, Nov. 2009, pp. 21–30.
+\bibitem{baddatainj2} L. Xie, Y. Mo, and B. Sinopoli, ``False Data Injection Attacks in Electricity Markets," 1st IEEE Int’l. Conf. Smart Grid Commun., Gaithersburg, MD, Oct. 2010, pp. 226–31.
 \end{thebibliography}
