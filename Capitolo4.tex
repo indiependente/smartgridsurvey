@@ -4,7 +4,7 @@ L'infrastruttura di comunicazione consiste tipicamente di sistemi SCADA con cana
 	\includegraphics[scale=0.300]{imgs/comm_inf_SG.png}
 	\caption{Una possibile infrastruttura di comunicazione per la Smart Grid} \label{fig:cisg}
 \end{figure}\\
-Le sotto-reti di comunicazione che andranno a comporre la Smart Grid utilizzano diverse tecnologie (vedi Figura \ref{fig:th}) e di particolare interesse è il modo in cui quest'ultime possono essere integrate in maniera efficace. 
+Le sotto-reti di comunicazione che andranno a comporre la Smart Grid utilizzano diverse tecnologie (vedi Figura \ref{fig:th}) e di particolare interesse è il modo in cui quest'ultime possono essere integrate in maniera efficace. Le Smart Grid possono utilizzare diverse tecnologie di comunicazione wired e wireless (ad esempio, cellulare , satellitare, microwave e WiMAX). Le tecnologie di comunicazione wireless short range, come WiFi e ZigBee,  possono essere utilizzate nelle HAN.
 %Nel modello di riferimento ISO / OSI, gli strati superiori trattano applicazioni indipendentemente dal meccanismo di effettiva consegna mentre gli strati più bassi si occupano invio di informazioni indipendentemente dall' applicazione.
 In questo capitolo, si descriveranno alcune tecnologie di comunicazione associate ai livelli inferiori del modello di riferimento ISO/OSI.
 \begin{figure}[h]
@@ -76,13 +76,14 @@ SCO è utilizzato quando la consegna tempestiva è più importante della consegn
 	\caption{Piconet e Scatternet} \label{fig:bt}
 \end{figure}
 \subsubsection{ZigBee and 6LoWPAN}
-ZigBee e 6LoWPAN sono due tecnologie di comunicazione basate su IEEE 802.15.4 per Wireless Personal Area Network (WPAN) dato il basso consumo, l'alta flessibilità ed il basso costo. L'architettura protocollare di un device ZigBee è mostrata nella Figura \ref{fig:zbprot} in cui i due strati inferiori sono definiti da IEEE 802.15.4. Application Support e Network Layer per la rete ZigBee sono definiti dalla ZigBee Alliance.
+ZigBee e 6LoWPAN sono due tecnologie di comunicazione basate su IEEE 802.15.4 per Wireless Personal Area Network (WPAN) dato il basso consumo, l'alta flessibilità ed il basso costo. L'architettura protocollare di un device ZigBee è mostrata nella Figura \ref{fig:zbprot} in cui i due strati inferiori sono definiti da IEEE 802.15.4. Application Support e Network Layer per la rete ZigBee sono definiti dalla ZigBee Alliance\cite{zb}.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.350]{imgs/zbprot.png}
 	\caption{Architettura Protocollare di ZigBee} \label{fig:zbprot}
 \end{figure}
 Un device ZigBee può essere un Full Function Device (FFD) o un Reduced Function Device (RFD). Una rete avrà almeno un FFD, che fungerà da coordinatore della WPAN. Il FFD può funzionare in tre modalità: coordinatore, router o device. Un RFD può funzionare solo come device. Un FFD può interagire sia con un altro FFD che con un RFD, mentre un RFD può parlare solo con un FFD.
+La tecnologia ZigBee è quindi considerata come una buona opzione per il metering e la gestione dell'energia ideale in implementazioni Smart Grid data la semplicità, mobilità, robustezza e i bassi costi di sviluppo. Offre anche programmi di pricing e monitoraggio del sistema real-time. ZigBee presenta però alcuni vincoli relativi alle basse capacità di elaborazione, alla piccola dimensione della memoria e alle interferenze tra i vari apparecchi che condividono lo stesso mezzo trasmissivo. Tali problematiche in condizioni di rumore aumentano la possibilità di danneggiare il canale di comunicazione a causa delle interferenze. Schemi di interference detection/avoidance e protocolli di routing energy-efficient estendono il tempo di vita della rete e forniscono una performance di rete affidabile e ad alta efficienza energetica.
 \newline\newline
 6LoWPAN è un protocollo che consente l'invio e la ricezione di pacchetti IPv6 nelle reti basate su IEEE 802.15.4. In tale protocollo è stato inserito un Adaptation Layer (vedi Figura \ref{fig:6pan}) per il collegamento tra lo strato MAC e il Network Layer IPv6.
 %Il concetto 6LoWPAN nasce dall'idea che "il protocollo Internet potrebbe e dovrebbe essere applicato anche ai dispositivi più piccoli," e che i dispositivi a bassa potenza e con capacità di elaborazione limitate dovrebbero essere in grado di far parte dell' Internet of Things.
@@ -106,19 +107,20 @@ Worldwide Interoperability for Microwave Access (WiMAX) è una tecnologia wirele
 	\caption{Una rete WiMax} \label{fig:wim}
 \end{figure}
 \subsection{Power line}
+La Power Line Communication (PLC) rappresenta una delle tecnologie di rete proposte per la trasmissione in ambiente Smart Grid in quanto l'infrastruttura esistente riduce i costi di installazione di un'ulteriore infrastruttura di comunicazione. PLC trasporta i dati utilizzando un conduttore e le linee elettriche esistenti. Fornisce servizi di comunicazione per Automatic Meter Reading (AMR), AMI e HAN ma anche l'accesso ad internet all'utente finale. In una tipica rete PLC, gli smart meter sono collegati al data concentrator attraverso power line e i dati vengono trasferiti al data center tramite tecnologie di rete cellulare. La tecnologia PLC è infatti scelta per la comunicazione tra gli smart meter e il data concentrator, mentre la tecnologia GPRS è utilizzata per trasferire i dati dal concentrator al data center. Anche l'ENEL, nota azienda multinazionale produttrice e distributrice di energia elettrica, ha scelto la tecnologia PLC per trasferire i dati degli smart meter al data concentrator più vicino e la tecnologia GSM per inviare i dati al data center. 
+%data concentrator = dispositivo che collezionana informazioni e dati, spesso da più meter, prima di fare il forwarding al data center. Spesso utilizzato in aree dense.
+La topologia di rete, il numero e il tipo dei dispositivi collegati, la distanza tra trasmettitore e ricevitore compromettono la qualità del segnale. La sensibilità di PLC ai disturbi e la dipendenza sulla qualità segnale sono gli svantaggi che rendono la tecnologia non adatta alla trasmissione dei dati. Tuttavia, ci sono state alcune soluzioni ibride in cui la tecnologia PLC si combina con altre, ad esempio, GPRS o GSM, per fornire una connettività non possibile dalla tecnologia PLC. Inizialmente la velocità di trasmissione in questo tipo di reti era molto limitata, fino a pochi kbps. Successivamente, grazie al progresso tecnologico, con l'introduzione di broadband PLC (BB-PLC) la velocità di trasmissione ha raggiunto anche i 200 Mbps. Principalmente sono utilizzate tre diverse tecnologie di comunicazione, vale a dire, \emph{narrowband transmission}, \emph{spread-spectrum transmission} e \emph{DSP-processed narrowband transmission}. La Figura \ref{fig:vs_plc} mostra alcuni vantaggi e svantaggi relativi a PLC in ambito Smart Grid.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.350]{imgs/vs_plc.png}
+	\caption{Vantaggi e Svantaggi di PLC in ambito Smart Grid} \label{fig:vs_plc}
+\end{figure}\\
+Tra gli standard e i protocolli maggiormente utilizzati troviamo IEEE P1901 e HomePlug.
+\newpage
 \subsubsection{IEEE P1901}
 Il gruppo IEEE P1901 è stato formato nel 2005 con lo scopo di sviluppare una tecnologia per la trasmissione di voce o dati che utilizzi la rete di alimentazione elettrica come mezzo trasmissivo. Lo standard permette una comunicazione ad altà velocità tra i device che prendono il nome di BPL (Broadband over Power Line). Lo standard utilizza frequenze inferiori a 100 MHz ed è di supporto ai device BPL utilizzati per i collegamenti first-mile/last-mile così come quelli utilizzati nelle reti LAN all'interno di edifici. Inoltre tali device possono essere utilizzati all'interno di smart energy application, autoveicoli e in altre applicazioni per la distribuzione dei dati.
 \subsubsection{HomePlug}
-HomePlug è una tecnologia broadband non standardizzata e specificata dalla HomePlug Powerline Alliance, i cui membri sono le principali aziende nel settore della comunicazione e dell'energia.\newpage
-HomePlug Powerline Alliance definisce i seguenti standard:
-\begin{itemize}
-	\item HomePlug 1.0: connette i dispositivi nelle case (1-10 Mbps);
-	\item HomePlug AV and AV2: fornisce banda sufficiente per applicazioni come HDTV e VoIP, 200 Mbps (AV) e
-600 Mbps (AV2);
-	\item HomePlug CC: comando e controllo per altre funzioni;
-	\item HomePlug BPL: il lavoro da parte di HomePlug su BPL è stato fuso con lo standard IEEE P1901.
-\end{itemize}
-La tecnologia di trasmissione utilizzata è OFDM (Orthogonal Frequency-Division Multiplexing) che è studiata per l'utilizzo in ambienti power line. Il rumore, comune in ambiente power line, è superato per mezzo di forward error correction e data interleaving.
+HomePlug è una tecnologia broadband non standardizzata e specificata dalla HomePlug Powerline Alliance, i cui membri sono le principali aziende nel settore della comunicazione e dell'energia. Il protocollo gestisce dei sottocanali dividendo la larghezza di banda disponibile. La velocità di trasmissione varia da 1 a 14 Mbps e i nodi sono in grado di adattarsi al data rate ottimale in maniera automatica. Le collisioni sono evitate grazie al CSMA / CD. Lo standard HomePlug 1.0 per la connessione di dispositivi nelle case (1-10 Mbps) utilizza la di tecnica Orthogonal Frequency Division (OFDM), utilizzata anche da DSL, IEEE 802.11a e IEEE 802.11g. Il rumore, comune in ambiente power line, è superato per mezzo di forward error correction e data interleaving. La HomePlug Powerline Alliance ha definito ulteriori standard come HomePlug AV/AV2 che forniscono banda sufficiente per applicazioni come HDTV e VoIP, HomePlug CC e HomePlug BPL.
 \section{Standard per lo scambio di informazioni}
 \subsubsection{Standard per Smart Meter}
 Gli Smart Meter possono essere utilizzati in vari modi e questi portano a differenti requisiti per quanto riguarda il sistema di comunicazione. Con Automated Meter Reading (AMR) si richiede una trasmissione occasionale dei dati energetici registrati (circa una volta al mese), viceversa con  Advanced Metering Infrastructure (AMI) si richiedono frequenti comunicazioni bidirezionali (ad esempio ogni 30 minuti). IEC 62056 e ANSI C12.22 sono due famiglie di standard che descrivono sistemi di comunicazione per gli Smart Meter. IEC 62056 definisce Transport e Application Layer per lo smart metering nell'ambito di una serie di specifiche chiamate COSEM (Companion Specification for Energy Metering). ANSI C12.22 (vedi Figura \ref{fig:arch_c1222}) specifica l'invio e la ricezione dei dati registrati da e verso sistemi esterni ed è possibile utilizzarlo su qualsiasi rete di comunicazione.
@@ -141,18 +143,43 @@ DNP3 è un insieme di protocolli di comunicazione utilizzato tra i componenti ne
 \subsubsection{IEC 61850}
 IEC 61850 è uno standard per la progettazione dei sistemi di automazione per le sottostazioni elettriche. Generalmente questi protocolli girano su reti TCP/IP o LAN di stazione con switch ethernet molto performanti per rispondere ai requisiti stringenti dei dispositivi di protezione, che necessitano tempi di risposta inferiori a 4 o 5 millisecondi. Si tratta di uno standard function-based:
 \begin{itemize}
-	\item System support functions
-	\item System configuration or maintenance functions
-	\item Operational or control functions
-	\item Process automation functions
+	\item System support functions;
+	\item System configuration or maintenance functions;
+	\item Operational or control functions;
+	\item Process automation functions.
 \end{itemize}
-IEC 61850 specifica una data structure. Come mostrato in Figura \ref{fig:iec61850}a, un device model considera inizialmente un physical device. Poi vengono specificati i logical device all'interno di tale dispositivo. Ogni logical device è mappato in 86 diverse classi di logical node secondo lo standard IEC 61850. Infine sono specificati i dati relativi a ciascun logical node. Nella Figura \ref{fig:iec61850}b è mostrato un esempio di IED.
+IEC 61850 specifica una data structure. Come mostrato in Figura \ref{fig:iec61850}a, un device model considera inizialmente un physical device. Poi vengono specificati i logical device all'interno di tale dispositivo. Ogni logical device è mappato in 86 diverse classi di logical node secondo lo standard IEC 61850. Infine sono specificati i dati relativi a ciascun logical node. Nella Figura \ref{fig:iec61850}b è mostrato un esempio di IED. IEC 61850 è affiancato da IEC 62351 che garantisce la sicurezza e specifica i requisiti tecnici che devono essere rispettati dai fornitori.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.350]{imgs/iec61850.png}
 	\caption{IEC 61850 data structure} \label{fig:iec61850}
-\end{figure}
-\section{Cyber Security}
-Esistono diversi standard che si applicano alla sicurezza delle apparecchiature all'interno delle sottostazioni e molti sono in fase di sviluppo. Per la valutazione complessiva della sicurezza, la norma ISO 27001 è ampiamente utilizzata e specifica la valutazione dei rischi  e la strategia da utilizzare per lo sviluppo di un sistema di sicurezza in modo da limitarli. Inoltre, ISO 28000 specifica la gestione della sicurezza in particolare per un sistema supply chain.
-\subsection{IEEE 1686}
+\end{figure}\\
+\section{Standard per la sicurezza}
+Gli standard per la sicurezza informatica sono una recente invenzione perché oggi informazioni sensibili sono spesso memorizzate su computer che sono collegati ad Internet. Inoltre molte attività che prima erano condotte manualmente oggi sono svolte dalle macchine e perciò c'è maggiore bisogno di affidabilità e di sicurezza in tali sistemi informatici. La sicurezza è importante per per gli individui che devono proteggersi dal cosiddetto furto di identità ma anche per le aziende perché devono proteggere i loro segreti industriali e le informazioni sui dati personali dei clienti. Nell'ambito dei power system, esistono diversi standard che si applicano alla sicurezza delle apparecchiature all'interno delle sottostazioni e molti sono in fase di sviluppo. Per la valutazione complessiva della sicurezza, la norma ISO 27001 è ampiamente utilizzata e specifica la valutazione dei rischi e la strategia da utilizzare per lo sviluppo di un sistema di sicurezza in modo da limitarli.
 \subsection{IEC 62351}
+IEC 62351 è uno standard sviluppato dal WG15 facente parte della TC57 dell'organo internazionale IEC. Questo standard è stato sviluppato per gestire la sicurezza nella serie di protocolli della commissione tecnica 57, tra i quali le serie IEC 60870-5, IEC 60870-6 series, IEC 61850, IEC 61970 e IEC 61968. Tra i diversi obiettivi di sicurezza che lo standard persegue ci sono:
+\begin{itemize}
+	\item Autenticazione nel processo di trasferimento di dati tramite firma digitale;
+	\item Garanzia di accessi esclusivamente dopo autenticazione;
+	\item Prevenzione dell'eavesdropping (ossia intercettazioni della comunicazione non autorizzate);
+	\item Prevenzione da attacchi di playback e attacchi di spoofing (ovvero sostituirsi a una controparte della comunicazione);
+	\item Rilevamento delle intrusioni.
+\end{itemize}
+Le prime due parti di IEC 62351 comprendono la spiegazione di differenti scenari e la definizione dei termini. IEC 62351 utilizza protocolli di sicurezza esistenti, come il Transport Layer Security (TLS, \cite{tls}), che è stato usato con successo in altre aree tecniche e in diverse parti dello standard. TLS prevede servizi di sicurezza come la mutua autenticazione dei peer in una comunicazione (utile per contrastare attacchi man-in-the-middle) ma si occupa anche dell'integrità e della riservatezza dei dati comunicati. La terza parte di IEC 62351 definisce come possono essere forniti servizi di sicurezza in una  comunicazione TCP/IP based e specifica suite di cifratura. La quarta parte specifica le procedure, i miglioramenti del protocollo, e gli algoritmi atti a promuovere l'aumento dei messaggi di sicurezza trasmessi su MMS. Manufacturing Message Specification (MMS) è uno standard internazionale (ISO 9506) che si occupa del trasferimento in tempo reale di dati per processi di controllo e supervisione tra dispositivi di rete o applicativi per computer. Questa parte definisce alcune procedure relative a Transport e Application Layer, basate su TLS, in modo da proteggere le informazioni trasmesse. La quinta parte riguarda invece la comunicazione seriale in cui si vanno a definire ulteriori misure di sicurezza per proteggere l'integrità delle connessioni seriali applicando chiavi hash. Questa parte specifica quindi anche una separata gestione delle chiavi. La sesta parte di IEC 62351 si occupa dei profili di IEC 61850 non basati su TCP/IP per la comunicazione. La settima parte è utile poichè implementa e/o estende sistemi di intrusion detection e l'ottava e ultima parte si occupa di role-based access control. La Figura \ref{fig:62351} mostra un overview sulle differenti parti che compongono lo standard.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.350]{imgs/62351.png}
+	\caption{Overview IEC 62351} \label{fig:62351}
+\end{figure}
+
+%aggiungere soluzioni e vulnerabilità in capitolo SICUREZZA
+
+%IEC 61850 approfondire
+%IEC 62351 cita articolo e cite, aggiunta di communication tecnology (articolo troppo approfondito), meglio intro
+
+%Citazioni
+%Dopo WiMax e in dnp3
+\begin{thebibliography}{99}
+\bibitem{zb} ZigBee Specification, ZigBee Alliance, ZigBee Document 053474r17, January 2008.
+\bibitem{tls} RFC 5246: The Transport Layer Security (TLS) Protocol, Version 1.2, T. Dierks, E Rescorla, August 2008
+\end{thebibliography}
