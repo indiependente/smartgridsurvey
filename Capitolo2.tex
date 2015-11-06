@@ -134,15 +134,52 @@ I veicoli elettrici possono essere usati sia come dispositivi di memorizzazione 
 Quindi tali mezzi possono fornire aiuto nel bilanciamento del carico, immagazzinando energia la notte e fornendola di giorno alla rete. Essi per il 95\% del tempo sono parcheggiati, fornendo così l'opportunità di usare la loro energia, in modo da ridurre costi del sistema elettrico.
 
 
-
-
-
 \section{Microgrid}
-
-
+Una microgrid è un sistema energetico locale, che offre integrazione di risorse energetiche    distribuite con le risorse che usufruiscono di tale energia, il quale può operare sia con la Smart Grid che in maniera isolata per fornire un livello personalizzato di affidabilità e resilienza. 
+Fra i principali vantaggi delle microgrid:
+\begin{itemize}
+	\item Costituiscono un passo avanti economico ed efficiente per portare elettricità nelle zone rurali;
+	\item Offrono una soluzione per alleviare la pressione dovuta alla saturazione della rete in determinate aree, senza grandi sforzi economici;
+	\item Isolano determinati e sensibili consumatori, come basi militari e ospedali;
+	\item Possono contribuire nella gestione della domanda energetica delle risorse rinnovabili;
+	\item Sono in grado di contribuire nella conservazione dell'energia, nel miglioramento della stabilità e affidabilità delle rete elettrica.	  
+\end{itemize}
+Il maggior numero di tipi di microgrid sono istituzionali (ospedali, universPMUità o zone militari), seguiti da commerciali (fattorie, server farm, centri commerciali) ed infine di comunità (gruppi di case o appartamenti).  
+Una microgrid è formata da componenti disponibili sul mercato, quali:
+\begin{itemize}
+	\item \emph{Sensori}, determinano quali criteria adottare, se di isolamento o connessione alla rete elettrica;
+	\item \emph{Switch e contatori intelligenti}, consentono rapide riconfigurazioni e monitoraggio in tempo reale;
+	\item \emph{Generatori di energia} e \emph{dispositivi per la conservazione dell'energia}.   
+\end{itemize}
 
 \section{Smart substation}
+Una substation elettrica è un punto di riferimento dei sistemi di generazione, trasmissione e distribuzione, dove il voltaggio viene trasformato da alto a basso e oppure viceversa utilizzando trasformatori. La corrente elettrica scorre attraverso diverse substation fra impianti di generazioni e clienti. Ci sono diversi tipi di substation: trasmissione, distribuzione, raccolta, smistamento. Le funzioni generali includono:
+\begin{itemize}
+	\item Trasformazione del voltaggio;
+	\item Punto di connessione delle linee energetiche di trasmissione e distribuzione;
+	\item Centro di smistamento delle configurazioni dei sistemi di trasmissione e distribuzione;
+	\item Zona di monitoraggio per il centro di controllo;
+	\item Protezione per gli apparecchi e linee elettriche;
+	\item Comunicazione con le altre substation e i centri di controllo. 
+\end{itemize} 
+Le substation sono le fonti dei dati in tempo reale fondamentali per il funzionamento efficiente e sicuro della rete. I dati reali sono valori istantanei dei sistemi di alimentazione e vengono usati per la protezione, monitoraggio e controllo delle apparecchiature di tali sistemi. Vi è anche una ricchezza di dati non in tempo reale disponibile dalle apparecchiature, generalmente segnalazioni, che aiuta a rendere il funzionamento e la gestione delle attività di sistema più efficiente e affidabile.
+\newline
+%0deec5301d9ee1c662000000.pdf
+Il concetto di smart substation, che si basa sulle tecnologie automatiche delle substation, consente monitoraggio più affidabile ed efficiente, funzionamento, controllo, protezione e manutenzione delle attrezzature e apparecchiature installate nelle sottostazioni. Per raggiungere questi obiettivi, le caratteristiche principali delle smart substation sono:
+\begin{itemize}
+	\item \emph{Digitalizzazione}, un'unica e compatibile piattaforma per la rilevazione, misurazione, comunicazione, controllo, protezione e manutenzione, che comunica con i centri di controllo;
+	\item \emph{Autonomia} e {coordinazione}, il funzionamento non dipende da altre substation o centri di controllo, ma possono comunicare per incrementare l'efficienza e la stabilità della trasmissione elettrica. Anche all'interno stesso della smart substation, i singoli componenti devono essere autonomi;
+	\item \emph{Autoconfigurazione}, abilità nel configurarsi autonomamente in maniera dinamica, per ristabilirsi da attacchi, blackout, fallimenti delle componenti oppure disastri naturali.   
+\end{itemize}   
 
+Le funzioni essenziali di una smart substation comprendono:
+\begin{itemize}
+	\item \emph{Rilevamento e misurazione smart}, tutti i segnali misurati vengono etichettati con alta accuratezza grazie a sistemi di posizionamento (GPS);
+	\item \emph{Comunicazione}, ogni smart substation ha un LAN ad alta velocità, che lega tutte le unità di misuramento e le applicazioni locali insieme, ed interfacce di connessione per diversi tipi di comunicazione. Il protocollo di comunicazione di una smart grid dovrebbe essere \emph{open} e standardizzato ed una buona opzione è lo standard \emph{IEC 61850} (vedi ..);
+	\item \emph{Controllo autonomo}, controllori decentralizzati vengono usati per l'auto-ripristino, per intraprendere azioni correttive o di previsione e ottimizzazione. I tradizionali controller \emph{volt/Var} basati sulle informazioni di misurazione locali(vedi ...) vengono coordinati da centri di controllo. Condizioni di instabilità valutati più velocemente dalle informazioni dei\emph{PMU} (vedi ..) [45], [46];
+	\item \emph{Gestione e visualizzazione dei dati}, applicazioni decentralizzate richiedono un appropriato sistema di gestione di dati distribuito, il quale gestisca e condivida i dati con le altre substation e che comunichi con centri di controllo. Tutti i dati dai PMU, i ritardi, resoconti di fallimenti ed ecc. devono essere visualizzati in tempo reale per fornire una chiara visione dello stato della substation. 
+\end{itemize}
+ 
 \subsection{IED}
 \subsection{Sensor}
 \subsection{SCADA}
