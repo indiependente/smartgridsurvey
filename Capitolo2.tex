@@ -181,10 +181,28 @@ Le funzioni essenziali di una smart substation comprendono:
 \end{itemize}
  
 \subsection{IED}
-\subsection{Sensor}
+\emph{Intelligent Electronic Devices} (IED) sono dei dispositivi basati su microprocessore, che hanno la capacità di scambiare dati e segnali di controllo con altri dispositivi, come altri IED, misuratori elettrici, controller e SCADA, mediante canali di comunicazione. Gli IED svolgono funzioni di protezione, monitoraggio, controllo e acquisizione di dati nelle stazioni di generazione, substation ed alimentatori. Essi sono largamente usati nelle substation per diversi scopi e vengono utilizzati anche separatamente per ottenere funzioni individuali. Gli IED sono una componente chiave di integrazione e di automazione delle substation, le quali comportano l'integrazione delle funzioni di protezione, controllo e acquisizione dei dati in modo da ridurre i costi operativi e di capitale, eliminando apparecchiature ridondanti e riducendo al minimo l'intervento umano. Tali dispositivi sono totalmente compatibili con lo standard IEC  61850 (vedi ..), hanno dimensioni ridotte e combinano varie funzioni in un'unica struttura robusta, consentendo una riduzione delle dimensioni dell'intero sistema, un aumento dell'efficienza e di robustezza, fornendo soluzioni estendibili basati su tecnologie di comunicazione tradizionali. 
+
+\subsection{Sensori}
+La principale funzione dei sensori è quella di raccogliere i dati provenienti da apparecchiature di alimentazione e portarle alle componenti delle substation, in particolare trasformatori, interruttori e linee elettriche. Con l'introduzione delle tecnologie digitali e ottiche, nuovi sensori sono diventati disponibili per acquisire diversi tipi di informazioni relative a determinate risorse. L'apparato analogico basato su fili di rame può essere sostituito da fibra ottica per misurazione e monitoraggio.
+\newline
+I vantaggi più importanti di tali sensori sono:
+\begin{itemize}
+	\item Maggiore precisione;
+	\item Nessuna saturazione;
+	\item Dimensioni e peso ridotti;
+	\item Sicuri e non dannosi per l'ambiente;
+	\item Prestazioni e larghezza di banda più elevate;
+	\item Bassa manutenzione.
+\end{itemize}
+
+
 \subsection{SCADA}
-
-
+\emph{Supervisory Control And Data Acquisition} (SCADA) si riferisce a un sistema o una combinazione di sistemi che raccoglie i dati provenienti da vari sensori in un impianto o in altre posizioni remote e che invia questi dati ad un elaboratore centrale, che poi gestisce e controlla i dati e controlla da remoto i dispositivi nel campo. SCADA è un termine che viene utilizzato ampiamente per rappresentare soluzioni di controllo e di gestione in una vasta gamma di settori. Il settore elettrico ha un insieme specifico di requisiti che si applicavano ai sistemi SCADA. Lo scopo principale di un sistema SCADA elettrico è quello di acquisire dati in tempo reale provenienti dai dispositivi situati nelle centrali elettriche, sottostazioni di trasmissione e di distribuzione, alimentatori per distribuzione, ecc, fornire il controllo delle apparecchiature e presentare le informazioni al personale operativo.  
+\newline
+Sistemi SCADA sono globalmente accettati come mezzo di monitoraggio e controllo di sistemi di alimentazione elettrica, in particolare sistemi di generazione e trasmissione in tempo reale. \emph{RTU} (Remote Terminal Units) vengono utilizzati per raccogliere i dati analogici e lo stato di telemetria dai dispositivi, e di trasmettere comandi di controllo a tali dispositivi. Installato in una posizione centrale, come ad esempio il centro di controllo, tali sistemi includono apparecchiature di acquisizione dati, interfacce grafiche per gli operatori, applicazioni che agiscono sui dati e altri componenti. 
+\newline
+Tipicamente apparecchiature di controllo di acquisizione dati comprendono almeno una \emph{master statuion} (vedi ..), uno o più RTU e un sistema di comunicazione. La master station di solito è collocata al centro di controllo dell'energia, mentre gli RTU sono installati nelle centrali elettriche, substation di trasmissione e distribuzione e attrezzature di alimentazione.
 
 \section{Sistemi di trasmissione}
 
