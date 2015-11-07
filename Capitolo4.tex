@@ -36,7 +36,7 @@ La Figura \ref{fig:lan} mostra tali domini su una tipica LAN Ethernet.
 	\caption{LAN Ethernet} \label{fig:lan}
 \end{figure}
 \\I Bridge limitano i domini di collisione mentre i Router limitano entrambi i domini. In Figura \ref{fig:lan} è mostrato come un pacchetto inviato dalla rete A può collidere con uno della rete B, ma non con uno inviato da C. Questo accade perchè vi è uno switch che limita i domini di collisione.
-\subsubsection{Wireless}%LAN
+\subsubsection{Wireless}
 IEEE 802.11 definisce un insieme di standard per le Wireless LAN (WLAN). L'interoperabilità dei dispositivi IEEE 802.11 è certificata dalla Wi-Fi Alliance. Una LAN Wireless è costituita dai seguenti componenti:
 \begin{itemize}
 	\item\emph{Station}: descrive qualsiasi dispositivo che comunica tramite una rete WLAN, ad esempio, un computer portatile, o cellulari che supportano WiFi. Nelle reti ad-hoc questi dispositivi possono comunicare tra loro, creando una rete mesh (vedi Figura \ref{fig:bss}a). L'insieme di station che formano la rete ad-hoc è chiamato Independent Basic Service Set (IBSS);
@@ -83,7 +83,7 @@ ZigBee e 6LoWPAN sono due tecnologie di comunicazione basate su IEEE 802.15.4 pe
 	\caption{Architettura Protocollare di ZigBee} \label{fig:zbprot}
 \end{figure}
 Un device ZigBee può essere un Full Function Device (FFD) o un Reduced Function Device (RFD). Una rete avrà almeno un FFD, che fungerà da coordinatore della WPAN. Il FFD può funzionare in tre modalità: coordinatore, router o device. Un RFD può funzionare solo come device. Un FFD può interagire sia con un altro FFD che con un RFD, mentre un RFD può parlare solo con un FFD.
-La tecnologia ZigBee è quindi considerata come una buona opzione per il metering e la gestione dell'energia ideale in implementazioni Smart Grid data la semplicità, mobilità, robustezza e i bassi costi di sviluppo. Offre anche programmi di pricing e monitoraggio del sistema real-time. ZigBee presenta però alcuni vincoli relativi alle basse capacità di elaborazione, alla piccola dimensione della memoria e alle interferenze tra i vari apparecchi che condividono lo stesso mezzo trasmissivo. Tali problematiche in condizioni di rumore aumentano la possibilità di danneggiare il canale di comunicazione a causa delle interferenze. Schemi di interference detection/avoidance e protocolli di routing energy-efficient estendono il tempo di vita della rete e forniscono una performance di rete affidabile e ad alta efficienza energetica.
+La tecnologia ZigBee è quindi considerata come una buona opzione per il metering e la gestione dell'energia ideale in implementazioni Smart Grid data la semplicità, mobilità, robustezza e i bassi costi di sviluppo. Offre anche programmi di pricing e monitoraggio del sistema real-time. ZigBee presenta però alcuni vincoli relativi alle basse capacità di elaborazione, alla piccola dimensione della memoria e alle interferenze tra i vari apparecchi che condividono lo stesso mezzo trasmissivo. Tali problematiche, in condizioni di rumore, aumentano la possibilità di danneggiare il canale di comunicazione a causa delle interferenze. Schemi di interference detection/avoidance e protocolli di routing energy-efficient estendono il tempo di vita della rete e forniscono una performance di rete affidabile e ad alta efficienza dal punto di vista energetico.
 \newline\newline
 6LoWPAN è un protocollo che consente l'invio e la ricezione di pacchetti IPv6 nelle reti basate su IEEE 802.15.4. In tale protocollo è stato inserito un Adaptation Layer (vedi Figura \ref{fig:6pan}) per il collegamento tra lo strato MAC e il Network Layer IPv6.
 %Il concetto 6LoWPAN nasce dall'idea che "il protocollo Internet potrebbe e dovrebbe essere applicato anche ai dispositivi più piccoli," e che i dispositivi a bassa potenza e con capacità di elaborazione limitate dovrebbero essere in grado di far parte dell' Internet of Things.
@@ -109,7 +109,7 @@ Worldwide Interoperability for Microwave Access (WiMAX) è una tecnologia wirele
 \subsection{Power line}
 La Power Line Communication (PLC) rappresenta una delle tecnologie di rete proposte per la trasmissione in ambiente Smart Grid in quanto l'infrastruttura esistente riduce i costi di installazione di un'ulteriore infrastruttura di comunicazione. PLC trasporta i dati utilizzando un conduttore e le linee elettriche esistenti. Fornisce servizi di comunicazione per Automatic Meter Reading (AMR), AMI e HAN ma anche l'accesso ad internet all'utente finale. In una tipica rete PLC, gli smart meter sono collegati al data concentrator attraverso power line e i dati vengono trasferiti al data center tramite tecnologie di rete cellulare. La tecnologia PLC è infatti scelta per la comunicazione tra gli smart meter e il data concentrator, mentre la tecnologia GPRS è utilizzata per trasferire i dati dal concentrator al data center. Anche l'ENEL, nota azienda multinazionale produttrice e distributrice di energia elettrica, ha scelto la tecnologia PLC per trasferire i dati degli smart meter al data concentrator più vicino e la tecnologia GSM per inviare i dati al data center. 
 %data concentrator = dispositivo che collezionana informazioni e dati, spesso da più meter, prima di fare il forwarding al data center. Spesso utilizzato in aree dense.
-La topologia di rete, il numero e il tipo dei dispositivi collegati, la distanza tra trasmettitore e ricevitore compromettono la qualità del segnale. La sensibilità di PLC ai disturbi e la dipendenza sulla qualità segnale sono gli svantaggi che rendono la tecnologia non adatta alla trasmissione dei dati. Tuttavia, ci sono state alcune soluzioni ibride in cui la tecnologia PLC si combina con altre, ad esempio, GPRS o GSM, per fornire una connettività non possibile dalla tecnologia PLC. Inizialmente la velocità di trasmissione in questo tipo di reti era molto limitata, fino a pochi kbps. Successivamente, grazie al progresso tecnologico, con l'introduzione di broadband PLC (BB-PLC) la velocità di trasmissione ha raggiunto anche i 200 Mbps. Principalmente sono utilizzate tre diverse tecnologie di comunicazione, vale a dire, \emph{narrowband transmission}, \emph{spread-spectrum transmission} e \emph{DSP-processed narrowband transmission}. La Figura \ref{fig:vs_plc} mostra alcuni vantaggi e svantaggi relativi a PLC in ambito Smart Grid.
+La topologia di rete, il numero e il tipo dei dispositivi collegati, la distanza tra trasmettitore e ricevitore compromettono la qualità del segnale. La sensibilità di PLC ai disturbi e la dipendenza sulla qualità segnale sono gli svantaggi che rendono la tecnologia non adatta alla trasmissione dei dati. Tuttavia, ci sono state alcune soluzioni ibride in cui la tecnologia PLC si combina con altre, ad esempio, GPRS o GSM, per fornire una connettività non possibile dalla tecnologia PLC. Inizialmente la velocità di trasmissione in questo tipo di reti era molto limitata, fino a pochi kbps. Successivamente, grazie al progresso tecnologico, con l'introduzione di broadband PLC (BB-PLC), un'applicazione della tecnologia PLC a banda larga che fornisce l'accesso a Internet tramite linee elettriche ordinarie, la velocità di trasmissione ha raggiunto anche i 200 Mbps. Principalmente sono utilizzate tre diverse tecnologie di comunicazione, vale a dire, \emph{narrowband transmission}, \emph{spread-spectrum transmission} e \emph{DSP-processed narrowband transmission}. La Figura \ref{fig:vs_plc} mostra alcuni vantaggi e svantaggi relativi a PLC in ambito Smart Grid.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.350]{imgs/vs_plc.png}
@@ -132,30 +132,64 @@ Gli Smart Meter possono essere utilizzati in vari modi e questi portano a differ
 \newpage
 \subsubsection{Modbus}
 Modbus è un protocollo di messaggistica che risiede nello strato delle applicazioni e consente la comunicazione tra i dispositivi collegati su diversi bus e reti. Può essere implementato tramite Ethernet o utilizzando la trasmissione seriale asincrona su EIA 232, EIA 422, EIA 485 e fibra ottica. Di questi, l'applicazione più comune è Modbus su EIA485. La Figura \ref{fig:modbus} mostra come l'Application Layer è connesso agli altri layer del modello OSI.
-Modbus su EIA 485 è ampiamente usato nell' automazione delle sottostazioni. La comunicazione è avviata dal Master con una query. Il Master è l'unico che può inviare query che possono essere destinate al singolo Slave o di broadcast. Uno Slave monitora continuamente la rete riconoscendo solo le query destinate ad esso.  All'arrivo di una query, lo Slave eseguirà un'azione o risponderà.
+Modbus su EIA 485 è ampiamente usato nell' automazione delle sottostazioni. La comunicazione è avviata dal Master con una query. Il Master è l'unico che può inviare query che possono essere destinate al singolo Slave o di broadcast. Uno Slave monitora continuamente la rete riconoscendo solo le query destinate ad esso.  All'arrivo di una query, lo Slave eseguirà un'azione o risponderà. Tra i problemi del protocollo spiccano il limitato supporto di tipologie di dati e la non garanzia di sicurezza.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.350]{imgs/modbus.png}
 	\caption{Modbus stack} \label{fig:modbus}
 \end{figure}
 \subsubsection{DNP3}
-DNP3 è un insieme di protocolli di comunicazione utilizzato tra i componenti nei sistemi di automazione. DNP3 gioca un ruolo fondamentale all'interno dei sistemi SCADA dove è utilizzato dalle SCADA Master Station (conosciute anche col nome di centri di controllo) per comunicare con le Remote Terminal Unit (RTU) e/o gli Intelligent Electronic Device (IED). Lo User Layer DNP ha input analogici e binari e da in output segnali analogici e binari. Un Master DNP3 invia richieste e in genere le stazioni Slave DNP3 rispondono a tali richieste. Uno Slave DNP3 può anche trasmettere un messaggio senza aver ricevuto alcuna richiesta. Il Physical Layer DNP3 utilizza protocolli di comunicazione seriali come EIA 232 o EIA 485. Poiché nelle applicazioni di tipo Smart Grid generalmente si presume l'accesso di terze parti alla stessa rete e all'infrastruttura sottostante basata su protocollo IP, è stato fatto molto lavoro con l'intento di aggiungere caratteristiche di Autenticazione sicura al protocollo DNP3. Alcuni vendors supportano la crittografia via \textbf{bump-in-the-wire} (cioè con dispositivi esterni che criptano/decriptano i dati agli estremi del canale di comunicazione) per le comunicazioni seriali e tramite VPN per le reti IP. Uno dei metodi bump-in-the-wire più popolari era noto come \emph{AGA-12} (American Gas Association).
+DNP3 è un insieme di protocolli di comunicazione utilizzato tra i componenti nei sistemi di automazione. DNP3 gioca un ruolo fondamentale all'interno dei sistemi SCADA dove è utilizzato dalle SCADA Master Station (conosciute anche col nome di centri di controllo) per comunicare con le Remote Terminal Unit (RTU) e/o gli Intelligent Electronic Device (IED). DNP3 è stato recentemente adottato come standard IEEE 1815-2010\cite{dnp}. Lo User Layer DNP ha input analogici e binari e da in output segnali analogici e binari. Un Master DNP3 invia richieste e in genere le stazioni Slave DNP3 rispondono a tali richieste. Uno Slave DNP3 può anche trasmettere un messaggio senza aver ricevuto alcuna richiesta. Il Physical Layer DNP3 utilizza protocolli di comunicazione seriali come EIA 232 o EIA 485. Poiché nelle applicazioni di tipo Smart Grid generalmente si presume l'accesso di terze parti alla stessa rete e all'infrastruttura sottostante basata su protocollo IP, è stato fatto molto lavoro con l'intento di aggiungere caratteristiche di Autenticazione sicura al protocollo DNP3. Alcuni vendors supportano la crittografia via \textbf{bump-in-the-wire} (cioè con dispositivi esterni che criptano/decriptano i dati agli estremi del canale di comunicazione) per le comunicazioni seriali e tramite VPN per le reti IP. Uno dei metodi bump-in-the-wire più popolari era noto come \emph{AGA-12} (American Gas Association).
 \subsubsection{IEC 61850}
-IEC 61850 è uno standard per la progettazione dei sistemi di automazione per le sottostazioni elettriche. Generalmente questi protocolli girano su reti TCP/IP o LAN di stazione con switch ethernet molto performanti per rispondere ai requisiti stringenti dei dispositivi di protezione, che necessitano tempi di risposta inferiori a 4 o 5 millisecondi. Si tratta di uno standard function-based:
+IEC 61850 è uno standard per la progettazione dei sistemi di automazione per le sottostazioni elettriche. E' una sovrastruttura che coordina e gestisce protocolli e tecnlogie esistenti garantendo la fondamentale specifica di interoperabilità. Generalmente questi protocolli girano su reti TCP/IP o LAN di stazione con switch ethernet molto performanti per rispondere ai requisiti stringenti dei dispositivi di protezione, che necessitano tempi di risposta inferiori a 4 o 5 millisecondi.\newline
+I vantaggi dello standard IEC 61850:
 \begin{itemize}
-	\item System support functions;
-	\item System configuration or maintenance functions;
-	\item Operational or control functions;
-	\item Process automation functions.
+	\item Coordina la complessità di tante unità indipendenti;
+	\item Si integra con i sistemi preinstallati in rete;
+	\item E' scalabile e facilita l'integrazione di apparati diversi;
+	\item Si basa il più possibile su standard esistenti;
+	\item E' aperto e supporta \emph{self descriptive devices} eliminando problemi di configurazione manuale;
+	\item Si basa su \emph{data objects} e standardizzazione degli elementi tipici di una rete elettrica;
+	\item Permette di ottenere alte prestazioni di multicast;
+	\item E' flessibile in modo da adattarsi rapidamente alla configurazione del sistema;
+	\item E' estensibile per supportare eventuali estensioni del sistema.
 \end{itemize}
-IEC 61850 specifica una data structure. Come mostrato in Figura \ref{fig:iec61850}a, un device model considera inizialmente un physical device. Poi vengono specificati i logical device all'interno di tale dispositivo. Ogni logical device è mappato in 86 diverse classi di logical node secondo lo standard IEC 61850. Infine sono specificati i dati relativi a ciascun logical node. Nella Figura \ref{fig:iec61850}b è mostrato un esempio di IED. IEC 61850 è affiancato da IEC 62351 che garantisce la sicurezza e specifica i requisiti tecnici che devono essere rispettati dai fornitori.
+\newpage
+La struttura dello standard IEC 61850\cite{iec61850} è mostrata in Figura \ref{fig:iec61850}.
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.350]{imgs/iec61850.png}
-	\caption{IEC 61850 data structure} \label{fig:iec61850}
+	\includegraphics[scale=0.400]{imgs/iec61850.png}
+	\caption{Struttura dello standard IEC 61850} \label{fig:iec61850}
 \end{figure}\\
+IEC 61850 suddivide ogni sottostazione in tre livelli\cite{61850} chiamati Station Level, Bay Level e Process Level. La suddivisione dei livelli è mostrata in Figura \ref{fig:61850ls}.
+
+%Si tratta di uno standard function-based:
+%\begin{itemize}
+%	\item System support functions;
+%	\item System configuration or maintenance functions;
+%	\item Operational or control functions;
+%	\item Process automation functions.
+%\end{itemize}
+
+Il protocollo identifica le funzioni e le caratteristiche dei dispositivi fisici che si modellano in uno o più dispositivi logici. I dispositivi logici sono a loro volta suddivisi in nodi logici che sono in relazione tra loro in base a \emph{data} e \emph{data attribute} (vedi Figura \ref{fig:iec61850ln}).
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.350]{imgs/iec61850ln.png}
+	\caption{Device Model IEC 61850} \label{fig:iec61850ln}
+\end{figure}
+
+Come mostrato in Figura \ref{fig:iec61850ds}a, un device model considera inizialmente un physical device. Tale modello permette a un singolo dispositivo fisico di agire da gateway di informazioni per più dispositivi. Successivamente vengono specificati i logical device all'interno di tale dispositivo. Ogni logical device contiene uno o più logical node, logicamente correlati a una funzione della stazione. I logical node sono definiti da gruppi di data object e relativi servizi, ognuno modellato secondo gli schemi definiti dalle \textbf{Common Data Classes} (CDC). I logical node sono identificati con nomi definiti dallo standard in cui la prima lettera indica l'attinenza (e.g. A controllo automatico, M misura, X switchgear, etc). L'IEC 61850 si basa sulla definizione di astrazione di dati e servizi specificando \emph{oggetti} e {servizi astratti} di comunicazione che permettono di scrivere un'applicazione indipendentemente dai protocolli tradizionali. Si definisce quindi un modello che prende il nome di Abstract Communication Service Interface (ACSI) che definisce l'insieme dei servizi e le risposte a quei servizi che rendono gli IED uguali dal punto di vista della rete. Inoltre tale modello interpreta i dati e gli attributi dei vari elementi garantendone l'interoperabilità. Gli oggetti e i servizi definiti dall'ACSI vengono implementati attraverso il protocollo ISO-9560 Manufacturing Message Specification (MMS) le cui caratteristiche ...
+
+Nella Figura \ref{fig:iec61850ds}b è mostrato un esempio di IED. IEC 61850 è affiancato da IEC 62351 che garantisce la sicurezza e specifica i requisiti tecnici che devono essere rispettati dai fornitori.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.350]{imgs/iec61850ds.png}
+	\caption{IEC 61850 data structure} \label{fig:iec61850ds}
+\end{figure}\newpage
 \section{Standard per la sicurezza}
-Gli standard per la sicurezza informatica sono una recente invenzione perché oggi informazioni sensibili sono spesso memorizzate su computer che sono collegati ad Internet. Inoltre molte attività che prima erano condotte manualmente oggi sono svolte dalle macchine e perciò c'è maggiore bisogno di affidabilità e di sicurezza in tali sistemi informatici. La sicurezza è importante per per gli individui che devono proteggersi dal cosiddetto furto di identità ma anche per le aziende perché devono proteggere i loro segreti industriali e le informazioni sui dati personali dei clienti. Nell'ambito dei power system, esistono diversi standard che si applicano alla sicurezza delle apparecchiature all'interno delle sottostazioni e molti sono in fase di sviluppo. Per la valutazione complessiva della sicurezza, la norma ISO 27001 è ampiamente utilizzata e specifica la valutazione dei rischi e la strategia da utilizzare per lo sviluppo di un sistema di sicurezza in modo da limitarli.
+Gli standard per la sicurezza informatica sono una recente invenzione perché oggi informazioni sensibili sono spesso memorizzate su computer che sono collegati ad Internet. Inoltre molte attività che prima erano condotte manualmente oggi sono svolte dalle macchine e perciò c'è maggiore bisogno di affidabilità e di sicurezza in tali sistemi informatici. La sicurezza è importante per per gli individui che devono proteggersi dal cosiddetto furto di identità ma anche per le aziende perché devono proteggere i loro segreti industriali e le informazioni sui dati personali dei clienti. 
+I problemi relativi alla sicurezza comprendono accessi non autorizzati alle informazioni recuperate dagli smart meter, lo spegnimento dei dispositivi da parte di un attaccante così come un attacco alla Smart Grid per causare un'interruzione nel passaggio di corrente. I problemi relativi alla privacy riguardano invece l’alta frequenza con cui vengono effettuate le letture per misurare il consumo energetico in quanto esse mostrano totalmente il comportamento dell’utente. In generale si cerca di aggregare le informazioni dei meter sia per rilevare frode che per rilevare perdite (per esempio gas, dove un'eventuale perdita pone un problema di sicurezza) utilizzando schemi di aggregazione \emph{privacy-friendly} in modo da mascherare i singoli consumi dei meter.
+Nell'ambito dei power system, esistono diversi standard che si applicano alla sicurezza delle apparecchiature all'interno delle sottostazioni e molti sono in fase di sviluppo. Per la valutazione complessiva della sicurezza, la norma ISO 27001 è ampiamente utilizzata e specifica la valutazione dei rischi e la strategia da utilizzare per lo sviluppo di un sistema di sicurezza in modo da limitarli.
 \subsection{IEC 62351}
 IEC 62351 è uno standard sviluppato dal WG15 facente parte della TC57 dell'organo internazionale IEC. Questo standard è stato sviluppato per gestire la sicurezza nella serie di protocolli della commissione tecnica 57, tra i quali le serie IEC 60870-5, IEC 60870-6 series, IEC 61850, IEC 61970 e IEC 61968. Tra i diversi obiettivi di sicurezza che lo standard persegue ci sono:
 \begin{itemize}
@@ -172,14 +206,16 @@ Le prime due parti di IEC 62351 comprendono la spiegazione di differenti scenari
 	\caption{Overview IEC 62351} \label{fig:62351}
 \end{figure}
 
+
 %aggiungere soluzioni e vulnerabilità in capitolo SICUREZZA
 
 %IEC 61850 approfondire
 %IEC 62351 cita articolo e cite, aggiunta di communication tecnology (articolo troppo approfondito), meglio intro
 
-%Citazioni
-%Dopo WiMax e in dnp3
 \begin{thebibliography}{99}
 \bibitem{zb} ZigBee Specification, ZigBee Alliance, ZigBee Document 053474r17, January 2008.
+\bibitem{dnp} IEEE Power \& Energy Society (2010) IEEE Std 1815TM-2010: IEEE Standard for Electric Power Systems Communications-Distributed Network Protocol (DNP3), June.
+\bibitem{iec61850} IEC 61850 - communication networks and systems in substation: an overview of computer science.
+University of Illinois at Urbana Champaign, jan. 2010. %presentation
 \bibitem{tls} RFC 5246: The Transport Layer Security (TLS) Protocol, Version 1.2, T. Dierks, E Rescorla, August 2008
 \end{thebibliography}
