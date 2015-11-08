@@ -100,14 +100,14 @@ Quando un RFD in un 6LoWPAN vuole inviare un pacchetto di dati ad un dispositivo
 	\caption{Comunicazione in una rete 6LoWPAN} \label{fig:6pancom}
 \end{figure}
 \subsubsection{WiMax}
-Worldwide Interoperability for Microwave Access (WiMAX) è una tecnologia wireless conforme allo standard IEEE 802.16. Fornisce sia connettività fissa che mobile usando una tecnica chiamata Orthogonal Frequency Division Multiple Access (OFDMA). La rete WiMax è mostrata in Figura \ref{fig:wim}. La copertura del WiMax si estende fino a 50 km con una velocità di trasferimento dati di picco di 75 Mbps per i collegamenti fissi e fino a 15 Mbps per connessioni mobili. È ottimizzato per supportare dispositivi mobili fino ad una velocità di 10 km/h. Anche se supporta veicoli in movimento fino a 120 km/h, le sue prestazioni degradano con l'aumentare della velocità del veicolo.
+Worldwide Interoperability for Microwave Access (WiMAX) è una tecnologia wireless conforme allo standard IEEE 802.16. Risulta superiore rispetto a Wi-Fi per velocità di trasmissione e range di copertura delle celle, per cui è adatto ad una trasmissione sia di tipo urbano che rurale. Inoltre implementa diverse tecniche di crittografia, sicurezza ed autenticazione. WiMAX è una tecnologia in grado di integrarsi con quelle presenti, soddisfacendo diverse tra le specifiche imposte da una tipica Smart Grid tra cui la massima accessibilità e interoperabilità, tempi di latenza inferiori ai 50ms e larghezza di banda di 5MHz. Fornisce sia connettività fissa che mobile usando una tecnica chiamata Orthogonal Frequency Division Multiple Access (OFDMA). La rete WiMax è mostrata in Figura \ref{fig:wim}. La copertura del WiMax si estende fino a 50 km con una velocità di trasferimento dati di picco di 75 Mbps per i collegamenti fissi e fino a 15 Mbps per connessioni mobili. È ottimizzato per supportare dispositivi mobili fino ad una velocità di 10 km/h. Anche se supporta veicoli in movimento fino a 120 km/h, le sue prestazioni degradano con l'aumentare della velocità del veicolo.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.350]{imgs/wim.png}
 	\caption{Una rete WiMax} \label{fig:wim}
 \end{figure}
 \subsection{Power line}
-La Power Line Communication (PLC) rappresenta una delle tecnologie di rete proposte per la trasmissione in ambiente Smart Grid in quanto l'infrastruttura esistente riduce i costi di installazione di un'ulteriore infrastruttura di comunicazione. PLC trasporta i dati utilizzando un conduttore e le linee elettriche esistenti. Fornisce servizi di comunicazione per Automatic Meter Reading (AMR), AMI e HAN ma anche l'accesso ad internet all'utente finale. In una tipica rete PLC, gli smart meter sono collegati al data concentrator attraverso power line e i dati vengono trasferiti al data center tramite tecnologie di rete cellulare. La tecnologia PLC è infatti scelta per la comunicazione tra gli smart meter e il data concentrator, mentre la tecnologia GPRS è utilizzata per trasferire i dati dal concentrator al data center. Anche l'ENEL, nota azienda multinazionale produttrice e distributrice di energia elettrica, ha scelto la tecnologia PLC per trasferire i dati degli smart meter al data concentrator più vicino e la tecnologia GSM per inviare i dati al data center. 
+La Power Line Communication (PLC) rappresenta una delle tecnologie di rete proposte per la trasmissione in ambiente Smart Grid in quanto l'infrastruttura esistente riduce i costi di installazione di un'ulteriore infrastruttura di comunicazione. Se da una parte non richiede la realizzazione di nuove strutture, un limite è dovuto alla presenza di disturbi che possono corrompere le informazioni e alla continuità del servizio che non è più garantita in caso di guasti o sezionamenti della rete. PLC trasporta i dati utilizzando un conduttore e le linee elettriche esistenti. Fornisce servizi di comunicazione per Automatic Meter Reading (AMR), AMI e HAN ma anche l'accesso ad internet all'utente finale. In una tipica rete PLC, gli smart meter sono collegati al data concentrator attraverso power line e i dati vengono trasferiti al data center tramite tecnologie di rete cellulare. La tecnologia PLC è infatti scelta per la comunicazione tra gli smart meter e il data concentrator, mentre la tecnologia GPRS è utilizzata per trasferire i dati dal concentrator al data center. Anche l'ENEL, nota azienda multinazionale produttrice e distributrice di energia elettrica, ha scelto la tecnologia PLC per trasferire i dati degli smart meter al data concentrator più vicino e la tecnologia GSM per inviare i dati al data center. 
 %data concentrator = dispositivo che collezionana informazioni e dati, spesso da più meter, prima di fare il forwarding al data center. Spesso utilizzato in aree dense.
 La topologia di rete, il numero e il tipo dei dispositivi collegati, la distanza tra trasmettitore e ricevitore compromettono la qualità del segnale. La sensibilità di PLC ai disturbi e la dipendenza sulla qualità segnale sono gli svantaggi che rendono la tecnologia non adatta alla trasmissione dei dati. Tuttavia, ci sono state alcune soluzioni ibride in cui la tecnologia PLC si combina con altre, ad esempio, GPRS o GSM, per fornire una connettività non possibile dalla tecnologia PLC. Inizialmente la velocità di trasmissione in questo tipo di reti era molto limitata, fino a pochi kbps. Successivamente, grazie al progresso tecnologico, con l'introduzione di broadband PLC (BB-PLC), un'applicazione della tecnologia PLC a banda larga che fornisce l'accesso a Internet tramite linee elettriche ordinarie, la velocità di trasmissione ha raggiunto anche i 200 Mbps. Principalmente sono utilizzate tre diverse tecnologie di comunicazione, vale a dire, \emph{narrowband transmission}, \emph{spread-spectrum transmission} e \emph{DSP-processed narrowband transmission}. La Figura \ref{fig:vs_plc} mostra alcuni vantaggi e svantaggi relativi a PLC in ambito Smart Grid.
 \begin{figure}[h]
@@ -161,7 +161,13 @@ La struttura dello standard IEC 61850\cite{iec61850} è mostrata in Figura \ref{
 	\includegraphics[scale=0.400]{imgs/iec61850.png}
 	\caption{Struttura dello standard IEC 61850} \label{fig:iec61850}
 \end{figure}\\
-IEC 61850 suddivide ogni sottostazione in tre livelli\cite{61850} chiamati Station Level, Bay Level e Process Level. La suddivisione dei livelli è mostrata in Figura \ref{fig:61850ls}.
+IEC 61850 suddivide ogni sottostazione in tre livelli\cite{iec61850} chiamati Station Level, Bay Level e Process Level. La suddivisione dei livelli è mostrata in Figura \ref{fig:61850ls}.
+
+\begin{figure}[h]%si potrebbe omettere
+	\centering
+	\includegraphics[scale=0.400]{imgs/61850ls.png}
+	\caption{Livelli di una sottostazione} \label{fig:61850ls}
+\end{figure}
 
 %Si tratta di uno standard function-based:
 %\begin{itemize}
@@ -178,14 +184,65 @@ Il protocollo identifica le funzioni e le caratteristiche dei dispositivi fisici
 	\caption{Device Model IEC 61850} \label{fig:iec61850ln}
 \end{figure}
 
-Come mostrato in Figura \ref{fig:iec61850ds}a, un device model considera inizialmente un physical device. Tale modello permette a un singolo dispositivo fisico di agire da gateway di informazioni per più dispositivi. Successivamente vengono specificati i logical device all'interno di tale dispositivo. Ogni logical device contiene uno o più logical node, logicamente correlati a una funzione della stazione. I logical node sono definiti da gruppi di data object e relativi servizi, ognuno modellato secondo gli schemi definiti dalle \textbf{Common Data Classes} (CDC). I logical node sono identificati con nomi definiti dallo standard in cui la prima lettera indica l'attinenza (e.g. A controllo automatico, M misura, X switchgear, etc). L'IEC 61850 si basa sulla definizione di astrazione di dati e servizi specificando \emph{oggetti} e {servizi astratti} di comunicazione che permettono di scrivere un'applicazione indipendentemente dai protocolli tradizionali. Si definisce quindi un modello che prende il nome di Abstract Communication Service Interface (ACSI) che definisce l'insieme dei servizi e le risposte a quei servizi che rendono gli IED uguali dal punto di vista della rete. Inoltre tale modello interpreta i dati e gli attributi dei vari elementi garantendone l'interoperabilità. Gli oggetti e i servizi definiti dall'ACSI vengono implementati attraverso il protocollo ISO-9560 Manufacturing Message Specification (MMS) le cui caratteristiche ...
-
-Nella Figura \ref{fig:iec61850ds}b è mostrato un esempio di IED. IEC 61850 è affiancato da IEC 62351 che garantisce la sicurezza e specifica i requisiti tecnici che devono essere rispettati dai fornitori.
+Come mostrato in Figura \ref{fig:iec61850ds}a, un device model considera inizialmente un physical device. Tale modello permette a un singolo dispositivo fisico di agire da gateway di informazioni per più dispositivi. Successivamente vengono specificati i logical device all'interno di tale dispositivo. Ogni logical device contiene uno o più logical node, logicamente correlati a una funzione della stazione. I logical node sono definiti da gruppi di data object e relativi servizi, ognuno modellato secondo gli schemi definiti dalle \textbf{Common Data Classes} (CDC).\newline
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.350]{imgs/iec61850ds.png}
 	\caption{IEC 61850 data structure} \label{fig:iec61850ds}
-\end{figure}\newpage
+\end{figure}\newline
+La Figura \ref{fig:name_obj} mostra un esempio di nome per un oggetto in un formato standard. Utilizzando tale formato si è in grado di indicare le informazioni relative allo status o alla posizione di un dispositivo. I logical node sono identificati con nomi definiti dallo standard in cui la prima lettera indica l'attinenza (e.g. A controllo automatico, M misura, X switchgear, etc).
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.350]{imgs/name_obj.png}
+	\caption{Esempio relativo al nome di un oggetto} \label{fig:name_obj}
+\end{figure}
+\newline
+L'IEC 61850 si basa sulla definizione di astrazione di dati e servizi specificando \emph{oggetti} e {servizi astratti} di comunicazione che permettono di scrivere un'applicazione indipendentemente dai protocolli tradizionali. Si definisce quindi un modello che prende il nome di Abstract Communication Service Interface (ACSI) che definisce l'insieme dei servizi e le risposte a quei servizi che rendono gli IED uguali dal punto di vista della rete. Inoltre tale modello interpreta i dati e gli attributi dei vari elementi garantendone l'interoperabilità. Gli oggetti e i servizi definiti dall'ACSI vengono implementati attraverso il protocollo ISO-9560 Manufacturing Message Specification (MMS). Si tratta di un protocollo flessibile in grado di supportare funzioni complesse e la logica a oggetti ACSI. Tale protocollo definisce i messaggi di comunicazione tra i vari centri di controllo o tra le stazioni e i centri di controllo.\newline
+Il concetto di astrazione e standardizzazione presuppone l'utilizzo di un linguaggio comune di configurazione. L'IEC 61850 si serve di un linguaggio basato su\emph{XML} chiamato \emph{Substation Configuration Language} (SCL). Grazie all'utilizzo di un linguaggio standard è possibile garantire l'interoperabilità tra gli IED che usano diversi protocolli, permettere una configurazione automatica dei dispositivi, ridurre la componente di errore dovuta all'intervento umano nella gestione degli IED e consentire maggiore trasportabilità facendo in modo che ogni IED, che supporta IEC 61850, presenta un file SCL che ne definisce la configurazione.Nella Figura \ref{fig:iec61850ds}b è mostrato un esempio di IED.\newline
+
+Gli elementi fondamentali del modello di una sottostazione sono elencati di seguito:
+\begin{itemize}
+	\item\textbf{Merge Unit}: A livello di processo, i dati raccolti da sensori ottici, elettronici, da TV e TA, sui valori di tensione e corrente o sullo status dei componenti, sono raccolti da Merge Unit (MU). In genere sono localizzate in corrispondenza del centro di controllo;
+	\item\textbf{Intelligent Electronic Devices}: Gli IED che supportano IEC 61850 comunicano attraverso le MU e un process bus Ethernet a 10 Gbps;
+	\item\textbf{Wrapper IEC 61850}: Gli IED che non supportano il protocollo IEC 61850 utilizzano un Wrapper;
+	\item\textbf{Process Bus e Station Bus}: Le MU comunicano con il bay level attraverso un process bus mentre tutti i nodi logici (IED) comunicano attraverso un bus Ethernet a 100 Mbps;
+	\item\textbf{Gateway e Internet}: Diverse sottostazioni comunicano tra loro attraverso la rete Internet. Un Gateway permette di collegarsi alla rete e accedere alle informazioni da un centro di controllo o da remoto seguendo una procedura che garantisce robustezza e sicurezza del sistema.
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.350]{imgs/arch_iec61850.png}
+	\caption{Architettura del sistema con lo standard IEC 61850} \label{fig:arch_iec61850}
+\end{figure}
+
+Lo standard IEC 61850 si serve dei seguenti strumenti per la gestione delle informazioni (vedi Figura \ref{fig:tools_iec61850}):
+\begin{itemize}
+	\item Generic Substation Event (GSE);
+	\begin{itemize}
+		\item Generic Object Oriented Substation Event (GOOSE);
+		\item Generic Substation State Event (GSSE).
+	\end{itemize}
+	\item Sampled Measured Values (SMV);
+	\item Time Synchronization;
+	\item Report e Logging.
+\end{itemize}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.350]{imgs/tools_iec61850.png}
+	\caption{Tools di IEC 618504} \label{fig:tools_iec61850}
+\end{figure}
+\textbf{GSE} è un protocollo che fornisce uno strumento veloce ed affidabile per la segnalazione di \emph{eventi} all'interno della sottostazione. Le caratteristiche principali sono il servizio multicast/broadcast con modello di comunicazione publish/subcribe. I messaggi sono trasmessi in formato binario. GSE prevede due modelli di servizio che prendono il nome di GOOSE e GSSE. \textbf{GOOSE} è stato progettato per essere \emph{brand indipendent}. I messaggi GOOSE sono inviati direttamente al livello Data Link. Esso utilizza Virtual LAN, stabilendo più network virtuali sulla stessa rete fisica e determinando livelli di priorità per i messaggi, consentendone anche la ritrasmissione (un identificativo indica se il messaggio è nuovo o ritrasmesso). \textbf{GSSE} è utilizzato per lo scambio di informazioni sui soli cambiamenti di stato. In questo caso i messaggi sono costituiti da una serie di bit che rappresentano liste di stati. GSSE necessita un tempo di trasmissione maggiore se confrontato con GOOSE.\newline\newline
+
+\textbf{SMV} è un protocollo per lo scambio di dati e la trasmissione di misure prodotte dai trasduttori delle sottostazioni: permette lo scambio di segnali tra gli IED. Prevede due metodi di comunicazione:
+\begin{itemize}
+	\item\emph{SV over Serial Unidirectional Multidrop Point-to-Point fixed link}: Sistema di comunicazione unidirezionale che specifica una serie di dataset (tensioni trifase, correnti trifase, etc). I valori analogici vengono codificati a 16 bit;
+	\item\emph{SV over Ethernet}: Versione più generica e flessibile di SV che fornisce la possibilità di definire dataset con valori di diversa dimensione e tipo, configurabili dall'utente grazie all'utilizzo di SCL. Utilizza un modello di comunicazione publish/subscribe con possibilità di multi-casting.
+\end{itemize}
+\textbf{Time Synchronization} è un servizio di sincronizzazione dei clock fondamentale per applicazioni real-time. Utilizza un subset di Network Time Protocol (NTP) con riferimento allo Universal Coordinated Time (UTC). NTP è il protocollo tipicamente utilizzato per sincronizzare i clock di computer collegati ad Internet e in LAN.\newline
+\textbf{Report} è lo strumento che permette di memorizzare i cambiamenti dei dati e attributi relativi ai nodi logici. Genera dataset contenenti attributi di interesse e richiede ai nodi logici l'invio delle informazioni riguardanti variazioni nel sistema. Il \textbf{Log} è la registrazione degli eventi relativi ad un dispositivo. I log sono registrati in un server e, a differenza del report, i dispositivi logici creano al loro interno un database di eventi senza inviarne notifica.\newline
+IEC 61850 presenta però alcuni limiti tra cui i costi elevati per l'installazione dei server e dei dispositivi atti alla gestione dei dati ma anche  complessità dal punto di vista dell'architettura. IEC 61850 è affiancato da IEC 62351 che garantisce la sicurezza e specifica i requisiti tecnici che devono essere rispettati dai fornitori.
+\newpage
+
 \section{Standard per la sicurezza}
 Gli standard per la sicurezza informatica sono una recente invenzione perché oggi informazioni sensibili sono spesso memorizzate su computer che sono collegati ad Internet. Inoltre molte attività che prima erano condotte manualmente oggi sono svolte dalle macchine e perciò c'è maggiore bisogno di affidabilità e di sicurezza in tali sistemi informatici. La sicurezza è importante per per gli individui che devono proteggersi dal cosiddetto furto di identità ma anche per le aziende perché devono proteggere i loro segreti industriali e le informazioni sui dati personali dei clienti. 
 I problemi relativi alla sicurezza comprendono accessi non autorizzati alle informazioni recuperate dagli smart meter, lo spegnimento dei dispositivi da parte di un attaccante così come un attacco alla Smart Grid per causare un'interruzione nel passaggio di corrente. I problemi relativi alla privacy riguardano invece l’alta frequenza con cui vengono effettuate le letture per misurare il consumo energetico in quanto esse mostrano totalmente il comportamento dell’utente. In generale si cerca di aggregare le informazioni dei meter sia per rilevare frode che per rilevare perdite (per esempio gas, dove un'eventuale perdita pone un problema di sicurezza) utilizzando schemi di aggregazione \emph{privacy-friendly} in modo da mascherare i singoli consumi dei meter.
@@ -199,7 +256,7 @@ IEC 62351 è uno standard sviluppato dal WG15 facente parte della TC57 dell'orga
 	\item Prevenzione da attacchi di playback e attacchi di spoofing (ovvero sostituirsi a una controparte della comunicazione);
 	\item Rilevamento delle intrusioni.
 \end{itemize}
-Le prime due parti di IEC 62351 comprendono la spiegazione di differenti scenari e la definizione dei termini. IEC 62351 utilizza protocolli di sicurezza esistenti, come il Transport Layer Security (TLS, \cite{tls}), che è stato usato con successo in altre aree tecniche e in diverse parti dello standard. TLS prevede servizi di sicurezza come la mutua autenticazione dei peer in una comunicazione (utile per contrastare attacchi man-in-the-middle) ma si occupa anche dell'integrità e della riservatezza dei dati comunicati. La terza parte di IEC 62351 definisce come possono essere forniti servizi di sicurezza in una  comunicazione TCP/IP based e specifica suite di cifratura. La quarta parte specifica le procedure, i miglioramenti del protocollo, e gli algoritmi atti a promuovere l'aumento dei messaggi di sicurezza trasmessi su MMS. Manufacturing Message Specification (MMS) è uno standard internazionale (ISO 9506) che si occupa del trasferimento in tempo reale di dati per processi di controllo e supervisione tra dispositivi di rete o applicativi per computer. Questa parte definisce alcune procedure relative a Transport e Application Layer, basate su TLS, in modo da proteggere le informazioni trasmesse. La quinta parte riguarda invece la comunicazione seriale in cui si vanno a definire ulteriori misure di sicurezza per proteggere l'integrità delle connessioni seriali applicando chiavi hash. Questa parte specifica quindi anche una separata gestione delle chiavi. La sesta parte di IEC 62351 si occupa dei profili di IEC 61850 non basati su TCP/IP per la comunicazione. La settima parte è utile poichè implementa e/o estende sistemi di intrusion detection e l'ottava e ultima parte si occupa di role-based access control. La Figura \ref{fig:62351} mostra un overview sulle differenti parti che compongono lo standard.
+Le prime due parti di IEC 62351 comprendono la spiegazione di differenti scenari e la definizione dei termini. IEC 62351 utilizza protocolli di sicurezza esistenti, come il Transport Layer Security (TLS, \cite{tls}), che è stato usato con successo in altre aree tecniche e in diverse parti dello standard. TLS prevede servizi di sicurezza come la mutua autenticazione dei peer in una comunicazione (utile per contrastare attacchi man-in-the-middle) ma si occupa anche dell'integrità e della riservatezza dei dati comunicati. La terza parte di IEC 62351 definisce come possono essere forniti servizi di sicurezza in una  comunicazione TCP/IP based e specifica suite di cifratura. La quarta parte specifica le procedure, i miglioramenti del protocollo, e gli algoritmi atti a promuovere l'aumento dei messaggi di sicurezza trasmessi su MMS. Questa parte definisce alcune procedure relative a Transport e Application Layer, basate su TLS, in modo da proteggere le informazioni trasmesse. La quinta parte riguarda invece la comunicazione seriale in cui si vanno a definire ulteriori misure di sicurezza per proteggere l'integrità delle connessioni seriali applicando chiavi hash. Questa parte specifica quindi anche una separata gestione delle chiavi. La sesta parte di IEC 62351 si occupa dei profili di IEC 61850 non basati su TCP/IP per la comunicazione. La settima parte è utile poichè implementa e/o estende sistemi di intrusion detection e l'ottava e ultima parte si occupa di role-based access control. La Figura \ref{fig:62351} mostra un overview sulle differenti parti che compongono lo standard.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.350]{imgs/62351.png}
@@ -210,7 +267,7 @@ Le prime due parti di IEC 62351 comprendono la spiegazione di differenti scenari
 %aggiungere soluzioni e vulnerabilità in capitolo SICUREZZA
 
 %IEC 61850 approfondire
-%IEC 62351 cita articolo e cite, aggiunta di communication tecnology (articolo troppo approfondito), meglio intro
+%IEC 62351 cita articolo e cite.[aggiunta di communication tecnology (articolo troppo approfondito), meglio intro]
 
 \begin{thebibliography}{99}
 \bibitem{zb} ZigBee Specification, ZigBee Alliance, ZigBee Document 053474r17, January 2008.
