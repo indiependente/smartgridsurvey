@@ -191,13 +191,28 @@ Negli studi del flusso di corrente DC (che in questo caso sta per linearità del
 \\
 Negli studi sui flussi di potenza, l'angolo di fase del voltaggio ($q_i$) del bus di riferimento è fissato e noto; quindi, solamente $n - 1$ angoli devono essere stimati. I vettori di stato sono definiti come $\textbf{x} = [\theta_1, \ldots, \theta_n]^T$, cioè il vettore degli $n$ angoli di fase dei bus $\theta_i, i = 1, \ldots, n$.\\
 Il problema della stima dello stato consiste nello stimare gli $n$ angoli di fase $\theta_i$, osservando $m$ misure in tempo reale, denotate dal vettore $\textbf{z}$ al centro di controllo. Queste misure potrebbero essere sia di corrente attiva trasmessa dal bus $i$ al $j$, $P_{ij}$, sia di corrente attiva al bus $i$, $P_i$. La corrente attiva iniettata nel bus $i$ è la super composizione della corrente trasmessa tramite le linee connesse al bus $i$ come $P_i = \sum_j{P_{ij}}$. Il vettore delle osservazioni $\textbf{z}$ puuò essere descritto come $\textbf{z} = \textbf{h(x)} + \textbf{e}$, dove $\textbf{h(x)}$ è la relazione non lineare tra le misure $\textbf{z}$ e lo stato del sistema $\textbf{x}$, ed $\textbf{e} = [e_1, \ldots, e_m]^T$ è il vettore del rumore Gaussiano delle misure con matrice di covarianza $\Sigma_e$.\\
-La matrice del Jacobiano $\textbf{H} \in {\rm I\!R}$ come
-$\textbf{H}=\frac{\sigma\textbf{h(x)}}{\sigma\textbf{x}}|_{x=0}$.
-
+La matrice del Jacobiano $\textbf{H} \in {\rm I\!R}$ è definita come\\
+\indent$\textbf{H}=\frac{\partial\textbf{h(x)}}{\partial\textbf{x}}|_{x=0}$.\\
+Se la differenza di fase è piccola, il modello di approssimazione lineare della misura di corrente può essere descritto come\\
+\indent Misura sotto Operazioni Normali: $\textbf{z} =  \textbf{Hx} + \textbf{e}$.\\
+Da notare che $\textbf{H}$ è generalmente sconosciuta agli attaccanti ma nota all'ISO. Date le misure sul flusso di corrente, il vettore di stato stimato $\widehat{x}$ può essere computato come $\widehat{\textbf{x}} = (\textbf{H}^T\sum_e^{-1}\textbf{H})-1\textbf{H}^T\sum_e^{-1}\textbf{z}$.\\
+La fig. \ref{fourbuspowernet_img} mostra il sistema di test a quattro bus della IEEE: ogni bus ha il corrispondente voltaggio ($V_q$) e l'angolo di fase ($\theta_q$); il centro di controllo invia i dati delle misurazioni ($z_{qr}$) ed in seguito lo stimatore di stato inferisce gli stati del sistema che possono essere utilizzati in differenti funzioni, come ad esempio il controllo della generazione automatico (AGC), il flusso di controllo ottimale (OPF), ed il sistema di gestione dell'energia (EMS). L'operatore effettua la decifsione finale per il controllo dei generatori e la gestione del carico (per bilanciare la fornitura e la domanda).
+\subsection{Bad Data Detection}
+Nella stima dello stato di un sistema elettrico, i ``bad data" come ad esempio bias di misurazione, derive di misura o connessioni errate devono essere identificate. Con il \emph{bad data injection}, gli attaccanti possono iniettare dati all'interno del vettore di misure $r$ ed il sistema può essere descritto come\\
+\indent Misura sotto Attacco non-Stealth: $\textbf{z}^\prime = \textbf{H}(\textbf{x}) + \textbf{b} + e$, $\textbf{a} = I\textbf{b}$.\\
+Si definisce il vettore residuo $\textbf{r}$ come la differenza tra le qualità misurate ed i valori calcolati dagli stati stimati, precisamente, $\textbf{r} = \textbf{z} - \textbf{H}\widehat{\textbf{x}}$. La media e la covatianza del residuale sono rispettivamente $E(\textbf{r}) = 0$, e $cov(\textbf{r}) = I\sum_{\epsilon}$, dove $I = \textbf{I} - \textbf{M}$, ed $\textbf{M} = \textbf{H}(\textbf{H}^T\sum_e^{-1}\textbf{H})-1\textbf{H}^T\sum_e^{-1}$.\\
+I minimi quadrati pesati dell'errore di misura $r^{T}\sum_{e}^{-1}r$ segue la distribuzione del chi-quadro con $n - m$ gradi di libertà \cite{monticelli}. L'ipotesi a riguardo del rilevamento dei dati fasulli può essere espressa come, $\textbf{r}^T\sum_{e}^{-1}\textbf{r} \ggll \chi_{n-m}^{2},\zeta$, dove $\zeta$ è la probabilità della confidenza del rilevamento.\\
+I residuali normalizzati, di tutte le misure, sono utilizzati per identificare i ``bad data". Se la misura corrispondente al maggior residuale normalizzato è maggiore di una soglia di identificazione fissata $\gamma$, \\
+\indent $max_i(|\textbf{r}_i|/\sqrt{cov(\textbf{r})}) \geq \gamma$,\\
+allora quella misura è considerata come un dato fasullo ed è eliminato dalla stima dello stato.
+\subsection{Stealth Bad Data Injection}
+Utilizzando lo schema di rilevamento discusso precedentemente, il centro di controllo può difendersi da attacchi \emph{naive} di data injection ed identificare la sorgente di dati corrotti. Questo tipo di attacchi sono chiamati \emph{non stealth}. Però, se un attaccante ha conoscenza della topologia \textbf{H}, può iniettare dati fasulli della forma $\textbf{H}\delta\textbf{x}$ nella misura $\textbf{r}$, più precisamente,\\
+\indent Misura sotto Attacco Stealth: $\textbf{z}^\prime = \textbf{H}(\textbf{x} + \delta\textbf{x}) + e$.\\
+In questo caso, il test dell'ipotesi fallirebbe il rilevamento dell'attaccante, ed il centro di controllo crederebbe che il vero stato sia $\textbf{x} + \delta\textbf{x}$. Questo è chiamata \emph{stealth bad data injection}. Un'assunzione critica per la fattibilità di questo tipo di attacchi è la disponibilità di informazione completa sulla topologia. Tale assunzione può essere rilassata dal punto di vista dell'attaccante.
 \section{Time Delay Attack}
 \section{Replay Attack}
 \section{Jamming}
-\section{Web Application}
+% \section{Web Application} già discussa nell'OSSTMM
 \section{Rilevamento}
 \section{Power Fingerprinting}
 \section{Optimal Malicious Attack Construction and Robust Detection in Smart Grid Cyber Security Analysis}
