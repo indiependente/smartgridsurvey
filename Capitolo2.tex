@@ -202,7 +202,137 @@ I vantaggi più importanti di tali sensori sono:
 \newline
 Sistemi SCADA sono globalmente accettati come mezzo di monitoraggio e controllo di sistemi di alimentazione elettrica, in particolare sistemi di generazione e trasmissione in tempo reale. \emph{RTU} (Remote Terminal Units) vengono utilizzati per raccogliere i dati analogici e lo stato di telemetria dai dispositivi, e di trasmettere comandi di controllo a tali dispositivi. Installato in una posizione centrale, come ad esempio il centro di controllo, tali sistemi includono apparecchiature di acquisizione dati, interfacce grafiche per gli operatori, applicazioni che agiscono sui dati e altri componenti. 
 \newline
-Tipicamente apparecchiature di controllo di acquisizione dati comprendono almeno una \emph{master statuion} (vedi ..), uno o più RTU e un sistema di comunicazione. La master station di solito è collocata al centro di controllo dell'energia, mentre gli RTU sono installati nelle centrali elettriche, substation di trasmissione e distribuzione e attrezzature di alimentazione.
+Tipicamente apparecchiature di controllo di acquisizione dati comprendono almeno una \emph{master station} (vedi ..), uno o più RTU e un sistema di comunicazione. La master station di solito è collocata al centro di controllo dell'energia, mentre gli RTU sono installati nelle centrali elettriche, substation di trasmissione e distribuzione e attrezzature di alimentazione (fig. \ref{fig:4}).
+
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/scadadf.png}}
+\caption{Architettura SCADA relativa al \emph{data flow}}\label{fig:4}
+\end{figure}
+
+
+\subsubsection{Master station}
+Una master station è un sistema di computer responsabile per la comunicazione delle apparecchiature di campo e fornisce un'interfaccia uomo macchina (HMI) nella sala di controllo. In sistemi SCADA molto grandi, la master station può includere server ridondanti, applicazioni distribuite e meccanismi di ripristino. Una grande master station per l'impianto elettrico o \emph{energy management system} (EMS), i figura \ref{fig:5} generalmente ingloba:
+\begin{itemize}
+	\item Uno o più server di acquisizione dati che si interfacciano con i dispositivi, mediante il sistema di comunicazione;
+	\item Server di dati in tempo reale, il quale contiene una base di dati adatta;
+	\item Server che funge da storico;
+	\item Server per le applicazioni dell'EMS;
+	\item Postazioni operativi con HMI.
+\end{itemize}    
+
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/ems.png}}
+\caption{Architettura di un EMS}\label{fig:5}
+\end{figure}
+
+All'interno dei EMS, le componenti hardware sono connesse fra di esse mediante LAN. Ci sono diversi tipi di master station, che dipendono dal tipo di funzionalità:
+\begin{itemize}
+	\item SCADA master station, che effettuano:
+	\begin{itemize}
+		\item Acquisizione dei dati;
+		\item Controllo remoto;
+		\item Interfaccia utente;
+		\item Analisi dei dati;
+		\item Produttore di report;
+	\end{itemize}
+	\item SCADA master station con controllo di generazione automatico, in aggiunta alla categoria precedente:
+	\begin{itemize}
+		\item Controllo di gestione automatico;
+		\item Economic dispatch;
+		\item Scheduling per le transazioni
+	\end{itemize}
+	\item EMS:
+	\begin{itemize}
+		\item Elaboratore per configurazione e topologia di rete;
+		\item Stima dello stato;
+		\item Analisi delle contingenze;
+		\item \emph{Optimal power flow};
+	\end{itemize}
+	\item \emph{Distribution management system} (DMS):
+	\begin{itemize}
+		\item Interfaccia per la gestione automatizzata per attrezzature o sistema di informazioni geografiche;
+		\item Interfaccia per il sistema di informazioni dei clienti;
+		\item Interfaccia per la gestione delle interruzioni;
+	\end{itemize}	 
+	\item \emph{Distribution automation master}:
+	\begin{itemize}
+		\item Comunicazioni bidirezionali distribuite;
+		\item Identificazione, isolamento e ripristino da fallimenti;
+		\item Riduzione del voltaggio;
+		\item Gestione dei dispositivi che utilizzano energia elettrica;
+		\item Controllo del \emph{power factor};
+		\item Previsione a breve termine della potenza che sarà consumata.
+	\end{itemize}
+\end{itemize} 
+
+Tutti i tipi di master station si interfacciano con i dispositivi di campo, tali dispositivi sono RTU o IED.
+
+\subsubsection{Remote Terminal Unit}
+Un RTU è un dispositivo basato su microprocessore, che interfaccia un sistema SCADA trasmettendo dati di telemetria alla master station e che cambia lo stato dei dispositivi connessi, in base ai messaggi di controllo ricevuti dalla master station o da comandi generati dallo stesso RTU. Tale dispositivo fornisce dati alla master station e gli consente di emettere comandi per i dispositivi di campo. Tipicamente un  
+RTU ha input fisici alle interfacce dei dispositivi di campo ed una  più porte di comunicazione (fig. \ref{fig:6}).
+
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/rtu.png}}
+\caption{Architettura software di un RTU}\label{fig:6}
+\end{figure}
+
+Diversi RTU processano i dati in modi differenti, ma in generale contengono moduli software comuni fra di essi:
+\begin{itemize}
+	\item Server per i dati real-time;
+	\item Applicazioni per l'I/O fisico, che acquisisce i dati dei dispositivi mediante porte;
+	\item Applicazioni per l'elaborazione dei dati, da inoltrare ad una master station o HMI;
+	\item Applicazioni per la traduzione dei dati, che manipolano i dati prima di presentarli ad una master station.
+\end{itemize}
+
+\paragraph{} Le generazioni precedenti di sistemi SCADA generalmente utilizzavano un RTU per ogni substation. Con tale architettura, tutti i cavi delle apparecchiature di campo dovevano terminare all'RTU, il quale offriva capacità limitate di espansione. Per gli ingressi analogici, l'RTU aveva bisogno di un trasduttore per convertire alti livelli di tensione e corrente da CT e PT (current e potential transformation) in milliampere e volt. La maggior parte di RTU avevano una singola porta di comunicazione ed erano capaci di comunicare con una singola master station. La comunicazione fra un RTU e la sua master station era tipicamente ottenuta mediante protocolli proprietari orientati ai bit. Con l'avanzamento della tecnologia gli RTU sono diventati più piccoli e flessibili. Questo ha permesso un approccio verso un'architettura distribuita, con un piccolo RTU per una o più parti dell'attrezzatura di una substation. Questo ha portato una riduzione dei costi di installazione, riducendo i requisiti legati al cablaggio. Questa architettura offre migliori capacità di espansione, mediante l'aggiunta di RTU. Inoltre, la nuova generazione di RTU è capace di accettare direttamente input con alti livelli di corrente alternata, eliminando la necessità di trasduttori e permettendo un collegamento diretto fra CT e PT all'interno degli RTU. Questo ha consentito un aumento delle funzionalità degli RTU, quali registrazione dei guasti e monitoraggio della qualità dell'energia.
+\newline
+Un avanzamento nelle capacità comunicative è stato raggiunto con l'aggiunta di porte disponibile per la comunicazione con gli IED. Tuttavia, il passo avanti più effettivo è stato l'introduzione di protocolli di comunicazione open. La disponibilità di un protocollo di comunicazione open e standard ha offerto la possibilità di scegliere attrezzatura indipendente al venditore per i sistemi SCADA. Lo standard di fatto per i sistemi SCADA per impianti elettrici nel Nord America è diventato DNP3.0, un altro protocollo per l'ambiente manifatturiero industriale è MODBUS. L'ultimo standard di comunicazione adottato è IEC 61850. 
+\newline
+Un'altra tecnologia per i sistemi SCADA sono le comunicazioni di dati della rete. L'architettura di SCADA basata su protocolli di comunicazione seriali pongono  limitazioni sulle capacità del sistema, in quanto:
+\begin{itemize}
+	\item Esiste un percorso statico tra master e slave che limita la connettività del dispositivo;
+	\item Protocolli seriali per SCADA non permettono l'utilizzo di più protocolli su un singolo canale;
+	\item Sono presenti problemi con lo scambio di dati con nuove sorgenti;
+	\item La gestione della configurazione deve essere eseguita attraverso una porta dedicata alla manutenzione.
+\end{itemize}   
+
+L'architettura basata sulla rete offre numerosi vantaggi:
+\begin{itemize}
+	\item Incremento significativo nella velocità e connettività, una LAN basata su Ethernet incrementa la larghezza di banda disponibile per la comunicazione e il protocollo di rete fornisce un collegamento diretto ai dispositivi presenti nella rete;
+	\item Disponibilità di canali logici, protocolli di rete supportano canali logici multipli fra più dispositivi;
+	\item Abilità di utilizzare nuove sorgenti di dati, ogni IED può fornire un nuovo numero di porta del protocollo per file o un trasferimento di dati ausiliare, senza disturbare altri processi e aggiunta di ulteriore hardware;
+	\item Miglioramento della gestione per la configurazione, eseguita mediante la rete.
+\end{itemize}
+Tale architettura offre dei tempi di risposa migliori, consente di accedere a dati importanti e riduce i tempi di gestione e configurazione del sistema. Prendendo in esame i passati sistemi SCADA, questi erano semplici sistemi di monitoraggio e controllo remoto che comunicavano mediante link a bassa velocità. Mentre, grazie alla proliferazione di IED basati su microprocessore, è diventato possibile avere informazioni direttamente dai IED, RTU o dalle componenti del sistema di controllo delle substation. Ciò è stato possibile attraverso le capacità di comunicazione degli IED, permettendogli di comunicare con RTU, concentratori di dati o direttamente con la master station. Mentre sempre più IED sono stati installati presso le substation, è divenuto possibile integrare funzionalità di protezione, controllo e acquisizione dati. Molte informazioni precedentemente estratte dagli RTU ora sono fruibili dai IED. Tuttavia non è pratico avere una comunicazione diretta fra master station con i numerosi IED in tutte le substation. Per consentire tale passaggio di dati, un \emph{server della substation} viene utilizzato. Quest'ultimo comunica con tutti gli IED di una substation, conserva tutte le informazioni degli IED, e comunica con la master station centrale. Siccome gli IED utilizzano diversi protocolli di comunicazione, il server della substation deve avere la capacità di comunicare mediante tali protocolli, così come con il protocollo della master station. Tale server permette ad un sistema SCADA di accedere ai dati da diversi IED della substation, il quale prima era possibile solo localmente.
+\newline
+Con l'architettura SCADA basata su server di substation (fig. \ref{fig:7}, tutti gli IED (inclusi gli RTU) sono interrogati dal server della substation, mediante la connessione LAN. Con tale architettura, la master station può comunicare direttamente con il server della substation invece che con i RTU e IED. Inoltre, le capacità di comunicazione del server sono superiori rispetto a quelle degli IED, unito al ridotto numero di dispositivi collegati alla master station contribuisce al miglioramento delle performance di comunicazione.
+
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/substationserver.png}}
+\caption{Architettura di controllo di una substation basata su server}\label{fig:7}
+\end{figure}
+
+I dati disponibili nelle substation possono essere di due tipi:
+\begin{itemize}
+	\item Operazionali o in tempo reale, richiesti per il funzionamento di sistemi di alimentazione e per utilizzare applicazioni di EMS, come controllo di generazione automatico. Tali dati sono memorizzati dalle applicazioni dell'EMS e disponibili come dati appartenente allo storico;
+	\item Non operazionali, sono dati appartenenti allo storico ed in generale quei dati usati per analisi, manutenzione e pianificazione. 
+\end{itemize} 
+I moderni IED, come relè di protezione e misuratori, hanno una quantità enorme di informazioni. Una tipica master station non è progettata per processare questi dati, tuttavia queste informazioni possono essere estremamente utili per utenti diversi. Per poter avvantaggiarsi da questi dati, un meccanismo di estrazione indipendente dalla master station deve essere implementato. I dati operazionali e non hanno meccanismi di raccolta dati diversi, per cui devono esistere due percorsi logici per i dati (fig. \ref{fig:8}), uno per gli operazionali che connetta la substation all'EMS, ed un altro per i non operazionali dalla substation a sistemi di information technology. 
+
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/substationdf.png}}
+\caption{Scambio di dati delle substation}\label{fig:8}
+\end{figure}
+
+Con tutti gli IED connessi ai concentratori di dati delle substation ed un'infrastruttura di comunicazione locale, è diventato possibile avere una connessione  sicura alla maggior parte di IED per effettuare manutenzione remota.
+\newline 
+Un'architettura di integrazione di substation (fig. \ref{fig:9}) offre maggiori funzionalità, avvantaggiandosi di un'architettura del sistema basata su rete, permettendo agli utenti di accedere ad informazioni importanti da tutti i componenti connessi alla rete. Tuttavia, introduce rischi di sicurezza addizionali all'interno del sistema di controllo. Per mitigare tali rischi, una attenzione speciale deve essere presa nella progettazione della rete, concentrandosi sulla sicurezza della rete, implementazioni di autenticazione, autorizzazione e gestione degli utenti. 
+ 
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/substations.png}}
+\caption{Smart substation nell'architettura di una Smart Grid}\label{fig:9}
+\end{figure}
+
 
 \section{Sistemi di trasmissione}
 
