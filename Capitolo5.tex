@@ -1,3 +1,4 @@
+% !TeX spellcheck = it_IT
 Negli ultimi anni, un numero sempre crescente di infrastrutture critiche è stato digitalizzato, aggiungendo capacità di comunicazione e di computazione a numerosi dispositivi nelle reti di distribuzione dell'energia e dell'acqua, sistemi di trasporto, e manifatturieri. Ciò avviene in parte con lo scopo di aumentare l'efficienza, ma spesso è anche un requisito necessario a gestire l'ambiente che muta, come ad esempio la generazione locale dell'energia o il passaggio ai veicoli elettrici nel caso della distribuzione energetica.\\
 Un progetto di digitalizzazione molto visibile è il passaggio dai \emph{meter} analogici ai digitali (\emph{smart}), che è attualmente in corso in vari paesi del mondo. Oltre ad una fatturazione complessivamente più precisa, uno smart meter può anche dare input agli algoritmi di controllo della grid, essere usato nei mercati energetici, comunicare con la \emph{smart home} (ad esempio, per regolare l'aria condizionata ed i sistemi di riscaldamento quando la richiesta energetica è alta), oppure per disconnettere da remoto un consumatore. In questo modo, un dispositivo precedentemente disconnesso e non critico si trasforma in un dispositivo connesso che può generare dati \emph{process-critical}.\\
 La robustezza dei dati e dei comandi di switch è vitale - se una grande quantità di famiglie viene disconnessa simultaneamente, l'energia in eccesso non ha dove andare, potrebbe danneggiare la grid. In maniera simile, se gli algoritmi di manutenzione si basano su dati provenienti da misure effettuate dagli smart meter, input errati possono produrre effetti di gran lunga peggiori delle frodi di fatturazione. Ciò pone una nuova sfida per i produttori di meter: progettare dispositivi economici, largamente distribuiti e che lavorino su canali con banda banda molto ristretta.
@@ -96,7 +97,7 @@ Ciò può essere realizzato in uno dei seguenti modi: passivamente, ascoltando i
 	\label{wireshark_img}
 \end{figure}
 
-Per l'identificazione passiva, può essere utilizzato Wireshark fig. \ref{wireshark_img}.\cite{wireshark} Wireshark cattura il traffico che attraversa qualsiasi rete in tempo reale e fornisce l'ispezione di centinaia di protocolli. È possibile inoltre specificare gli indirizzi IP di cui effettuare lo sniffing, così da limitare la raccolta di informazione ai possibili target.\\
+Per l'identificazione passiva, può essere utilizzato Wireshark figura \ref{wireshark_img}.\cite{wireshark} Wireshark cattura il traffico che attraversa qualsiasi rete in tempo reale e fornisce l'ispezione di centinaia di protocolli. È possibile inoltre specificare gli indirizzi IP di cui effettuare lo sniffing, così da limitare la raccolta di informazione ai possibili target.\\
 Per quanto riguarda l'identificazione attiva, invece, è possibile utilizzare la tecnica del \emph{ping sweep}: essa si avvale del Internet Control Message Protocol (ICMP) per individuare i target attivi in rete analizzando le loro response. Nel caso in cui il traffico ICMP sia bloccato, è spesso utilizzato il ping di TCP. Per entrambi i casi è utilizzato il tool di sicurezza Nmap.\cite{nmap}
 
 \paragraph{Port Scanning}\mbox{}\\
@@ -105,7 +106,7 @@ L'OSSTMM suggerisce che la scelta di quali delle 65,536 porte da analizzare è a
 
 \paragraph{Services Identification and System Identification}\mbox{}\\
 Lo scopo di questi due moduli è di enumerare i servizi in esecuzione sulle porte TCP o UDP che hanno prodotto una response nella fase di port scanning, così come identificare il sistema operativo del target.\\
-Entrambi i compiti sono svolti dal tool Nmap, attivando lo switch \textbf{-sV} che fornisce informazioni addizionali ad esempio il numero di versione, come è possibile verificare nella fig. \ref{nmap_sv_img}.\\
+Entrambi i compiti sono svolti dal tool Nmap, attivando lo switch \textbf{-sV} che fornisce informazioni addizionali ad esempio il numero di versione, come è possibile verificare nella figura \ref{nmap_sv_img}.\\
 In questo caso il target utilizzato, \emph{webserver.domain.com}, fornisce informazioni quali il sistema operativo in quanto esposte dal server web Apache. Un attaccante userebbe le informazioni ottenute per verificare la presenza di falle nelle specifiche versioni dei servizi, per poi preparare un attacco.
 \begin{figure}[hbtp]
 	\centering
@@ -116,7 +117,7 @@ In questo caso il target utilizzato, \emph{webserver.domain.com}, fornisce infor
 
 \paragraph{Vulnerability Research and Verification}\mbox{}\\
 Una volta noti sistema operativo e servizi in esecuzione con relative versioni si passa alla ricerca  e verifica di vulnerabilità tramite testing manuale ed automatizzato.\\
-Un tool comunemente utilizzato per effettuare tale scan è Nessus \cite{nessus}, sviluppato dalla Tenable Network Security mostrato in fig. \ref{nessus_img}. Sebbene Nessus sia ottimo per eseguire scanning automatizzato per determinare debolezze come una versione non aggiornata di Apache, il testing manuale dovrebbe coadiuvare quello automatizzato per individuare debolezze che potenzialmente potrebbero essere trascurate.\\
+Un tool comunemente utilizzato per effettuare tale scan è Nessus \cite{nessus}, sviluppato dalla Tenable Network Security mostrato in figura \ref{nessus_img}. Sebbene Nessus sia ottimo per eseguire scanning automatizzato per determinare debolezze come una versione non aggiornata di Apache, il testing manuale dovrebbe coadiuvare quello automatizzato per individuare debolezze che potenzialmente potrebbero essere trascurate.\\
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics[scale=.3]{imgs/attack/nessus.png}
@@ -134,7 +135,7 @@ Effettuare identificazione e verifica di vulnerabilità su web application è si
 \paragraph{Password Cracking}\mbox{}\\
 Questo modulo consiste nell'individuazione delle credenziali valide di un servizio in esecuzione o di una web application. Il testing può essere effettuato sia a partire da una lista precompilata di password, noto come attacco basato su dizionario, che provando ogni possibile combinazione di un certo alfabeto di caratteri, noto come attacco brute force.\\
 Quando si esegue password cracking, è bene tenere a mente che molti servizi e web application implementano un servizio di blocco temporaneo o permanente, che disabilita un account se si verificano troppi tentativi di accesso con password invalide durante un determinato periodo di tempo.\\
-Un tool comunemente utilizzato nell'ambito del password cracking, che supporti sia attacchi con dizionario che brute force, è Cain \& Abel \cite{cainabel}, mostrato in fig. \ref{cainabel_img}.\\
+Un tool comunemente utilizzato nell'ambito del password cracking, che supporti sia attacchi con dizionario che brute force, è Cain \& Abel \cite{cainabel}, mostrato in figura \ref{cainabel_img}.\\
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics[scale=.3]{imgs/attack/cainabel.png}
@@ -196,7 +197,7 @@ La matrice del Jacobiano $\textbf{H} \in {\rm I\!R}$ è definita come\\
 Se la differenza di fase è piccola, il modello di approssimazione lineare della misura di corrente può essere descritto come\\
 \indent Misura sotto Operazioni Normali: $\textbf{z} =  \textbf{Hx} + \textbf{e}$.\\
 Da notare che $\textbf{H}$ è generalmente sconosciuta agli attaccanti ma nota all'ISO. Date le misure sul flusso di corrente, il vettore di stato stimato $\widehat{x}$ può essere computato come $\widehat{\textbf{x}} = (\textbf{H}^T\sum_e^{-1}\textbf{H})-1\textbf{H}^T\sum_e^{-1}\textbf{z}$.\\
-La fig. \ref{fourbuspowernet_img} mostra il sistema di test a quattro bus della IEEE: ogni bus ha il corrispondente voltaggio ($V_q$) e l'angolo di fase ($\theta_q$); il centro di controllo invia i dati delle misurazioni ($z_{qr}$) ed in seguito lo stimatore di stato inferisce gli stati del sistema che possono essere utilizzati in differenti funzioni, come ad esempio il controllo della generazione automatico (AGC), il flusso di controllo ottimale (OPF), ed il sistema di gestione dell'energia (EMS). L'operatore effettua la decifsione finale per il controllo dei generatori e la gestione del carico (per bilanciare la fornitura e la domanda).
+La figura \ref{fourbuspowernet_img} mostra il sistema di test a quattro bus della IEEE: ogni bus ha il corrispondente voltaggio ($V_q$) e l'angolo di fase ($\theta_q$); il centro di controllo invia i dati delle misurazioni ($z_{qr}$) ed in seguito lo stimatore di stato inferisce gli stati del sistema che possono essere utilizzati in differenti funzioni, come ad esempio il controllo della generazione automatico (AGC), il flusso di controllo ottimale (OPF), ed il sistema di gestione dell'energia (EMS). L'operatore effettua la decifsione finale per il controllo dei generatori e la gestione del carico (per bilanciare la fornitura e la domanda).
 \subsection{Bad Data Detection}
 Nella stima dello stato di un sistema elettrico, i ``bad data" come ad esempio bias di misurazione, derive di misura o connessioni errate devono essere identificate. Con il \emph{bad data injection}, gli attaccanti possono iniettare dati all'interno del vettore di misure $r$ ed il sistema può essere descritto come\\
 \indent Misura sotto Attacco non-Stealth: $\textbf{z}^\prime = \textbf{H}(\textbf{x}) + \textbf{b} + e$, $\textbf{a} = I\textbf{b}$.\\
@@ -229,6 +230,30 @@ dove $f_1(z_{t,j})$ e $f_0(z_{t,j})$ corrispondono alla distribuzione della $j$-
 \end{figure}
 A causa di un modello statistico avversario sconosciuto, il test del tasso di likelihood generalizzato (GLRT) può essere utilizzato nell'algoritmo CUSUM di Page \cite{lorden}. L'idea è quella di applicare GLRT sostituendo il parametro sconosciuto secondo la stima a maximum likelihood. Quindi, l'espressione ricorsiva del CUSUM test non è più valida in quanto GLRT ha bisogno di computare ogni elemento non noto di ogni misurazione al tempo $t$ stimandolo dalle osservazioni fino al tempo corrente $t$. In altre parole, GLRT richiede la memorizazione delle osservazioni e l'esecuzione della stima ML dei parametri sconosciuti ad ogni punto temporale. Per cui, GLRT è troppo costoso computazionalmente da implementare in pratica per effettuare rilevamento veloce.\\
 Per ridurre la complessità computazionale, è possibile applicare il test Rao \cite{lorden}, che è un modello di test asintoticamente equivalente a GLRT. Il Rao test computa le derivate rispetto al parametro non noto valutato in zero, e può essere implementato efficientemente. Inoltre, il Rao test non coinvolge la complessa computazione della stima a maximum likelihood.\\
+\subsection{Strategia di attacco}
+Gli attacchi stealth sono attuabili quando gli attaccanti hanno piena conoscenza della topologia. Una domanda importante che sorge spontanea è: \textit{se la topologia non è disponibile, può un attaccante effettuare comunque stealth bad data injection?} Sorprendentemente, \textit{si}. L'idea principale presentata in \cite{esmalifalak}, si basa su parametri del sistema variabili in un piccolo range dinamico, infatti, l'informazione sulla topologia è incorporata nelle correlazioni tra le misure di flusso di potenza. Siano $\textbf{z}(t)$ e $\textbf{x}(t)$ le misure ed i vettori di stato al tempo $t$, dove $\textbf{x}(t)$ è sconosciuto. Ad un certo tempo $t$, è impossibile inferire $\textbf{H}$ solamente a partire da $\textbf{z}(t)$. Comunque, con il passare del tempo, e la conoscenza delle proprietà stocastiche del processo casuale $\textbf{x}(t)$, si potrebbe essere in grado di inferire \textbf{H}.\\
+Nei sistemi elettrici, le variabili di stato sono generalmente una funzione non lineare dei carichi \textbf{y} e della topologia \textbf{H: x = } \emph{f}(\textbf{y, H}). Mentre la topologia è nota per essere statica in un determinato periodo temporale, i carichi possono essere modellati come \textit{indipendentemente} variabili. Se tali variazioni sono sufficientemente piccole, \emph{f} può essere approssimata utilizzando $\textbf{x} = \textbf{Ay}$, dove \textbf{A} è la matrice dei coefficienti di primo ordine dell'espansione di Taylor in \textbf{y} ($\textbf{z = HAy + e}$).\\
+Con \textbf{HA} ed \textbf{y}, è possibile portare a compimento l'attacco modificando i dati misurati come $\textbf{z}^\prime + \textbf{HA}\delta\textbf{y}$, dove $\delta\textbf{y}$ è scelto arbitrariamente. 
+Il vettore di stato è stimato come $\widehat{\textbf{x}} = (\textbf{H}^T\sum_e^{-1}\textbf{H})-1\textbf{H}^T\sum_e^{-1}\textbf{z}^\prime$. Sia $\delta\textbf{x} = A\delta\textbf{y}$. Siccome $r = \textbf{z}^\prime - \textbf{H}\wedge x = \textbf{z} + \textbf{H}(\widehat{\textbf{x}} + \delta\textbf{x}), E(\textbf{r}) = 0, cov(\textbf{r}) = (\textbf{I} - \textbf{M})\sum_e$. In altre parole, la media e la varianza di \textbf{r} sono le stesse del caso senza attaccanti. Quindi, utilizzando li metodo delresiduo massimo, l'attacco non può essere rilevato.\\
+Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \emph{linear independent component analysis} (ICA).
+\begin{figure}[htbp]
+	\centering
+	\fbox{\begin{minipage}{15em}
+		Input: \textbf{z} = data matrix
+		\begin{enumerate}
+			\item $\lbrack \textbf{G}$ and $\textbf{y} \rbrack$ = FastICA(\textbf{z})
+			\item If max(\textbf{z} - \textbf{Gy})  $>$ $\epsilon$ then exit
+			\item Generate $\delta$\textbf{y} $\sim N(0, \sigma^2)$
+			\item $\textbf{z}^\prime$ = \textbf{z} + \textbf{G}(\textbf{y} + $\delta$\textbf{y})
+
+		\end{enumerate}
+		Output: false data $\textbf{z}^\prime$
+		\end{minipage}
+	}
+	\caption{Stealth false data injection.}
+	\label{algo1}
+\end{figure}	
+
 
 \section{Time Delay Attack}
 \section{Replay Attack}
@@ -237,7 +262,6 @@ Per ridurre la complessità computazionale, è possibile applicare il test Rao \
 \section{Rilevamento}
 \section{Power Fingerprinting}
 %\section{Optimal Malicious Attack Construction and Robust Detection in Smart Grid Cyber Security Analysis}
-
 
 
 \begin{thebibliography}{99}
@@ -259,4 +283,5 @@ Per ridurre la complessità computazionale, è possibile applicare il test Rao \
 \bibitem{convdef1} A. Abur and A. G. Exposito, Power System State Estimation: Theory and Implementation, Marcel Dekker, 2004.
 \bibitem{convdef2} A. J. Wood and B. F. Wollenberg, Power Generation, Operation, and Control, Wiley, 1996.
 \bibitem{lorden} H. V. Poor and Q. Hadjiliadis, Quickest Detection, Cambridge Univ. Press, 2008.
+\bibitem{esmalifalak} M. Esmalifalak et al., ``Stealth False Data Injection using Independent Component Analysis in Smart Grid," 2nd IEEE Conf. Smart Grid Commun., Brussels, Belgium, Oct. 2011.
 \end{thebibliography}
