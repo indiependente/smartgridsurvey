@@ -18,7 +18,7 @@ Tale concetto porta con sé una serie di problemi e di preoccupazioni relative a
 \subsection{Integrity}
 L'integrity si riferisce all'abilità del sistema di evitare che le informazioni possano essere modificate da persone o da sistemi non autorizzati. \newline Se si rendono possibili meccanismi di modifica volontari quali la manipolazione dei dati, o anche involontari quali la loro corruzione, i sistemi riceveranno informazioni non accurate; a lungo andare ciò potrebbe avere un impatto negativo su tutte le operazioni e, in casi estremi, portare ad instabilità o compromettere del tutto la Smart Grid. \newline
 I punti della nuova rete elettrica che introducono rischi per l'integrità, sono tutti quei punti che consentono il passaggio dei dati da un sistema ad un altro. Pertanto, la sicurezza di tali meccanismi di transizione è importante, ma ancora più importante è come il sistema che riceve i dati possa assicurarsi della validità di quest'ultimi: se i dati subiscono manipolazioni mentre sono in viaggio tra i due sistemi, il ricevente potrebbe prendere decisioni basate su tali informazioni (che risultano essere errate); se, invece, i dati sono soggetti a corruzione durante la loro transizione, ci si potrebbe trovare di fronte ad un comportamento inaspettato del ricevente. In entrambi i casi, è evidente che l'integrità dei dati sia cruciale per assicurare la stabilità delle operazioni.   \newline
-Le risposte ai problemi di integrità, possono essere trovate nei meccanismi di \textit{auditing}, di \textit{authorization}, di \textit{nonrepudiation}, e di \textit{message-signing}, che saranno trattati in seguito (vedi paragrafo 3.3, building blocks).
+Le risposte ai problemi di integrità, possono essere trovate nei meccanismi di \textit{auditing}, di \textit{authorization}, di \textit{nonrepudiation}, e di \textit{message-signing}, che saranno trattati in seguito (vedi Paragrafo 4.3).
 
 
 \subsection{Availability}
@@ -39,7 +39,7 @@ Quale sarebbe il rischio per l'intero sistema Smart Grid se il sistema stesso, o
 
 
 \section{Building blocks}
-Nel paragrafo precedente, sono state descritte una serie di potenziali minacce e funzioni di sicurezza che sono importanti per sistemi complessi ed interdipendenti come le Smart Grid. \newline In questo paragrafo, si esaminerà una possibile architettura di sicurezza che comprende tutte le funzioni precedentemente analizzate e che cerca di creare una struttura adatta a risolvere tutte le vulnerabilità descritte nel paragrafo 3.2.
+Nel paragrafo precedente, sono state descritte una serie di potenziali minacce e funzioni di sicurezza che sono importanti per sistemi complessi ed interdipendenti come le Smart Grid. \newline In questo paragrafo, si esaminerà una possibile architettura di sicurezza che comprende tutte le funzioni precedentemente analizzate e che cerca di creare una struttura adatta a risolvere tutte le vulnerabilità descritte nel Paragrafo 4.2.
 
 \subsection{Layered Security Model}
 Il concetto di modello di sicurezza \textit{stratificato} non è un concetto nuovo: i sistemi operativi ed i microprocessori, infatti, lo utilizzano da tempo per controllare gli accessi a  risorse privilegiate. \newline Immaginare tale concetto applicato ad una Smart Grid non è difficile. \newline Dalla figura \ref{fig:32} è possibile vedere che la struttura di tale modello è una struttura ad anello in cui la comunicazione tra gli strati del sistema è sicura. In generale, uno strato esterno non può avere libero accesso alle risorse presenti su uno strato più interno; inoltre, le richieste per le risorse non dovrebbero essere in grado di ``saltare" i vari anelli: una richiesta che parte dal terzo anello, non dovrebbe poter accedere direttamente alla risorsa del primo, ma gli accessi sono regolati da opportune interfacce progettate in modo tale da assicurare la sicurezza di tutto il sistema.
@@ -100,8 +100,26 @@ Vi è un'infinità di modi per garantire l'integrità di rete, ognuno dei quali 
 \item \textit{Validazione e testing}: essenziali per garantire l'integrità del sistema. Prima di effettuare qualsiasi cambiamento e di distribuire nuovi sistemi, bisogna valutare le nuove modifiche e capire che impatto hanno sull'intero sistema. I cambiamenti devono essere testati per sicurezza e per garantire che non abbiano conseguenze negative sull'affidabilità di tutto il sistema.
 \end{itemize}
 
-\section{Minacce e loro impatto}
+\section{Threats and Impacts}
+Analizziamo ora le minacce a cui una Smart Grid può essere sottoposta e l'impatto che esse hanno sull'infrastruttura, focalizzandoci principalmente su due attori del sistema: gli utenti e le società di servizi. Maggiori dettagli possono essere trovati in \cite{securingSG}.
+ 
+\subsection{Consumers threats}
+Il fatto che gli utenti si trovino ad affrontare le minacce poste dalle nuove tecnologie non è un qualcosa di nuovo. Essi, infatti, sebbene non sia esattamente la stessa situazione, si sono già trovati di fronte a problemi simili introdotti dai personal computer,dai  cellulari e dall'attuale rete elettrica: man mano che aumenta la dipendenza dalla tecnologia, così aumenta anche la dipendenza dalla corrente elettrica per alimentare la tecnologia. Nel momento in cui ad una persona, però, viene sottratto un apparecchio tecnologico, riuscirà a sopravvivere anche senza; ma, se alla stessa persona viene negato l'accesso alla corrente elettrica, il danno che essa ne subirà sarà sicuramente maggiore.\newline
+Gli utenti di una Smart Grid possono essere sottoposti ad una serie di pericoli di varia natura, dalla privacy fino ad arrivare a situazioni che rischiano di mettere in pericolo la loro vita.
+\begin{itemize}
+\item \textit{Minacce naturali}. In accordo al \textit{NERC Disturbance Analysis Working Group} (DAWG) \cite{securingSG}, i disastri metereologici e naturali (quali venti, tempeste, tornadi, terremoti, ecc.) sono la causa di più del 50\% dei disturbi del sistema elettrico e, in particolare, degli utenti. La Smart Grid si propone di affrontare tali minacce ma è importante notare che eliminare totalmente i danni causati dai frequenti disastri atmosferici e naturali non è fattibile in maniera semplice nel prossimo futuro. Poichè non si può fermare il verificarsi di tali calamità, i programmi di aiuto in caso di incidenti continueranno ad essere di critica importanza, in risposta ai fenomeni naturali distruttivi;
+\item \textit{Minacce provenienti da singoli o da organizzazioni}. L'AMI e gli altri componenti della Smart Grid, permettono agli operatori di amministrare i dispositivi situati nelle case degli utenti, da remoto; in più gli \textit{smart device}, permettono ai consumatori e alle società di servizi di controllare in maniera remota i consumi energetici. Numerose sono le motivazioni che possono spingere persone e organizzazioni ad abusare delle funzionalità di questi dispositivi; la possibilità di ottenere il controllo di tali componenti, può portare ad attaccare la Smart Grid e, quindi, i suoi utenti. Varie possono essere le figure coinvolte in tali situazioni:
+	\begin{itemize}
+	\item Ladri e stalker;
+	\item Hacker;
+	\item Società di servizi.
+	\end{itemize}
+\end{itemize}
 
+\subsubsection{Impatti}
+
+\subsection{Utility companies threats}
+\subsubsection{Impatti}
 \section{Compagnie}
 
 \section{Servizi di terze parti}

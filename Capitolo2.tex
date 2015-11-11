@@ -1,14 +1,14 @@
-L'odierna rete elettrica è stata progettata come un sistema centralizzato, in cui l'energia elettrica fluisce attraverso linee unidirezionali di trasmissione e distribuzione dai generatori fino ai clienti finali. La logica applicativa è concentrata in zona centrale e solo parzialmente nelle \emph{substation}, mentre le componenti restanti sono quasi totalmente passive. Una Smart Grid, mostrata dal punto di vista strutturale in figura \ref{fig:1}, fornisce una più elevata ed ampia intelligenza distribuita incorporata nei dispositivi locali, comunicazione e scambio bidirezionale di informazioni ed elettricità.
+L'odierna rete elettrica è stata progettata come un sistema centralizzato, in cui l'energia elettrica fluisce attraverso linee unidirezionali di trasmissione e distribuzione dai generatori fino ai clienti finali. La logica applicativa è concentrata in zona centrale e solo parzialmente nelle \emph{substation}, mentre le componenti restanti sono quasi totalmente passive. Una Smart Grid, mostrata dal punto di vista strutturale in figura \ref{fig:21}, fornisce una più elevata ed ampia intelligenza distribuita incorporata nei dispositivi locali, comunicazione e scambio bidirezionale di informazioni ed elettricità.
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.95]{imgs/architecture.jpg}}
-\caption{Smart Grid}\label{fig:1}
+\caption{Smart Grid}\label{fig:2_1}
 \end{figure}
 
 \section{Smart Grid Framework}
 Le Smart Grid richiedono sia una complessa infrastruttura di comunicazione, che sofisticate tecnologie di comunicazione e computazione. Entrambe consentono la conservazione di parte dell'energia prodotta e l'introduzione di nuovi metodi di gestione della domanda energetica, per adottare politiche di bilanciamento del carico, controllare instabilità energetiche causate dalla natura delle risorse rinnovabili e prevenire la diffusione di fallimenti in cascata nella rete. 
 \newline 
-La figura \ref{fig:2} riassume le principali tematiche relative alle Smart Grid:
+La figura \ref{fig:22} riassume le principali tematiche relative alle Smart Grid:
 \begin{itemize}
 	\item \emph{Energy infrastructure} rappresenta la base fisica ed organizzativa necessaria per la generazione, trasmissione e distribuzione dell'energia;
 	\item \emph{Communication infrastructure} è responsabile del trasferimento di informazioni critiche attraverso la rete;
@@ -18,7 +18,7 @@ La figura \ref{fig:2} riassume le principali tematiche relative alle Smart Grid:
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.3, natwidth=1003,natheight=490]{imgs/ict.png}}
-\caption{Smart Grid framework}\label{fig:2}
+\caption{Smart Grid framework}\label{fig:22}
 \end{figure}
 
 La communication infrastructure svolge un ruolo cruciale, ossia collegare tutte le componenti della rete collezionando informazioni sulle loro condizioni, per scopi di controllo, monitoraggio e manutenzione. Eventuali problemi legati all'energy instrastructure possono essere evitati se corrette operazioni vengono prese con l'aiuto della communication infrastructure. 
@@ -27,18 +27,18 @@ Differenti tecnologie di comunicazione posso essere usate per diversi scopi e re
 \newline
 Le tecniche dell'applications layer generalmente mirano a ridurre il consumo energetico dei clienti, cambiando i loro comportamenti di consumo, dotandoli di strumenti di monitoraggio.    
 \newline
-La figura \ref{fig:3} mostra le componenti della Smart Grid, illustrate dall'energy infrastructure al potentional applications.
+La figura \ref{fig:23} mostra le componenti della Smart Grid, illustrate dall'energy infrastructure al potentional applications.
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/sgframework.png}}
-\caption{Smart Grid framework}\label{fig:3}
+\caption{Smart Grid framework}\label{fig:23}
 \end{figure}
 
 %\section{Communication architecture}
 \newpage
 Il concetto di Smart Grid mira a realizzare un sofisticato sistema, integrando information technology e communication infrastructure all'attuale sistema di alimentazione e il nuovo sistema di generazione distribuito, in modo da sfruttare pienamente l'uso di risorse rinnovabili e di massimizzare l'efficienza energetica. Da una prospettiva leggermente diversa, una Smart Grid può essere considerata come una rete di comunicazione di dati che riesce, grazie al supporto di specifici dispositivi di gestione dell'energia, a far collaborare le diverse componenti della rete in maniera flessibile e senza discontinuità, per un utilizzo efficiente dell'energia.
 %\newline
-%L'architettura \emph{end-to-end} delle Smart Grid (fig. \ref{fig:4}) fondamentalmente comprendono tre livelli principali:
+%L'architettura \emph{end-to-end} delle Smart Grid (figura \ref{fig:4}) fondamentalmente comprendono tre livelli principali:
 %\begin{itemize}
 %	\item \emph{Application layer}, include applicazioni avanzate fornendo interoperabilità fra di esse; si occupa principalmente della gestione della domanda/risposta, interruzioni, infrastruttura di metering, delle risose ed rilevamento di frodi;
 %	\item \emph{Power layer}, comprende i sistemi di generazione, trasmissione e distribuzione, l'integrazione di risorse rinnovabili ed il sistema di comunicazione bidirezionale;  
@@ -50,7 +50,7 @@ Il concetto di Smart Grid mira a realizzare un sofisticato sistema, integrando i
 %\caption{Architettura end-to-end}\label{fig:4}
 %\end{figure}
 
-La comunicazione consiste di tre categorie di trasmissione, con relativi standard e protocolli (vedi cap.):
+La comunicazione consiste di tre categorie di trasmissione, con relativi standard e protocolli (vedi capitolo):
 \begin{itemize}
 	\item \emph{Wide-area network} (WAN);
 	\item \emph{Field-area network} (FAN);
@@ -65,19 +65,19 @@ La comunicazione consiste di tre categorie di trasmissione, con relativi standar
 %\end{itemize}
 
 \subsection{Wide-area network}
-La WAN consente la comunicazione fra le entità che forniscono energia e le substations; deve estendersi su tutte le substation, strutture di distribuzione, generazione energetica e di conservazione dell'energia, per poter essere efficace e scalabile. Essa è rete di comunicazione bidirezionale ad alta larghezza di banda che gestisce le trasmissioni a lunga distanza dei dati con avanzate applicazioni di misurazione e monitoraggio. La comunicazione remota fra le \emph{utility} e gli smart meter è essenziale per lo scambio di importanti informazioni, quali prezzi e tariffe dei clienti. Le reti cellulari, WiMAX e comunicazioni cablate, in particolare comunicazioni basate su fibra ottica e microwave, sono i migliori candidati come tecnlogie per WAN (vedi cap. 4).
+La WAN consente la comunicazione fra le entità che forniscono energia e le substations; deve estendersi su tutte le substation, strutture di distribuzione, generazione energetica e di conservazione dell'energia, per poter essere efficace e scalabile. Essa è rete di comunicazione bidirezionale ad alta larghezza di banda che gestisce le trasmissioni a lunga distanza dei dati con avanzate applicazioni di misurazione e monitoraggio. La comunicazione remota fra le \emph{utility} e gli smart meter è essenziale per lo scambio di importanti informazioni, quali prezzi e tariffe dei clienti. Le reti cellulari, WiMAX e comunicazioni cablate, in particolare comunicazioni basate su fibra ottica e microwave, sono i migliori candidati come tecnlogie per WAN (vedi capitolo 4).
 \newline
 Il sistema di distribuzione agisce da punto di aggregazione fra FAN e WAN, come ad esempio una substation o una torre di comunicazione che colleziona tutte le informazioni prodotte dagli smart meter e le trasferisce alla rete di comunicazione principale. Oltre che da punto di aggregazione tali dispositivi possono fungere da punti di conservazione dell'energia per eventuali interruzioni o guasti.
 
 \subsection{Field-area network}
 La FAN può essere descritta come una rete di comunicazione per aree di distribuzione dell'energia e che mette in contatto l'automazione della distribuzione e dispositivi di controllo alle sedi dei consumatori. Essa agisce, quindi, come un intermediario fra le substation e le sedi dei clienti, con nodi intelligenti in grado di raccogliere e controllare i dati da remoto. Tali nodi sono connessi ad un gateway centralizzato, il quale è alimentato costantemente in modo da poter trasmettere i dati raccolti. I canali a bassa larghezza di banda della FAN sono altamente robusti per la trasmissione affidabile di dati. 
 \newline 
-La scelta delle tecnologie di comunicazione  variano per la FAN in base alle esigenze della Smart Grid: fibra ottica per avere bassa latenza e perfomance di comunicazione superiori, oppure WiMAX se le reti cellulari non riescono a coprire l'area di interesse, ma l'attuale orientamento ricade sull'utilizzo dello standard IEC 61850 (vedi cap. ), il quale fornisce interoperabilità e comunicazione fra i dispositivi elettronici intelligenti.
+La scelta delle tecnologie di comunicazione  variano per la FAN in base alle esigenze della Smart Grid: fibra ottica per avere bassa latenza e perfomance di comunicazione superiori, oppure WiMAX se le reti cellulari non riescono a coprire l'area di interesse, ma l'attuale orientamento ricade sull'utilizzo dello standard IEC 61850 (vedi capitolo ), il quale fornisce interoperabilità e comunicazione fra i dispositivi elettronici intelligenti.
 
 \subsection{Home-area network}{
 Gli smart meter riescono a connettersi alla HAN, in modo tale che i consumatori siano in grado di conoscere l'importo da pagare e gestire il loro consumo ed avere il controllo dei propri elettrodomestici intelligenti, attraverso display presenti in casa e interfacce web. 
 \newline 
-Le migliori tecnologie di comunicazione per HAN sono ZigBee,Wi-Fi, HomePlug, Z-wave e M-Bus (vedi cap.).
+Le migliori tecnologie di comunicazione per HAN sono ZigBee,Wi-Fi, HomePlug, Z-wave e M-Bus (vedi capitolo).
 }
 
 \vspace{20pt}\hspace{-17pt}Nelle sezioni successive vengono presentate le tecnologie e le infrastrutture abilitanti di una Smart Grid, a partire dalla generazione e conservazione dell'energia fino ad arrivare alla trasmissione e distribuzione.
@@ -200,18 +200,18 @@ I vantaggi più importanti di tali sensori sono:
 \subsection{SCADA}
 \emph{Supervisory Control And Data Acquisition} (SCADA) si riferisce a un sistema o una combinazione di sistemi che raccoglie i dati provenienti da vari sensori in un impianto o in altre posizioni remote e che invia questi dati ad un elaboratore centrale, che poi gestisce e controlla i dati e controlla da remoto i dispositivi nel campo. SCADA è un termine che viene utilizzato ampiamente per rappresentare soluzioni di controllo e di gestione in una vasta gamma di settori. Il settore elettrico ha un insieme specifico di requisiti che si applicavano ai sistemi SCADA. Lo scopo principale di un sistema SCADA elettrico è quello di acquisire dati in tempo reale provenienti dai dispositivi situati nelle centrali elettriche, sottostazioni di trasmissione e di distribuzione, alimentatori per distribuzione, ecc, fornire il controllo delle apparecchiature e presentare le informazioni al personale operativo.  
 \newline
-Sistemi SCADA sono globalmente accettati come mezzo di monitoraggio e controllo di sistemi di alimentazione elettrica, in particolare sistemi di generazione e trasmissione in tempo reale. \emph{RTU} (Remote Terminal Units) vengono utilizzati per raccogliere i dati analogici e lo stato di telemetria dai dispositivi, e di trasmettere comandi di controllo a tali dispositivi. Installato in una posizione centrale, come ad esempio il centro di controllo, tali sistemi includono apparecchiature di acquisizione dati, interfacce grafiche per gli operatori, applicazioni che agiscono sui dati e altri componenti. 
+Sistemi SCADA sono globalmente accettati come mezzo di monitoraggio e controllo di sistemi di alimentazione elettrica, in particolare sistemi di generazione e trasmissione in tempo reale. \emph{RTU} (Remote Terminal Units) vengono utilizzati per raccogliere i dati analogici e lo stato di telemetria dai dispositivi, e di trasmettere comandi di controllo a tali dispositivi. Tali sistemi installati in una posizione centrale, come ad esempio il centro di controllo, includono apparecchiature di acquisizione dati, interfacce grafiche per gli operatori, applicazioni che agiscono sui dati e altri componenti. 
 \newline
-Tipicamente apparecchiature di controllo di acquisizione dati comprendono almeno una \emph{master station} (vedi ..), uno o più RTU e un sistema di comunicazione. La master station di solito è collocata al centro di controllo dell'energia, mentre gli RTU sono installati nelle centrali elettriche, substation di trasmissione e distribuzione e attrezzature di alimentazione (fig. \ref{fig:4}).
+Tipicamente apparecchiature di controllo di acquisizione dati comprendono almeno una \emph{master station} (vedi ..), uno o più RTU e un sistema di comunicazione. La master station di solito è collocata al centro di controllo dell'energia, mentre gli RTU sono installati nelle centrali elettriche, substation di trasmissione e distribuzione e attrezzature di alimentazione (figura \ref{fig:24}).
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/scadadf.png}}
-\caption{Architettura SCADA relativa al \emph{data flow}}\label{fig:4}
+\caption{Architettura SCADA relativa al \emph{data flow}}\label{fig:24}
 \end{figure}
 
 
 \subsubsection{Master station}
-Una master station è un sistema di computer responsabile per la comunicazione delle apparecchiature di campo e fornisce un'interfaccia uomo macchina (HMI) nella sala di controllo. In sistemi SCADA molto grandi, la master station può includere server ridondanti, applicazioni distribuite e meccanismi di ripristino. Una grande master station per l'impianto elettrico o \emph{energy management system} (EMS), i figura \ref{fig:5} generalmente ingloba:
+Una master station è un sistema di computer responsabile per la comunicazione delle apparecchiature di campo e fornisce un'interfaccia uomo macchina (HMI) nella sala di controllo. In sistemi SCADA molto grandi, la master station può includere server ridondanti, applicazioni distribuite e meccanismi di ripristino. Una grande master station per l'impianto elettrico o \emph{energy management system} (EMS), i figura \ref{fig:25} generalmente ingloba:
 \begin{itemize}
 	\item Uno o più server di acquisizione dati che si interfacciano con i dispositivi, mediante il sistema di comunicazione;
 	\item Server di dati in tempo reale, il quale contiene una base di dati adatta;
@@ -222,10 +222,10 @@ Una master station è un sistema di computer responsabile per la comunicazione d
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/ems.png}}
-\caption{Architettura di un EMS}\label{fig:5}
+\caption{Architettura di un EMS}\label{fig:25}
 \end{figure}
 
-All'interno dei EMS, le componenti hardware sono connesse fra di esse mediante LAN. Ci sono diversi tipi di master station, che dipendono dal tipo di funzionalità:
+All'interno dei EMS, le componenti hardware sono connesse mediante LAN. Ci sono diversi tipi di master station, che dipendono dal tipo di funzionalità:
 \begin{itemize}
 	\item SCADA master station, che effettuano:
 	\begin{itemize}
@@ -243,7 +243,7 @@ All'interno dei EMS, le componenti hardware sono connesse fra di esse mediante L
 	\end{itemize}
 	\item EMS:
 	\begin{itemize}
-		\item Elaboratore per configurazione e topologia di rete;
+		\item Configurazione e topologia di rete;
 		\item Stima dello stato;
 		\item Analisi delle contingenze;
 		\item \emph{Optimal power flow};
@@ -269,11 +269,11 @@ Tutti i tipi di master station si interfacciano con i dispositivi di campo, tali
 
 \subsubsection{Remote Terminal Unit}
 Un RTU è un dispositivo basato su microprocessore, che interfaccia un sistema SCADA trasmettendo dati di telemetria alla master station e che cambia lo stato dei dispositivi connessi, in base ai messaggi di controllo ricevuti dalla master station o da comandi generati dallo stesso RTU. Tale dispositivo fornisce dati alla master station e gli consente di emettere comandi per i dispositivi di campo. Tipicamente un  
-RTU ha input fisici alle interfacce dei dispositivi di campo ed una  più porte di comunicazione (fig. \ref{fig:6}).
+RTU ha input fisici alle interfacce dei dispositivi di campo ed una  più porte di comunicazione (figura \ref{fig:26}).
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/rtu.png}}
-\caption{Architettura software di un RTU}\label{fig:6}
+\caption{Architettura software di un RTU}\label{fig:26}
 \end{figure}
 
 Diversi RTU processano i dati in modi differenti, ma in generale contengono moduli software comuni fra di essi:
@@ -303,13 +303,13 @@ L'architettura basata sulla rete offre numerosi vantaggi:
 	\item Abilità di utilizzare nuove sorgenti di dati, ogni IED può fornire un nuovo numero di porta del protocollo per file o un trasferimento di dati ausiliare, senza disturbare altri processi e aggiunta di ulteriore hardware;
 	\item Miglioramento della gestione per la configurazione, eseguita mediante la rete.
 \end{itemize}
-Tale architettura offre dei tempi di risposa migliori, consente di accedere a dati importanti e riduce i tempi di gestione e configurazione del sistema. Prendendo in esame i passati sistemi SCADA, questi erano semplici sistemi di monitoraggio e controllo remoto che comunicavano mediante link a bassa velocità. Mentre, grazie alla proliferazione di IED basati su microprocessore, è diventato possibile avere informazioni direttamente dai IED, RTU o dalle componenti del sistema di controllo delle substation. Ciò è stato possibile attraverso le capacità di comunicazione degli IED, permettendogli di comunicare con RTU, concentratori di dati o direttamente con la master station. Mentre sempre più IED sono stati installati presso le substation, è divenuto possibile integrare funzionalità di protezione, controllo e acquisizione dati. Molte informazioni precedentemente estratte dagli RTU ora sono fruibili dai IED. Tuttavia non è pratico avere una comunicazione diretta fra master station con i numerosi IED in tutte le substation. Per consentire tale passaggio di dati, un \emph{server della substation} viene utilizzato. Quest'ultimo comunica con tutti gli IED di una substation, conserva tutte le informazioni degli IED, e comunica con la master station centrale. Siccome gli IED utilizzano diversi protocolli di comunicazione, il server della substation deve avere la capacità di comunicare mediante tali protocolli, così come con il protocollo della master station. Tale server permette ad un sistema SCADA di accedere ai dati da diversi IED della substation, il quale prima era possibile solo localmente.
+Tale architettura offre dei tempi di risposta migliori, consente di accedere a dati importanti e riduce i tempi di gestione e configurazione del sistema. Prendendo in esame i passati sistemi SCADA, questi erano semplici sistemi di monitoraggio e controllo remoto che comunicavano mediante link a bassa velocità. Mentre, grazie alla proliferazione di IED basati su microprocessore, è diventato possibile avere informazioni direttamente dai IED, RTU o dalle componenti del sistema di controllo delle substation. Ciò è stato possibile attraverso le capacità di comunicazione degli IED, permettendogli di comunicare con RTU, concentratori di dati o direttamente con la master station. Mentre sempre più IED sono stati installati presso le substation, è divenuto possibile integrare funzionalità di protezione, controllo e acquisizione dati. Molte informazioni precedentemente estratte dagli RTU ora sono fruibili dai IED. Tuttavia non è pratico avere una comunicazione diretta fra master station con i numerosi IED in tutte le substation. Per consentire tale passaggio di dati, un \emph{server della substation} viene utilizzato. Quest'ultimo comunica con tutti gli IED di una substation, conserva tutte le informazioni degli IED, e comunica con la master station centrale. Siccome gli IED utilizzano diversi protocolli di comunicazione, il server della substation deve avere la capacità di comunicare mediante tali protocolli, così come con il protocollo della master station. Tale server permette ad un sistema SCADA di accedere ai dati da diversi IED della substation, il quale prima era possibile solo localmente.
 \newline
-Con l'architettura SCADA basata su server di substation (fig. \ref{fig:7}, tutti gli IED (inclusi gli RTU) sono interrogati dal server della substation, mediante la connessione LAN. Con tale architettura, la master station può comunicare direttamente con il server della substation invece che con i RTU e IED. Inoltre, le capacità di comunicazione del server sono superiori rispetto a quelle degli IED, unito al ridotto numero di dispositivi collegati alla master station contribuisce al miglioramento delle performance di comunicazione.
+Con l'architettura SCADA basata su server di substation (figura \ref{fig:27}, tutti gli IED (inclusi gli RTU) sono interrogati dal server della substation, mediante la connessione LAN. Con tale architettura, la master station può comunicare direttamente con il server della substation invece che con i RTU e IED. Inoltre, le capacità di comunicazione del server sono superiori rispetto a quelle degli IED, unito al ridotto numero di dispositivi collegati alla master station contribuisce al miglioramento delle performance di comunicazione.
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/substationserver.png}}
-\caption{Architettura di controllo di una substation basata su server}\label{fig:7}
+\caption{Architettura di controllo di una substation basata su server}\label{fig:27}
 \end{figure}
 
 I dati disponibili nelle substation possono essere di due tipi:
@@ -317,28 +317,37 @@ I dati disponibili nelle substation possono essere di due tipi:
 	\item Operazionali o in tempo reale, richiesti per il funzionamento di sistemi di alimentazione e per utilizzare applicazioni di EMS, come controllo di generazione automatico. Tali dati sono memorizzati dalle applicazioni dell'EMS e disponibili come dati appartenente allo storico;
 	\item Non operazionali, sono dati appartenenti allo storico ed in generale quei dati usati per analisi, manutenzione e pianificazione. 
 \end{itemize} 
-I moderni IED, come relè di protezione e misuratori, hanno una quantità enorme di informazioni. Una tipica master station non è progettata per processare questi dati, tuttavia queste informazioni possono essere estremamente utili per utenti diversi. Per poter avvantaggiarsi da questi dati, un meccanismo di estrazione indipendente dalla master station deve essere implementato. I dati operazionali e non hanno meccanismi di raccolta dati diversi, per cui devono esistere due percorsi logici per i dati (fig. \ref{fig:8}), uno per gli operazionali che connetta la substation all'EMS, ed un altro per i non operazionali dalla substation a sistemi di information technology. 
+I moderni IED, come relè di protezione e misuratori, hanno una quantità enorme di informazioni. Una tipica master station non è progettata per processare questi dati, tuttavia queste informazioni possono essere estremamente utili per utenti diversi. Per poter avvantaggiarsi da questi dati, un meccanismo di estrazione indipendente dalla master station deve essere implementato. I dati operazionali e non hanno meccanismi di raccolta dati diversi, per cui devono esistere due percorsi logici per i dati (figura \ref{fig:28}), uno per gli operazionali che connetta la substation all'EMS, ed un altro per i non operazionali dalla substation a sistemi di information technology. 
 
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/substationdf.png}}
-\caption{Scambio di dati delle substation}\label{fig:8}
+\caption{Scambio di dati delle substation}\label{fig:28}
 \end{figure}
 
 Con tutti gli IED connessi ai concentratori di dati delle substation ed un'infrastruttura di comunicazione locale, è diventato possibile avere una connessione  sicura alla maggior parte di IED per effettuare manutenzione remota.
 \newline 
-Un'architettura di integrazione di substation (fig. \ref{fig:9}) offre maggiori funzionalità, avvantaggiandosi di un'architettura del sistema basata su rete, permettendo agli utenti di accedere ad informazioni importanti da tutti i componenti connessi alla rete. Tuttavia, introduce rischi di sicurezza addizionali all'interno del sistema di controllo. Per mitigare tali rischi, una attenzione speciale deve essere presa nella progettazione della rete, concentrandosi sulla sicurezza della rete, implementazioni di autenticazione, autorizzazione e gestione degli utenti. 
+Un'architettura di integrazione di substation (figura \ref{fig:29}) offre maggiori funzionalità, avvantaggiandosi di un'architettura del sistema basata su rete, permettendo agli utenti di accedere ad informazioni importanti da tutti i componenti connessi alla rete. Tuttavia, introduce rischi di sicurezza addizionali all'interno del sistema di controllo. Per mitigare tali rischi, una attenzione speciale deve essere presa nella progettazione della rete, concentrandosi sulla sicurezza della rete, implementazioni di autenticazione, autorizzazione e gestione degli utenti. 
  
 \begin{figure}[h] \centering{
 \includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/substations.png}}
-\caption{Smart substation nell'architettura di una Smart Grid}\label{fig:9}
+\caption{Smart substation nell'architettura di una Smart Grid}\label{fig:29}
 \end{figure}
 
 
 \section{Sistemi di trasmissione}
-I sistemi di trasmissione si occupano dell'erogazione di energia elettrica. Essi forniscono milioni di megawatt di energia ogni giorno. La domanda di energia sempre crescente ha portato all'evoluzione dei sistemi di trasmissione  dovendo fronteggiare, ad esempio, problemi legati alla variabilità dell'energia prodotta dalle risorse rinnovabili, alle eccessive richieste di energia e all'integrazione con altri sistemi. Sono presenti diverse tecnologie di controllo e monitoraggio che garantiscono efficienza, sicurezza ed affidabilità delle operazioni per quanto riguarda la trasmissione. Alcune di queste tecnologie intraprendono azioni automatiche di controllo della rete ed hanno effetto localmente al punto di connessione, mentre altre possono hanno un ambito che può estendersi fino al centro di controllo. Questi sistemi intelligenti offrono controllo dinamico, non solo della fornitura di energia, ma anche della stabilità della rete, voltaggio, frequenze, ed altri aspetti.
+I sistemi di trasmissione si occupano dell'erogazione di energia elettrica. Essi forniscono milioni di megawatt di energia ogni giorno. La domanda di energia sempre crescente ha portato all'evoluzione dei sistemi di trasmissione  dovendo fronteggiare, ad esempio, problemi legati alla variabilità dell'energia prodotta dalle risorse rinnovabili, alle eccessive richieste di energia e all'integrazione con altri sistemi. Sono presenti diverse tecnologie di controllo e monitoraggio che garantiscono efficienza, sicurezza ed affidabilità delle operazioni per quanto riguarda la trasmissione. Alcune di queste tecnologie intraprendono azioni automatiche di controllo della rete ed hanno effetto localmente al punto di connessione, mentre altre possono hanno un ambito operativo che può estendersi fino al centro di controllo. Queste tecnologie offrono controllo dinamico, non solo della fornitura di energia, ma anche della stabilità, voltaggio, frequenze della rete ed altri aspetti.
 
-\subsection{FACTS}
-\subsection{HVDC}
+
+\paragraph{}Una funzione di base delle reti elettriche è che la quantità di energia prodotta in qualsiasi momento deve corrispondere alla quantità di energia consumata, e questo è compito dell'infrastruttura di trasmissione. Il flusso di energia elettrica attraverso il sistema di trasmissione segue le leggi fondamentali della fisica. Per una data tensione e impedenza di linea, si può calcolare la quantità di corrente che fluirà. Questo flusso di corrente può essere più (sovraccarico) o meno (sottoutilizzato) di quanto desiderato dal gestore di trasmissione. Un dispositivo di trasmissione che è in grado di modificare  la risposta del sistema elettrico ad una data condizione è ovviamente un elemento utile nella creazione di una Smart Grid. L'aggiunta di un simile apparecchio non è sufficiente per ottenere una Smart Grid, ma sono necessari strumenti che consentano di controllare il flusso reale in maniera reattiva di energia, voltaggio, frequenza. Tali dispositivi in ​​grado di mantenere il controllo sul reale flusso di corrente in una linea o nodo o addirittura regione di una rete sono i seguenti:
+\begin{itemize}
+	\item \emph{Condensatori sincroni}, in grado di controllare la tensione attraverso l'iniezione o l'assorbimento di potenza nei punti chiave del sistema di trasmissione,  consentendo un controllo più preciso del flusso di potenza;
+	\item \emph{Flexible AC Trasmission Systems} (FACTS), definito dall'IEEE come "power electronic based system che fornisce il controllo di uno o più parametri del sistema di trasmissione AC per migliorare la controllabilità e aumentare la capacità di trasferimento dell'energia"; 
+	\item \emph{High-Voltage Direct Current} (HVDC), sistema di trasmissione di energia elettrica in corrente continua, utilizzato su lunghe distanze. Esso può effettuare un controllo preciso sul flusso di informazioni interno ed esterno, in quanto passano informazioni dettagliate ai centri remoti per monitoraggio, protezione e controllo. Tali sistemi sono in grado di rispondere agli eventi e alle anomalie più velocemente degli operatori, permettendo al sistema di stabilizzarsi e recuperare più velocemente.
+\end{itemize}
+Questi dispositivi sono in grado di implementare gli aspetti del controllo intelligente, sotto condizioni operative stazionarie normali, così come sotto eventi scaturiti da guasti, e a seconda della loro  velocità di risposta, possono essere in grado di prevenire o accelerare il recupero da situazioni di errore automaticamente. In particolare, FACTS e HVDC forniscono caratteristiche che evitano problemi nei sistemi di alimentazione fortemente caricati; aumentano efficientemente la stabilità e capacità di trasmissione del sistema e aiutano a prevenire disturbi e alterazioni in cascata. Con l'aumento del carico e dei cambiamenti, alcuni elementi del sistema possono andare in contro ai loro limiti termici, e il commercio di energia per ampie aree con diversi modelli di carico contribuiranno ad aumentare la congestione [1,2]. Inoltre, vincoli ambientali, come la minimizzazione delle perdite e riduzione di CO$_2$, avranno un ruolo sempre più importante. Di conseguenza, i progettisti di rete devono affrontare far fronte a conflitti tra la sicurezza delle forniture, sostenibilità ambientale, nonché l'efficienza economica [3,4].
+\newline
+FACTS e HVDC giocano un ruolo importante nelle Smart Grid, permettono infatti di avere reti ibride di AC/DC efficienti e con basse perdite, le quali assicurano migliori gestione del flusso di corrente e prendono parte nel processo di gestione di disturbi e blackout.
+
 \subsection{WAMPAC}
 
 
@@ -348,32 +357,12 @@ I sistemi di trasmissione si occupano dell'erogazione di energia elettrica. Essi
 %\subsubsection{distribution SCADA}
 \subsection{Volt/VAr control}
 
-
-%
-%\subsection{smart substation} 3.3 , 3.3.8 role
-%IED, sensor, scada, RTU, 
-%
-%\subsection{energy storage}
-%veicoli, microgrid (3.2.4)
-%
-%\subsection{generazione di energia da risorse rinnovabili}
-%
-%\subsection{trasmission systems} 3.4 (pag.154) role 209
-%facts hdvc 3.4.2 (pag.168), WAMPC 3.4.3 (pag.187) 202 role
-%
-%\subsection{distribution systems} 3.5 pag.211
-%distribution scada, Fault Detection, Isolation, and Service Restoration 244, componenti, outage management
-%
-%\subsection{communication systems} 265
-%ami, 
-%
-%\subsection{monitoring and diagnostics}
-%
-%\subsection{SMART METERS AND ADVANCED METERING INFRASTRUCTURE}
-%
-%vedere anche 3.4.1.4 
+\section{Smart meters e AMI}
 
 
+% [1,2] [3,4] trasmissione
+
+% Proposed terms and definitions for flexible AC transmission system(FACTS), IEEE Transactions on Power Delivery, Volume 12, Issue 4, October 1997, pp. 1848–1853
 
 % http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6298960 
 
