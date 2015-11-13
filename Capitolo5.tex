@@ -294,6 +294,19 @@ Si modella un attaccante forte per entrambi gli scenari come segue: si assuma ch
 
 \section{Replay Attack}
 \section{Jamming}
+L'infrastruttura di comunicazione svolge un ruolo predominante nelle Smart Grid. Si occupa principalmente del broadcast real-time del prezzo della corrente, di riportare i consumi energetici e di monitorare lo stato del sistema. Grazie allo scambio di informazioni in tempo reale un utente è in grado di determinare il proprio consumo energetico ottimale. Così come i vantaggi, l'infrastruttura di comunicazione presenta alcune vulnerabilità. In questa sezione, si analizza in dettaglio una strategia di attacco che manipola il mercato elettrico utilizzando la tecnica del \emph{Jamming} causando cambiamenti nel consumo energetico e portando quindi a destabilizzare la power grid (vedi Figura \ref{fig:jm}). 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.320]{imgs/attack/jm.png}
+	\caption{Un'illustrazione della manipolazione del mercato attraverso il Jamming} \label{fig:jm}
+\end{figure}
+Si assume che è utilizzato un sistema di comunicazione wireless, come WiMAX, per effettuare il broadcast dei prezzi. Un attaccante utilizzando un jammer molto potente, in un'area abbastanza vasta, disturba l'invio real-time delle informazioni riguardanti i prezzi. Si assume che ogni consumer continua a far riferimento al vecchio prezzo in quanto le informazioni relative agli aggiornamenti del prezzo non arrivano a destinazione. L'attaccante continua a fare jamming fin quando non c'è una variazione reale sul prezzo. Una volta ricevuto il nuovo prezzo, gli utenti coinvolti modificheranno e/o si adegueranno, causando una diminuzione o un incremento del prezzo, facile da predire. In questo modo un attaccante può cambiare il prezzo della corrente quando e nella direzione in cui vuole.
+\subsection{Modello del sistema}
+
+\subsection{Strategia di attacco}
+
+\subsection{Contromisure}
+
 % \section{Web Application} già discussa nell'OSSTMM
 \section{Rilevamento}
 \section{Power Fingerprinting}
