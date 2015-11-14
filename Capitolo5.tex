@@ -1,4 +1,4 @@
-% !TeX spellcheck = it_IT
+% !TeX spellcheck = en_GB
 Negli ultimi anni, un numero sempre crescente di infrastrutture critiche è stato digitalizzato, aggiungendo capacità di comunicazione e di computazione a numerosi dispositivi nelle reti di distribuzione dell'energia e dell'acqua, sistemi di trasporto, e manifatturieri. Ciò avviene in parte con lo scopo di aumentare l'efficienza, ma spesso è anche un requisito necessario a gestire l'ambiente che muta, come ad esempio la generazione locale dell'energia o il passaggio ai veicoli elettrici nel caso della distribuzione energetica.\\
 Un progetto di digitalizzazione molto visibile è il passaggio dai \emph{meter} analogici ai digitali (\emph{smart}), che è attualmente in corso in vari paesi del mondo. Oltre ad una fatturazione complessivamente più precisa, uno smart meter può anche dare input agli algoritmi di controllo della grid, essere usato nei mercati energetici, comunicare con la \emph{smart home} (ad esempio, per regolare l'aria condizionata ed i sistemi di riscaldamento quando la richiesta energetica è alta), oppure per disconnettere da remoto un consumatore. In questo modo, un dispositivo precedentemente disconnesso e non critico si trasforma in un dispositivo connesso che può generare dati \emph{process-critical}.\\
 La robustezza dei dati e dei comandi di switch è vitale - se una grande quantità di famiglie viene disconnessa simultaneamente, l'energia in eccesso non ha dove andare, potrebbe danneggiare la grid. In maniera simile, se gli algoritmi di manutenzione si basano su dati provenienti da misure effettuate dagli smart meter, input errati possono produrre effetti di gran lunga peggiori delle frodi di fatturazione. Ciò pone una nuova sfida per i produttori di meter: progettare dispositivi economici, largamente distribuiti e che lavorino su canali con banda banda molto ristretta.
@@ -235,7 +235,13 @@ Gli attacchi stealth sono attuabili quando gli attaccanti hanno piena conoscenza
 Nei sistemi elettrici, le variabili di stato sono generalmente una funzione non lineare dei carichi \textbf{y} e della topologia \textbf{H: x = } \emph{f}(\textbf{y, H}). Mentre la topologia è nota per essere statica in un determinato periodo temporale, i carichi possono essere modellati come \textit{indipendentemente} variabili. Se tali variazioni sono sufficientemente piccole, \emph{f} può essere approssimata utilizzando $\textbf{x} = \textbf{Ay}$, dove \textbf{A} è la matrice dei coefficienti di primo ordine dell'espansione di Taylor in \textbf{y} ($\textbf{z = HAy + e}$).\\
 Con \textbf{HA} ed \textbf{y}, è possibile portare a compimento l'attacco modificando i dati misurati come $\textbf{z}^\prime + \textbf{HA}\delta\textbf{y}$, dove $\delta\textbf{y}$ è scelto arbitrariamente. 
 Il vettore di stato è stimato come $\widehat{\textbf{x}} = (\textbf{H}^T\sum_e^{-1}\textbf{H})-1\textbf{H}^T\sum_e^{-1}\textbf{z}^\prime$. Sia $\delta\textbf{x} = A\delta\textbf{y}$. Siccome $r = \textbf{z}^\prime - \textbf{H}\wedge x = \textbf{z} + \textbf{H}(\widehat{\textbf{x}} + \delta\textbf{x}), E(\textbf{r}) = 0, cov(\textbf{r}) = (\textbf{I} - \textbf{M})\sum_e$. In altre parole, la media e la varianza di \textbf{r} sono le stesse del caso senza attaccanti. Quindi, utilizzando li metodo delresiduo massimo, l'attacco non può essere rilevato.\\
-Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \emph{linear independent component analysis} (ICA).
+Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \emph{linear independent component analysis} (ICA). La Linear ICA \cite{lica} è un metodo sviluppato di recente che ha lo scopo di trovare una rappresentazione lineare dei data cosicché le componenti siano quanto più statisticamente indipendenti possibili. È un caso specoale della \emph{blind source separation}, formulata come segue.
+\indent $\textbf{u} = \textbf{Gv}$,\\
+con $\textbf{u} = [u_i, i = 1,2, \ldots, m]$ che è il vettore delle osservazioni degli $m$ segnali di monitoraggio, $\textbf{G} = [g_{ij}, i = 1, 2, \ldots,m, j = 1 ,2, \ldots, n]$ è la matrice di mixing non nota, e $v = [v_i, i = 1, 2, \ldots, n]$ è il vettore delle $n$ variabili indipendenti latenti.\\
+Dato il modello e la realizzazione di \textbf{u}, ICA può inferire siala matrice di mixing \textbf{G} che il vettore \textbf{v} calcolando in maniera adattiva il vettore dei pesi \textbf{w} che massimizza una misura di \emph{non Gaussianità} del $\textbf{w}^T\textbf{u}$ calcolato.\\
+L'algoritmo è mostrato in figura \ref{algo1}: FastICA \cite{lica}, alla riga 1, è un algoritmo popolare ed efficiente per la ICA che iterativamente trova la direzione in cui il vettore dei pesi \textbf{w} massimizza la non Gaussianità della proiezione $\textbf{w}^T\textbf{z}$ per i dati \textbf{z}. \textbf{G} deve soddisfare $\textbf{w}^T\textbf{G} = \textbf{I}$, con \textbf{I} matrice identità. Le entrate di \textbf{G} minori di una certa soglia $\epsilon$ sono rimosse. Infine, il quasi vettore di stato \textbf{y} può essere stimato da $\textbf{w}^T\textbf{z}$.\\
+La riga 2 verifica che \textbf{z} segua un modello lineare. Se le assunzioni di linearità sono valide, $max(\textbf{z} - \textbf{Gy})$ dovrebbe essere piccolo.\\
+La riga 3 genera un attacco random tramite una variabile casuale Gaussiana, ed è aggiunto alla variabile inferita \textbf{y} alla riga 4, risultando così in un attacco stealth che non può essere rilevato.
 \begin{figure}[htbp]
 	\centering
 	\fbox{\begin{minipage}{15em}
@@ -255,9 +261,52 @@ Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \
 \end{figure}	
 
 
-\section{Time Delay Attack}
+\section{Disconnect Attack}
+Gli smart meter sono la parte più visibile della transizione verso la moderna Smart Grid. Questi sono tipicamente controllati ed interrogati attraverso comunicazioni wireless o su power-line: tali comunicazioni e possibilità di controllo remoto introducono potenziali fonti di attacco con conseguenze gravi per i consumatori ed i proprietari delle infrastrutture.\\
+In particolare, lo switch di servizio e la possibilità di connessione/disconnessione remota (RCD) associata degli smart meter, ha colpito l'attenzione della comunità della sicurezza negli ultimi anni \cite{offswitch}, \cite{remotecontrol}, \cite{amithreats}. Un attacco RCD potrebbe causare un blackout diffuso su larga scala o addirittura la minaccia di compiere il suddetto attacco in cambio di soldi \cite{offswitch}. Questo tipo di attacco potrebbe potenzialmente danneggiare la rete elettrica o altri carichi elettrici causando deviazioni nel voltaggio o nella frequenza \cite{remotecontrol}. In tutti i casi, un attacco portato a termine avrebbe serie conseguenze politiche ed economiche.\\
+Mentre le misure di sicurezza come la cifratura dei dati ed i sistemi di rilevamento delle intrusioni (IDS) offrono un certo livello di protezione per i sistemi AMI, essi non sono d'aiuto nel caso in cui un attaccante sia capace di compromettere il sistema ed far eseguire comandi malevoli a centinaia di migliaia (o milioni) di dispositivi.\\
+Le contromisure adottate, presenti in letteratura, fanno uso di ritardi casuali per l'esecuzione dei comandi RCD rendendo così la Smart Grid più resistente:\\
+\begin{enumerate}
+	\item prevenendo rapidi cambiamenti nel carico che potrebbero destabilizzare il sistema elettrico;
+	\item dando il tempo di rilevare e fermare un attacco in corso.
+\end{enumerate}\\
+Tali meccanismi di ritardo sono tecnicamente fattibili: alcuni meter supportano un ritardo configurabile prima di rispristinare il servizio dopo un guasto \cite{disconnectfaqs}.
+\subsection{Modellare attacchi di Remote Disconnect su AMI}
+Si descrivono di seguito i modelli del sistema e degli attaccanti utilizzati per studiare le contromisure di \emph{time delay} per attacchi RCD.
+\subsubsection{Modello del sistema}
+Si consideri il sistema semplificato di una Smart Grid, in figura \ref{simplesg_img}, in cui una compagnia utilizza un'unità AMI per controllare un insieme di smart meter a casa dei propri clienti. La comunicazione tra l'unità ed il meter è instradata da più \emph{data concentrator unit} (DCU) intermedi, posizionati in \emph{neighborhood area networks} (NANs). L'unità può effettuare richieste di disconnessione, tramite un DCU, di qualunque meter. Il modello permette di astrarre da protocolli, tecnologie di comunicazione e funzionalità di sicurezza disponibili.\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.3]{imgs/attack/simpleSG.png}
+	\caption{Ambiente semplificato. Smart Grid con AMI, sistema di gestione guasti ed un attaccante che sta inviando comandi di disconnessione da remoto ai meter.}
+	\label{simplesg_img}
+\end{figure}
+Il modello del sistema include un \emph{outage management system} (OMS), presso la compagnia, raggiungibile dai clienti tramite telefono o internet. Tale OMS consente alla compagnia di aggregare ed analizzare i report degli utenti.
+\subsubsection{Modello dell'attaccante}
+Si consideri un attaccante con due scopi possibili:
+\begin{enumerate}
+	\item denial-of-electrical-service per i clienti di un'azienda durante un determinato periodo di tempo;
+	\item disturbo fisico della frequenza della rete elettrica attraverso l'eliminazione del carico.
+\end{enumerate}
+L'impatto del primo attacco, un attacco di disconnessione su vasta scala in una importante città, può essere devastante ed è discusso in dettaglio in \cite{offswitch}. Oltre questo scenario da caso pessimo, gli attacchi RCD su scala minore (ad esempio a livello del vicinato) possono comunque avere serie ripercussioni, ed essere meno impegnative per gli attaccanti \cite{amithreats}. Il secondo attacco, la connessione/disconnessione mirata di meter per modificare i parametri del sistema elettrico, discusso in \cite{remotecontrol}. Tale attacco richiederebbe un alto livello di conoscenza del sistema così come un alto numero di dispositivi compromessi.\\
+Si modella un attaccante forte per entrambi gli scenari come segue: si assuma che l'attaccante abbia la conoscenza esatta dell'infrastruttura della compagnia (inclusa la topologia di rete, le specifiche degli smart meter e le strategie di controllo) e delle contromisure impiegate dal sistema. L'attaccante può trasmettere messaggi di disconnessione ad ogni meter e tali comandi sono accettati come autentici. Questa astrazione tiene conto di un vasto numero di vettori d'attacco possibili; ad esempio, la compromissione della master key dell'unità AMI, lo sfruttamento di una falla di un protocollo debole e attacchi dall'interno da parte di un operatore AMI. L'attaccante può prevenire la trasmissione di messaggi sul canale di comunicazione primario, se necessario (ad esempio, facendo uso di jammer). L'attaccante è limitato all'interazione con l'unità, DCU e smart meter, inoltre, non può attaccare direttamente l'OMS, la compagnia o canali di comunicazione secondari.
+
+
 \section{Replay Attack}
 \section{Jamming}
+L'infrastruttura di comunicazione svolge un ruolo predominante nelle Smart Grid. Si occupa principalmente del broadcast real-time del prezzo della corrente, di riportare i consumi energetici e di monitorare lo stato del sistema. Grazie allo scambio di informazioni in tempo reale un utente è in grado di determinare il proprio consumo energetico ottimale. Così come i vantaggi, l'infrastruttura di comunicazione presenta alcune vulnerabilità. In questa sezione, si analizza in dettaglio una strategia di attacco che manipola il mercato elettrico utilizzando la tecnica del \emph{Jamming} causando cambiamenti nel consumo energetico e portando quindi a destabilizzare la power grid (vedi Figura \ref{fig:jm}). 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.320]{imgs/attack/jm.png}
+	\caption{Un'illustrazione della manipolazione del mercato attraverso il Jamming} \label{fig:jm}
+\end{figure}
+Si assume che è utilizzato un sistema di comunicazione wireless, come WiMAX, per effettuare il broadcast dei prezzi. Un attaccante utilizzando un jammer molto potente, in un'area abbastanza vasta, disturba l'invio real-time delle informazioni riguardanti i prezzi. Si assume che ogni consumer continua a far riferimento al vecchio prezzo in quanto le informazioni relative agli aggiornamenti del prezzo non arrivano a destinazione. L'attaccante continua a fare jamming fin quando non c'è una variazione reale sul prezzo. Una volta ricevuto il nuovo prezzo, gli utenti coinvolti modificheranno e/o si adegueranno, causando una diminuzione o un incremento del prezzo, facile da predire. In questo modo un attaccante può cambiare il prezzo della corrente quando e nella direzione in cui vuole.
+\subsection{Modello del sistema}
+
+\subsection{Strategia di attacco}
+
+\subsection{Contromisure}
+
 % \section{Web Application} già discussa nell'OSSTMM
 \section{Rilevamento}
 \section{Power Fingerprinting}
@@ -284,4 +333,9 @@ Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \
 \bibitem{convdef2} A. J. Wood and B. F. Wollenberg, Power Generation, Operation, and Control, Wiley, 1996.
 \bibitem{lorden} H. V. Poor and Q. Hadjiliadis, Quickest Detection, Cambridge Univ. Press, 2008.
 \bibitem{esmalifalak} M. Esmalifalak et al., ``Stealth False Data Injection using Independent Component Analysis in Smart Grid," 2nd IEEE Conf. Smart Grid Commun., Brussels, Belgium, Oct. 2011.
+\bibitem{lica} J. Himberg and A. Hyvarinen, ``Independent Component Analysis for Binary Data: An Experimental Study," 3rd Int’l. Conf. Independent Component Analysis and Blind Signal Separation, Malm, Sweden, June 2001.
+\bibitem{offswitch} R. Anderson and S. Fuloria, ``Who controls the off switch?" in Proc. of the Conference on Smart Grid Communications (SmartGridComm), 2010.
+\bibitem{remotecontrol} M. Costache, V. Tudor, M. Almgren, M. Papatriantafilou, and C. Saunders, ``Remote control of smart meters: friend or foe?" in Proc. of the European Conference on Computer Network Defense (EC2ND), 2011.
+\bibitem{amithreats} D. Grochocki, J. H. Huh, R. Bobba, W. H. Sanders, A. A. Cardenas, and J. G. Jetcheva, ``AMI threats, intrusion detection requirements and deployment recommendations," in Proc. of the Conference on Smart Grid Communications (SmartGridComm), 2012.
+\bibitem{disconnectfaqs} ``GE I-210+ remote disconnect FAQs," \url{http://www.dbmss.ca/PDF\%20files/I210+_and_I210+c_Remote_Disconnect_FAQ_2.pdf}.
 \end{thebibliography}

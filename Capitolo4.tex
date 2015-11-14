@@ -190,11 +190,11 @@ L'ISO/IEC 61850 si basa sulla specifica degli \emph{oggetti} e dei \emph{servizi
 Il concetto di astrazione e standardizzazione presuppone l'utilizzo di un linguaggio comune di configurazione. L'ISO/IEC 61850 si serve di un linguaggio basato su \emph{XML} chiamato \emph{Substation Configuration Language} (SCL). Grazie all'utilizzo di un linguaggio standard è possibile garantire l'interoperabilità tra gli IED che usano diversi protocolli, permettere una configurazione automatica dei dispositivi, ridurre la presenza di errori dovuti all'intervento umano nella gestione degli IED e consentire maggiore trasportabilità facendo in modo che ogni IED, che supporta ISO/IEC 61850, presenti un file SCL che ne definisce la configurazione. Nella Figura \ref{fig:iec61850ds}b è mostrato un esempio di IED.\newpage
 Gli elementi fondamentali del modello di una sottostazione sono elencati di seguito (vedi Figura \ref{fig:arch_iec61850}):
 \begin{itemize}
-	\item\textbf{Merge Unit}: A livello di processo, i dati raccolti da sensori ottici, elettronici, da TV e TA, sui valori di tensione e corrente o sullo status dei componenti, sono recuperati dalle Merge Unit (MU). In genere, sono situate in corrispondenza del centro di controllo;
-	\item\textbf{Intelligent Electronic Device}: Gli IED che supportano ISO/IEC 61850 comunicano attraverso le MU e un process bus Ethernet a 10 Gbps;
-	\item\textbf{Wrapper ISO/IEC 61850}: Gli IED che non supportano il protocollo ISO/IEC 61850 utilizzano un Wrapper;
-	\item\textbf{Process Bus e Station Bus}: Le MU comunicano con il Bay Level attraverso un process bus mentre tutti i nodi logici (IED) comunicano attraverso un bus Ethernet a 100 Mbps;
-	\item\textbf{Gateway e Internet}: Diverse sottostazioni comunicano tra loro attraverso la rete Internet. Un Gateway permette di collegarsi alla rete e accedere alle informazioni da un centro di controllo o da remoto seguendo una procedura che garantisce la robustezza e sicurezza del sistema.
+	\item\textbf{Merge Unit}: a livello di processo, i dati raccolti da sensori ottici, elettronici, da TV e TA, sui valori di tensione e corrente o sullo status dei componenti, sono recuperati dalle Merge Unit (MU). In genere, sono situate in corrispondenza del centro di controllo;
+	\item\textbf{Intelligent Electronic Device}: gli IED che supportano ISO/IEC 61850 comunicano attraverso le MU e un process bus Ethernet a 10 Gbps;
+	\item\textbf{Wrapper ISO/IEC 61850}: gli IED che non supportano il protocollo ISO/IEC 61850 utilizzano un Wrapper;
+	\item\textbf{Process Bus e Station Bus}: le MU comunicano con il Bay Level attraverso un process bus mentre tutti i nodi logici (IED) comunicano attraverso un bus Ethernet a 100 Mbps;
+	\item\textbf{Gateway e Internet}: diverse sottostazioni comunicano tra loro attraverso la rete Internet. Un Gateway permette di collegarsi alla rete e accedere alle informazioni da un centro di controllo o da remoto seguendo una procedura che garantisce la robustezza e sicurezza del sistema.
 \end{itemize}
 
 \begin{figure}[h]
