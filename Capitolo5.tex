@@ -269,7 +269,7 @@ Le contromisure adottate, presenti in letteratura, fanno uso di ritardi casuali 
 \begin{enumerate}
 	\item prevenendo rapidi cambiamenti nel carico che potrebbero destabilizzare il sistema elettrico;
 	\item dando il tempo di rilevare e fermare un attacco in corso.
-\end{enumerate}\\
+\end{enumerate}
 Tali meccanismi di ritardo sono tecnicamente fattibili: alcuni meter supportano un ritardo configurabile prima di rispristinare il servizio dopo un guasto \cite{disconnectfaqs}.
 \subsection{Modellare attacchi di Remote Disconnect su AMI}
 Si descrivono di seguito i modelli del sistema e degli attaccanti utilizzati per studiare le contromisure di \emph{time delay} per attacchi RCD.
@@ -294,19 +294,64 @@ Si modella un attaccante forte per entrambi gli scenari come segue: si assuma ch
 
 \section{Replay Attack}
 \section{Jamming}
-L'infrastruttura di comunicazione svolge un ruolo predominante nelle Smart Grid. Si occupa principalmente del broadcast real-time del prezzo della corrente, di riportare i consumi energetici e di monitorare lo stato del sistema. Grazie allo scambio di informazioni in tempo reale un utente è in grado di determinare il proprio consumo energetico ottimale. Così come i vantaggi, l'infrastruttura di comunicazione presenta alcune vulnerabilità. In questa sezione, si analizza in dettaglio una strategia di attacco che manipola il mercato elettrico utilizzando la tecnica del \emph{Jamming} causando cambiamenti nel consumo energetico e portando quindi a destabilizzare la power grid (vedi Figura \ref{fig:jm}). 
+L'infrastruttura di comunicazione svolge un ruolo predominante nelle Smart Grid. Si occupa principalmente del broadcast real-time del prezzo della corrente, di riportare i consumi energetici e di monitorare lo stato del sistema. Grazie allo scambio di informazioni in tempo reale un utente è in grado di determinare il proprio consumo energetico ottimale.\newline
+Così come i vantaggi, l'infrastruttura di comunicazione presenta alcune vulnerabilità. In questa sezione, si analizza in dettaglio una strategia di attacco che manipola il mercato elettrico utilizzando la tecnica del \emph{Jamming}. Questo attacco causa cambiamenti nel consumi energetici e tende quindi a destabilizzare le power grid (vedi Figura \ref{fig:jm}). 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.320]{imgs/attack/jm.png}
 	\caption{Un'illustrazione della manipolazione del mercato attraverso il Jamming} \label{fig:jm}
-\end{figure}
-Si assume che è utilizzato un sistema di comunicazione wireless, come WiMAX, per effettuare il broadcast dei prezzi. Un attaccante utilizzando un jammer molto potente, in un'area abbastanza vasta, disturba l'invio real-time delle informazioni riguardanti i prezzi. Si assume che ogni consumer continua a far riferimento al vecchio prezzo in quanto le informazioni relative agli aggiornamenti del prezzo non arrivano a destinazione. L'attaccante continua a fare jamming fin quando non c'è una variazione reale sul prezzo. Una volta ricevuto il nuovo prezzo, gli utenti coinvolti modificheranno e/o si adegueranno, causando una diminuzione o un incremento del prezzo, facile da predire. In questo modo un attaccante può cambiare il prezzo della corrente quando e nella direzione in cui vuole.
+\end{figure}\\
+Si assume che è utilizzato un sistema di comunicazione wireless, come WiMAX, per effettuare il broadcast delle informazioni relative ai prezzi. Un attaccante, utilizzando un jammer molto potente in un'area abbastanza vasta, disturba l'invio real-time dei prezzi. Si assume che ogni consumer continua a far riferimento al vecchio prezzo in quanto le informazioni aggiornate sul prezzo non arrivano a destinazione. L'attaccante continua a fare jamming fin quando non c'è una variazione reale sul prezzo. Una volta ricevuto il nuovo prezzo, gli utenti coinvolti modificheranno e/o si adegueranno, causandone una diminuzione o un incremento, facile da predire. In questo modo un attaccante può cambiare il prezzo della corrente quando e nella direzione in cui vuole.
 \subsection{Modello del sistema}
-
+Si considera una power grid con $N$ bus. Ogni bus è connesso ad un generatore elettrico. Sul bus \emph{n}, la corrente generata è denotata da \emph{$G_{n}$} e il costo unitario per la generazione è indicato con \emph{$C_{n}$}. Si assume vi siano \emph{M} utenti su ogni bus. L'$m$-esimo utente sul bus $n$ ha un consumo energetico $d_{nm}(t)$ nello slot temporale \emph{t}. Il consumo energetico totale sul bus \emph{n} è dato da $D_{n} = \sum_{m=1}^{M}d_{nm}$. Ci sono \emph{K} linee di trasmissione. L'upper bound realativo alla corrente trasmessa sulla linea \emph{k} è denotato con $F_{k}^{max}$. Il generation shift factor dal bus \emph{n} alla linea di trasmissione \emph{k} si indica con $GSF_{n \rightarrow k}$ se quel bus è adiacente a tale linea. Un esempio della power grid con 5 bus è mostrato in Figura \ref{fig:pjm}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.400]{imgs/attack/pjm.png}
+	\caption{Un'illustrazione di un sistema PJM con 5 bus} \label{fig:pjm}
+\end{figure}
+\newpage
+La generazione di corrente è determinata dal seguente problema di programmazione lineare\cite{jam}.
+\begin{equation*}
+\begin{array}{ll@{}ll}
+\text{min}  & \displaystyle\sum\limits_{n=1}^{N} C_{n} \times G_{n} &\\
+\text{s.t.}& \displaystyle\sum\limits_{n=1}^{N} G_{n} -  \sum\limits_{n=1}^{N} D_{i} = 0,&\\
+               & GSF_{n \rightarrow k} \times (G_{n} - D_{n}) \leq F_{k}^{max},\forall k&\\
+\end{array}
+\end{equation*}
+%LMP
+Si assume che il consumo energetico è determinato da un'utility function relativa al consumer, denotata con $U(w,d)$, in cui $w$ rappresenta l'internal power requirement e d rappresenta il consumo. Si assume che questa funzione cresce con l'aumentare di $d$ e decresce con l'aumentare di $w$. Inoltre, si assume che il guadagno di un utente è dato da $R(w,d,p) = U(w,d) - dp$, che è il valore della funzione a cui si va a sottrarre il prezzo relativo al consumo energetico. Quindi, il livello di consumo energetico ottimale dovrebbe massimizzare il guadagno totale $d^{*} = arg max \Big[U(w,d) - dp\Big]$ al variare di $d$. Per semplicità si può pensare che tutti gli utenti hanno la stessa utility function. Si assume anche che il consumo energetico ottimale è funzione continua, decrescente e convessa del prezzo, dato un fissato valore $w$. La randomness sui consumi deriva dalla randomness relativa all'internal power requirement caratterizzata dal parametro $w$. Si assume che $w$ sia una catena di Markov, che ha L valori $w_{1} \leq w_{2} \leq w_{3} \leq \cdots \leq w_{L}$. La probabilità di transizione di stato è denotata con $p_{nm}$ per gli stati $n$ e $m$ e può avvenire solo tra stati adiacenti.
+\newpage
 \subsection{Strategia di attacco}
-
+Descrizione relativa alla procedura d'attacco:
+\begin{enumerate}
+	\item L'attaccante fa jamming in un'area molto popolata;
+	\item L'utente coinvolto è a conoscenza del vecchio prezzo della corrente dal momento in cui il nuovo prezzo non gli è noto;
+	\item L'attaccante monitora il mercato elettrico e continua a fare jamming;
+	\item Nel momento in cui il prezzo cambia significativamente, si smette di fare jamming;
+	\item Ogni utente adatta il suo consumo energetico in base al nuovo prezzo. Se il nuovo prezzo è superiore al vecchio, l'utente diminuisce i suoi consumi, facendo calare il prezzo della corrente con alta probabilità. Viceversa, se il nuovo prezzo è più piccolo, un utente incrementa i suoi consumi, aumentando con alta probabilità il prezzo dell'energia;
+	\item L'attaccante può avere dei profitti dalla manipolazione del mercato.
+\end{enumerate}
+\subsection{Impatto}
+Si suppone che il bus \emph{n} ha subito jamming. Si denotano con $p_{0}$ e $p_{n}$ il vecchio e il nuovo prezzo, prima e dopo aver cessato il jamming. $\pi_{i}$ è la proporzione di utenti sul jammed bus che sono nello stato $i$. Quando il numero di utenti $M$ nel bus è sufficientemente grande, la proporzione può essere approssimata da una probabilità stazionaria della catena di Markov. Il cambiamento del cosumo energetico totale dopo aver ottenuto il prezzo della corrente è:\newline
+\indent$\delta D = \sum\limits_{i=n}^{N} \Big[ d_{l_{n}(t+1)}(p_{n}) - d_{l_{n}(t)}(p_{0})\Big]$,\newline
+dove $l_{n}(t)$ è il power requirement index dell'utente $n$ al tempo $t$, $d_{i}$ è la funzione del consumo energetico ottimale quando il power requirement index corrente è $i$. L'expectation del cambiamento del consumo energetico risulta:\newline
+\indent$E[\delta D] = M \sum\limits_{i=1}^{L} \pi_{i} \Big[\sum\limits_{j} P_{ij}d_{j}(p_{n}) - d_{i}(p_{0})\Big]$.\newline\newline
+Quando $M$ è sufficientemente grande, il cambiamento del consumo energetico può essere approssimato da una distribuzione Gaussiana, con expectation descritta precedentemente e varianza pari a:\newline
+\indent$Var[\delta D] = \sqrt{M} \sum\limits_{i=1}^{L} \pi_{i} \Big\{\sum\limits_{j}P_{ij}d_{j}^{2}(p_{n}) - \Big[\sum\limits_{j}P_{ij}d_{j}^{2}(p_{n})\Big]^2\Big\}$.\newpage
+In questo caso si è assunto che $\Delta D > 0$. L'analisi si può anche applicare nel caso $\Delta D < 0$. Se l'attaccante ha un profitto nel momento in cui $\Delta D > \Delta D_{min}$ allora in accordo all'approssimazione Gaussiana, la probabilità che egli riesca nell'attacco è data da $P_{s} \approx 1 - Q \bigg(\frac{\Delta D_{min} - E[\Delta D]}{\sqrt{Var[\Delta D]}}\bigg)$.
 \subsection{Contromisure}
-
+A causa dei potenzial gravi danni che questo attacco può infliggere al mercato elettrico, il meccanismo price-response deve essere in grado di impedire un tale attacco. L'essenza della contromisura sta nell'evitare di modificare il consumo di energia in maniera simultanea. L'idea è basata sui protocolli come l'Aloha e CSMA, in cui i diversi trasmettitori utilizzano backoff casuali per evitare le collisioni dovute a trasmissioni simultanee.\newline\newline
+E' stato proposto uno schema di backoff casuale, in cui ogni consumer sceglie un tempo casuale per cambiare la propria power response. T è una variabile casuale che dipende dalla differenza tra il nuovo e il vecchio prezzo, denotata da $\delta p$, e dal tempo in cui il segnale relativo al prezzo non è stato ricevuto, noto come $\tau$. Si assume che il tempo è esponenzialmente distribuito con\newline
+\indent$p(T = t) = (e^{\lambda} - 1) e^{- \lambda t}, t = 1,2,3,\cdots$
+\newline
+dove $\lambda$ è funzione di $\delta p$ e $\tau$. Se un attaccante ferma il jamming al tempo 0, allora il cambiamento del carico elettrico sul jammed bus nello slot temporale t, confrontato con il carico al tempo 0, è dato da:\newline
+\indent$\delta D(t) = \sum\limits_{i=n}^{N} I(T_{n} < t) \Big[d_{l_{n}(t)}(p_{n}) - d_{l_{n}(0)}(p_{0})\Big]$,
+\newline
+con expectation:\newline
+\indent$E[\delta D] = P(T \leq t) \times M \sum\limits_{i=1}^{L} \pi_{i} \Big[\sum\limits_{j} P_{ij}^{t}d_{j}(p_{n}) - d_{i}(p_{0})\Big]$,\newline
+dove $P_{ij}^{t}$ è la probabilità di transizione tra i livelli di consumo $i$ e $j$ dopo $t$ slot temporali, e varianza:\newline
+\indent$Var[\delta D] = P(T < t) \times \sqrt{M} \sum\limits_{i=1}^{L} \pi_{i} \Big\{\sum\limits_{j}P_{ij}^{t}d_{j}^{2}(p_{n}) - \Big[\sum\limits_{j}P_{ij}^{t}d_{j}^{2}(p_{n})\Big]^2\Big\}$.\newline
+L'idea è quindi quella di diffondere le informazioni relative ai cambiamenti dei consumi energetici in un intervallo di tempo molto più grande lasciando che la randomness intrinseca del mercato possa contrattaccare i cambiamenti dei jammed user.
 % \section{Web Application} già discussa nell'OSSTMM
 \section{Rilevamento}
 \section{Power Fingerprinting}
@@ -338,4 +383,5 @@ Si assume che è utilizzato un sistema di comunicazione wireless, come WiMAX, pe
 \bibitem{remotecontrol} M. Costache, V. Tudor, M. Almgren, M. Papatriantafilou, and C. Saunders, ``Remote control of smart meters: friend or foe?" in Proc. of the European Conference on Computer Network Defense (EC2ND), 2011.
 \bibitem{amithreats} D. Grochocki, J. H. Huh, R. Bobba, W. H. Sanders, A. A. Cardenas, and J. G. Jetcheva, ``AMI threats, intrusion detection requirements and deployment recommendations," in Proc. of the Conference on Smart Grid Communications (SmartGridComm), 2012.
 \bibitem{disconnectfaqs} ``GE I-210+ remote disconnect FAQs," \url{http://www.dbmss.ca/PDF\%20files/I210+_and_I210+c_Remote_Disconnect_FAQ_2.pdf}.
+\bibitem{jam} F. Li and R. Bo, ``Congestion and price prediction under load variation'', IEEE Control System Magazine, vol.19, pp.59–70, Oct. 2009.
 \end{thebibliography}
