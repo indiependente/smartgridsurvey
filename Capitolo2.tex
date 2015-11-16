@@ -57,13 +57,6 @@ La comunicazione consiste di tre categorie di trasmissione, con relativi standar
 	\item \emph{Home-area network} (HAN).
 \end{itemize}
 
-%Il communication layer consiste di tre categorie di trasmissione:
-%\begin{itemize}
-%	\item \emph{Wide-area network} (WAN);
-%	\item \emph{Field-area network} (FAN);
-%	\item \emph{Home-area network} (HAN).
-%\end{itemize}
-
 \subsection{Wide-area network}
 La WAN consente la comunicazione fra le entità che forniscono energia e le substations; deve estendersi su tutte le substation, strutture di distribuzione, generazione energetica e di conservazione dell'energia, per poter essere efficace e scalabile. Essa è rete di comunicazione bidirezionale ad alta larghezza di banda che gestisce le trasmissioni a lunga distanza dei dati con avanzate applicazioni di misurazione e monitoraggio. La comunicazione remota fra le \emph{utility} e gli smart meter è essenziale per lo scambio di importanti informazioni, quali prezzi e tariffe dei clienti. Le reti cellulari, WiMAX e comunicazioni cablate, in particolare comunicazioni basate su fibra ottica e microwave, sono i migliori candidati come tecnlogie per WAN (vedi capitolo 4).
 \\
@@ -94,6 +87,31 @@ Le più comuni risorse di energia rinnovabile sono:
 	\item \emph{Sistemi che sfruttano la potenza dell'acqua}, sia che essa sia generata artificialmente che naturalmente, grazie alle onde e alle maree.   
 \end{itemize} 
 
+\section{Smart meter e Advance Metering Infrastructure}
+Uno \emph{smart meter} è un dispositivo elettronico che registra consumi di energia elettrica in intervalli di un'ora o meno e comunica tali informazioni per scopi di fatturazione e monitoraggio [7]. Gli smart meter consentono una comunicazione bidirezionale fra essi ed i sistemi di controllo. A differenza dei display energetici posizionati nelle case, gli smart meter possono inviare in remoto i dati raccolti. 
+\\
+Per quanto riguarda la comunicazione bidirezionale esistono diversi protocolli:
+\begin{itemize}
+	\item ANSI C12.18, C12.19 e C12.21 , utilizzati principalmente nel nord America;
+	\item IEC 61107 e 62056 usati nell'Unione Europea;
+	\item  \emph{Open Smart Grid Protocol} (OSGP), famiglia di specifiche pubblicata dall'European Telecommunications Standards Institute, usato in congiunzione con ISO/IEC 14908.
+\end{itemize}
+Gli smart meter forniscono un modo di misurare informazioni specifiche, che consente alle aziende di introdurre diversi prezzi sul consumo in base al periodo del giorno e alla stagione. Dal punto di vista dei clienti, gli smart meter consentono di conoscere il proprio consumo e regolarsi di conseguenza. Uno studio accademico sulla base di studi esistenti ha mostrato che il consumo di energia elettrica dei proprietari di abitazione, in media, si riduce di circa il 3-5\% [8].
+\emph{Advance Metering Infrastructure} è una tecnologia che non coinvolge soltanto gli smart meter, ma è anche un'infrastruttura di comunicazione, applicazioni ed interfacce  per lo scambio di dati. Un tipico sistema AMI (vedi Figura \ref{fig:2_12}) è composto da una centralina AMI per la comunicazione, una piattaforma integrata, un \emph{meter data management system} (MDMS), una rete di comunicazione AMI e terminali AMI, inclusi gli smart meter. I collegamenti di comunicazione con i clienti avviene mediante HAN, attraverso un'interfaccia che comunica con i termostati, elettrodomestici ed altri dispositivi. La centralina monitora, controlla e gestisce i protocolli di comunicazione e lo scambio dei dati con la rete. Inoltre, la centralina permette agli operatori remotamente di monitorare  e gestire la rete AMI. Il MDMS colleziona i dati degli smart meter, effettua conservazione dei dati e li gestisce.
+Fra i principali benefici dei sistemi AMI:
+\begin{itemize}
+	\item Dati preziosi per il rilevamento di interruzioni, che sono intergrati con l'OMS;
+	\item Rilevamento e notificazione in caso di manomissioni o furti;
+	\item Aspetto chiave per programmi di gestione della domanda energetica;
+	\item Maggiori informazioni sui clienti per compagnie;
+\end{itemize}
+
+Alcuni svantaggi potenziali dei sistemi AMI:
+\begin{itemize}
+	\item Problemi di privacy, in quanto le informazioni sull'utilizzo di energia sono disponibili per ciascun cliente e si possono trarre informazioni personali;
+	\item Maggiore possibilità di una terza parte non autorizzata di poter accedere ai dati;
+	\item Aumento dei rischi per la sicurezza di rete o l'accesso remoto.
+\end{itemize}
  
 \section{Conservazione dell'energia}
 Il principale problema con l'energia elettrica è che deve essere utilizzata non appena viene generata, o in caso contrario, deve essere convertita in altre forme di energia. Durante i periodi in cui non è richiesta la loro assistenza, sistemi di stoccaggio accumulano energia. Successivamente, l'energia immagazzinata viene inviata nel sistema di alimentazione in determinati periodi di tempo, pertanto
@@ -365,21 +383,43 @@ Il sistema di distribuzione è il cuore di una Smart Grid. I progressi nelle tec
 %\end{itemize}
 La necessità di lavori manuali da parte degli operatori nelle substation di distribuzione fu eliminata dall'applicazione di IED, sistemi SCADA e logger automatici di dati. In seguito, furono aggiunti strumenti, indicati come \emph{fault location isolation and service restoration} (FLISR), per il ripristino energetico per fa fronte a corti circuiti e malfunzionamenti temporanei. Successivamente,  per il controllo e monitoraggio remoto degli alimentatori furono sviluppati sistemi con controllo del \emph{volt/VAr} (vedi ...) e SCADA basati su FLISR per migliorare l'affidabilità e ridurre le perdite di energia. Anche se la maggior parte dell'energia veniva fornita da grandi generatori centrali, un numero crescente di generatori distribuiti faceva il suo ingresso nel sistema di distribuzione, tra cui le risorse energetiche rinnovabili e nello stesso periodo ci furono introdotti i sistemi AMR, in grado di effettuare comunicazioni unidirezionali. Progressivamente, le risorse energetiche rinnovabili costituiscono attualmente un importante aspetto della Smart Grid. Il sistema di distribuzione, infatti, deve fronteggiare l'alta variabilità delle risorse rinnovabili. Ad esempio, l'alta nuvolosità e la scarsa potenza del vento causano una riduzione dell'energia prodotta, che deve essere compensata mediante condensatori e regolatori di voltaggio. Inoltre per contrastare le variabilità della generazione energetica distribuita, le unità di quest'ultima sono equipaggiate di convertitori di corrente da diretta ad alternata per fornire in maniera reattiva energia, riducendo l'energia persa e migliorando il \emph{power factor}, ovvero il rapporto tra potenza necessaria per compiere lavoro e quella erogata. La generazione di energia distribuita unita alla conservazione dell'energia e ai sistemi di controllo avanzati consentono alle microgrid isolate di continuare a servire i clienti nelle comunità locali, sia quando la microgrid si separa dalla rete che si verifica una mancanza di corrente. 
 \\ 
-Il sistema di distribuzione si avvale di un \emph{distribution management system} (DMS), per la gestione e prendere decisioni e di sistemi con comunicazione bidirezionale, \emph{advanced metering infrastructure} (AMI), per supportare una vasta gamma di applicazioni collegate al fatturato e fornire informazioni in tempo reale sul consumo dei clienti e sulle condizioni delle apparecchiature elettrice di distribuzione. I sistemi AMI permettono programmi di \emph{demand-side management} (DSM), per ad esempio gestire dei picchi energetici. I sistemi AMI e sensori intelligenti dentro e fuori le substation, tramite comunicazioni ad alta larghezza di banda consentono di ottenere una grande quantità di informazioni proveniente dalle componenti del sistema di distribuzione. In aggiunta alle informazioni in tempo reale da collezionare, è presente una moltitudine di informazioni geo-spaziali, che vengono memorizzati in \emph{geographic information system} (GIS). Tale abbondanza di dati contiene informazioni aiutano nella gestione del sistema di distribuzione ed è complessa da analizzare, per cui non vengono utilizzati strumenti tradizionali, ma strumenti per l'analisi dei dati specifici.    
+Il sistema di distribuzione si avvale di un \emph{distribution management system} (DMS), per la gestione e prendere decisioni e di sistemi con comunicazione bidirezionale, \emph{advanced metering infrastructure} (AMI), per supportare una vasta gamma di applicazioni collegate al fatturato e fornire informazioni in tempo reale sul consumo dei clienti e sulle condizioni delle apparecchiature elettrice di distribuzione. I sistemi AMI permettono programmi di \emph{demand-side management} (DSM), per ad esempio gestire dei picchi energetici. I sistemi AMI e sensori intelligenti dentro e fuori le substation, tramite comunicazioni ad alta larghezza di banda consentono di ottenere una grande quantità di informazioni proveniente dalle componenti del sistema di distribuzione. In aggiunta alle informazioni in tempo reale da collezionare, è presente una moltitudine di informazioni geo-spaziali, che vengono memorizzati in \emph{geographic information system} (GIS). Tale abbondanza di dati contiene informazioni aiutano nella gestione del sistema di distribuzione ed è complessa da analizzare, per cui non vengono utilizzati strumenti tradizionali, ma strumenti per l'analisi dei dati specifici [].    
  
+\subsection{Distribution Management System}
+Il sistema di distribuzione della Smart Grid si affida ad un sistema con una visione completa sulle condizioni dei sistemi di alimentazione, ossia il distribution management system (figura \ref{fig:2_10}). 
+
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/dmshigh.png}}
+\caption{Configurazione ad alto liveo livello di un Distribution Management System}\label{fig:2_10}
+\end{figure}
+
+Un DMS integra il monitoraggio, l'analisi di rete e le applicazioni di controllo in un sistema decisionale, in grado di gestire le complessità del sistema di distribuzione, sia in condizioni stazionarie che di emergenza. Migliorare l'affidabilità e la qualità del servizio in termini di riduzione delle interruzioni, minimizzando il tempo di interruzione e mantenendo i livelli di frequenza e di tensione accettabili.  
+La figura \ref{fig:2_11} mostra l'architettura di un DMS.
+
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.7, natwidth=1003,natheight=490]{imgs/dms.png}}
+\caption{Architettura di un Distribution Management System}\label{fig:2_11}
+\end{figure}
+
+Uno dei sistemi chiave nel moderno centro di controllo è l'Outage Management System (OMS), che assiste nella gestione del sistema di distribuzione elettrica nel rilevare interruzioni di alimentazione, determinare la posizione approssimativa della causa principale dell'interruzione, stimare il tempo di ripristino, valutare i danni e attività di restauro, e lo sviluppo di statistiche relative alle interruzioni. Il DMS deve essere in grado di rappresentare tutti gli aspetti della rete di distribuzione, inclusi conduttori, trasformatori, interruttori manuali o automatici e tutti gli altri dispositivi che operano nel sistema di distribuzione. Per poter effettuare politiche di bilanciamento del carico e gestire le variabilità energetiche nel sistema di distribuzione, un algoritmo \emph{load-flow}, il quale permette di calcolare i parametri della rete in ogni punto della rete, deve essere eseguito su dati telemetrici, resi disponibili dai sistemi SCADA e la telemetria ad essi associata, mediante la tecnologia AMI e l'OMS. 
+\\
+Con un modello di rete complesso, quantità significanti di dati telemetrici e calcolati, risulta cruciale fornire visualizzazione dei risultati. Un DMS deve mostrare i dati delle rete in viste geografiche, come mappe, schematiche e diagrammi. 
+\\
+La \emph{Demand response} è una funzione chiave per il DMS per ridurre i picchi di consumo energetico. Per modificare le abitudini dei consumatori, soprattutto nelle ore di punta, le società di servizi offrono diverse politiche di pagamento, incentivando i clienti ad usufruire dell'energia nelle ore notturne. Siccome questo approccio non fornisce sufficienti riduzioni, il DMS può aiutare in questa direzione riducendo la tensione erogata, grazie alle funzionalità dei volt/VAr, tra 3 e 7\%, senza che i clienti ne siano consapevoli.
 
 
 
-%VVO - The need to deal with increasing penetration of DERs, coupled with the need
-%to reduce electrical losses and improve overall efficiency, has resulted in the
-%growth of advanced distribution model-driven volt/VAr optimization (VVO)
-%systems. Many utilities have implemented or are currently demonstrating
-%advanced VVO on their distribution systems as a key part of their grid modernization
-%strategy. Figure 2.7 shows a representative advanced VVO system.
+
+
+
 
 % [1,2] [3,4] trasmissione
 
 % [6] V. Terzija, G. Valerde, D. Cai, P. Regulski, V. Madani, J. Fitch, S. Skok, Miroslav M. Begovic and A. Phadke, “Wide-Area Monitoring, Protection and Control of Future Electric Power Networks”, IEEE Proceedings, vol. 99, No.1, pp. 80-93, January. 2011 
+
+%[7]  Federal Energy Regulatory Commission Assessment of Demand Response & Advanced Metering http://www.ferc.gov/legal/staff-reports/12-08-demand-response.pdf
+
+% [8] McKerracher, C. and Torriti, J. (2013) Energy consumption feedback in perspective: integrating Australian data to meta-analyses on in-home displays. Energy Efficiency, Volume 6 (2). pp 387-405
 
 % Proposed terms and definitions for flexible AC transmission system(FACTS), IEEE Transactions on Power Delivery, Volume 12, Issue 4, October 1997, pp. 1848–1853
 
