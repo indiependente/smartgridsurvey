@@ -3,7 +3,7 @@ Negli ultimi anni, un numero sempre crescente di infrastrutture critiche è stat
 Un progetto di digitalizzazione molto visibile è il passaggio dai \emph{meter} analogici ai digitali (\emph{smart}), che è attualmente in corso in vari paesi del mondo. Oltre ad una fatturazione complessivamente più precisa, uno smart meter può anche dare input agli algoritmi di controllo della grid, essere usato nei mercati energetici, comunicare con la \emph{smart home} (ad esempio, per regolare l'aria condizionata ed i sistemi di riscaldamento quando la richiesta energetica è alta), oppure per disconnettere da remoto un consumatore. In questo modo, un dispositivo precedentemente disconnesso e non critico si trasforma in un dispositivo connesso che può generare dati \emph{process-critical}.\\
 La robustezza dei dati e dei comandi di switch è vitale - se una grande quantità di famiglie viene disconnessa simultaneamente, l'energia in eccesso non ha dove andare, potrebbe danneggiare la grid. In maniera simile, se gli algoritmi di manutenzione si basano su dati provenienti da misure effettuate dagli smart meter, input errati possono produrre effetti di gran lunga peggiori delle frodi di fatturazione. Ciò pone una nuova sfida per i produttori di meter: progettare dispositivi economici, largamente distribuiti e che lavorino su canali con banda molto ristretta.
 \section{Open Smart Grid Protocol}
-L'Open Smart Grid Protocol (OSGP) è stato uno dei primi protocolli di comunicazione su powerline per smart meters disponibile sul mercato, ed è largamente utilizzato per comunicare tra smart meter e l'aggregatore di dati, il quale è un dispositivo che colleziona dati provenienti da diverse centinaia di meter in un segmento di PLC (Power Line Communication) e li inoltra ad un controllore centralizzato.\\
+L'Open Smart Grid Protocol (OSGP) è stato uno dei primi protocolli di comunicazione su powerline per smart meter disponibile sul mercato, ed è largamente utilizzato per comunicare tra smart meter e l'aggregatore di dati, il quale è un dispositivo che colleziona dati provenienti da diverse centinaia di meter in un segmento di PLC (Power Line Communication) e li inoltra ad un controllore centralizzato.\\
 L'OSGP risiede nel layer delle applicazioni dello stack protocollare definito dallo standard 14908 ISO/IEC \cite{standard14908}. Nonostante l'OSGP sia principalmente utilizzato per applicazioni di smart-metering, esso è stato progettato per un utilizzo più ampio all'interno di dispositivi della Smart Grid. Lo stack protocollare è molto leggero. Tale leggerezza è ottenuta pagando in sicurezza, infatti le primitive crittografiche consigliate dal NIST  (ad esempio: Advanced Encryption Standard - AES, in \emph{authenticated mode}) sono evitate, optando per altre meno intense computazionalmente: lo stream cipher RC4 per la cifratura ed una funzione digest non standard per l'autenticazione dei messaggi.\\
 Il problema più grande è la combinazione di uno stream cipher con una funzione di digest lineare, che apre le possibilità per attacchi alle chiavi crittografiche ed ai messaggi. Ad esempio, si potrebbe sfruttare tale vulnerabilità utilizzando il ricevente di un messaggio come un ``oracolo". Dato un messaggio propriamente cifrato ed autenticato, un attaccante ipotizza una combinazione di un bit del messaggio ed un bit della chiave, invia un messaggio, appositamente confezionato, al ricevente ed utilizza la risposta del  dispositivo che rifiuti o confermi l'ipotesi. Siccome questo può essere effettuato per singoli bit, un attaccante può ricostruire la chiave principale del dispositivo (OMA key) con al più $96 \times 3$ risposte.
 \subsection{Potenziali debolezze del protocollo}
@@ -17,7 +17,7 @@ La funzione di digest utilizzata nel protocollo OSG per l'autenticazione dei mes
 \subsubsection{Sicurezza di broadcast non definita}
 Nonostante la funzione di broadcast sia chiamata ``Secure Broadcast", la sicurezza definita su di essa è molto bassa. Questo è particolarmente preoccupante, se si pensa che tale meccanismo è utilizzato per inviare aggiornamenti del firmware, che sono distribuiti attraverso il meccanismo di broadcast sicuro senza alcuna misura specifica atta a fornire autenticazione dalla sorgente.
 \subsubsection{Utilizzo della chiave}
-Sebbene il protocollo faccia uso di chiavi di sessione per la cifratura, utilizza una master key per l'autenticazione. Comunque, questa chiave di autenticazione è usata per derivare la cifratura delle chiavi di sessione. Quindi se la chiave di autenticazione è compromessa, tutte le chiavi di sessione sono note dall'attaccante. Siccome la chiave di autenticazione è usata con un debole algoritmo di autenticazione, essa è altamente esposta ad un gran numero di attacchi, e comprometterla è ben possibile.
+Sebbene il protocollo faccia uso di chiavi di sessione per la cifratura, utilizza una master key per l'autenticazione. Comunque, questa chiave di autenticazione è usata per derivare la cifratura delle chiavi di sessione. Quindi se la chiave di autenticazione è compromessa, tutte le chiavi di sessione sono note all'attaccante. Siccome la chiave di autenticazione è usata con un debole algoritmo di autenticazione, essa è altamente esposta ad un gran numero di attacchi, e comprometterla è ben possibile.
 \subsection{Sfruttare le debolezze strutturali}
 Queste debolezze strutturali possono essere sfruttate in vari modi. Gli attacchi adatti a tale scopo complessivamente non sono molto sofisticati, piuttosto, grazie alla debolezza dei \emph{building block} crittografici un attaccante è capace di dirottare un intero segmento PLC.\\
 Un attacco relativamente semplice punta a \textit{rompere} la funzione di digest così che un attaccante possa non solo forgiare messaggi, ma - avendo ottenuto accesso ad un messaggio autentico di sufficiente lunghezza - anche ricostruire chiavi crittografiche con basso sforzo, per poi inviare falsi comandi correttamente autenticati.
@@ -87,7 +87,7 @@ La maggior parte dei moduli applicabili al testing della sicurezza degli smart m
 \end{enumerate}
 
 \paragraph{Network Surveying}\mbox{}\\
-Punta all'identificazione dei sistemi target accessibili in rete. Nel caso di smart meters, questi sono accessibili agli attaccanti attraverso sia reti wireless che le home area networks. In entrambi i casi, il Network Surveying consiste nell'ottenere informazioni sui target (\emph{information gathering}). 
+Punta all'identificazione dei sistemi target accessibili in rete. Nel caso di smart meter, questi sono accessibili agli attaccanti attraverso sia reti wireless che le home area network. In entrambi i casi, il Network Surveying consiste nell'ottenere informazioni sui target (\emph{information gathering}). 
 Ciò può essere realizzato in uno dei seguenti modi: passivamente, ascoltando il traffico di passaggio sulla rete, o attivamente, facendo \emph{IP probing} in attesa di una response.\\
 
 \begin{figure}[hbtp]
@@ -98,7 +98,7 @@ Ciò può essere realizzato in uno dei seguenti modi: passivamente, ascoltando i
 \end{figure}
 
 Per l'identificazione passiva, può essere utilizzato Wireshark, Figura \ref{wireshark_img}.\cite{wireshark} Wireshark cattura il traffico che attraversa qualsiasi rete in tempo reale e fornisce l'ispezione di centinaia di protocolli. È possibile inoltre specificare gli indirizzi IP di cui effettuare lo sniffing, così da limitare la raccolta di informazione ai possibili target.\\
-Per quanto riguarda l'identificazione attiva, invece, è possibile utilizzare la tecnica del \emph{ping sweep}: essa si avvale del Internet Control Message Protocol (ICMP) per individuare i target attivi in rete analizzando le loro response. Nel caso in cui il traffico ICMP sia bloccato, è spesso utilizzato il ping di TCP. Per entrambi i casi è utilizzato il tool di sicurezza Nmap.\cite{nmap}
+Internet Control Message Protocol (ICMP) per individuare i target attivi in rete analizzando le loro response. Nel caso in cui il traffico ICMP sia bloccato, è spesso utilizzato il ping di TCP. Per entrambi i casi è utilizzato il tool di sicurezza Nmap.\cite{nmap}
 
 \paragraph{Port Scanning}\mbox{}\\
 Consiste nel fare \emph{probing} sul target in attesa di risposte sulle 65,536 porte TCP e/o UDP. Ottenere una response significa che dei servizi sono in esecuzione sulle porte associate e che potrebbero contenere debolezze che esporrebbero il target. Il tool di port-scanning più utilizzato è Nmap, che permette di effettuare scan TCP completando l'\emph{handshake}, o attraverso scan TCP SYN che utilizza solamente i messaggi iniziali di SYN e SYN ACK dell'\emph{handshake} TCP.\\
@@ -165,8 +165,8 @@ Per un security tester, lo scopo finale è spesso quello di compromettere il tar
 Nelle moderne reti di Smart Grid, la rete elettrica tradizionale è potenziata dai più recenti progressi nei campi del sensing, della misurazione e dei dispositivi di controllo con una comunicazione bidirezionale tra produttore e consumatore. La produzione di elettricità, la sua trasmissione, la distribuzione ed il consumo, scambiano informazioni sullo stato della griglia che vengono recapitate agli utenti del sistema, agli operatori ed ai dispositivi.\\
 La stima dello stato ha una funzione chiave nella costruzione di modelli \emph{real-time} della rete elettrica nei centri di gestione dell'energia (EMC) \cite{monticelli}. Un modello \emph{real-time} è una rappresentazione matematica quasi statica delle attuali condizioni all'interno di una rete elettrica interconnessa. Questa rappresentazione matematica è solitamente ottenuta dai dati provenienti dalle misurazioni e dalla telemetria che avvengono a distanza di pochi secondi nel centro di controllo dell'energia (ECC). Modelli \emph{real-time} della rete possono essere utilizzati per fare scelte ottimali, rispettando vincoli tecnici come congestione delle linee di trasmissione, voltaggio e stabilità transiente. In pratica, sia economicamente che in termini di fattibilità, non è possibile misurare tutti i possibili stati nella rete; quindi, la stima dello stato è uno strumento utile per stimare tali quantità, a partire da un insieme limitato di misurazioni. Solitamente sono usati due tipi di informazione per la stima dello stato:
 \begin{itemize}
-	\item Dati analogici di sistemi come flussi Megavar sulle linee principali, il carico \emph{P} e \emph{Q} sui generatori e trasformatori, e i voltaggi dei bus di sistema
-	\item Lo stato on/off dei dispositivi di switch come interruttori di circuito, switch di disconnessione, e tap dei trasformatori che determinano la topologia di rete
+	\item Dati analogici di sistemi come flussi Megavar sulle linee principali, il carico \emph{P} e \emph{Q} sui generatori e trasformatori, e i voltaggi dei bus di sistema;
+	\item Lo stato on/off dei dispositivi di switch come interruttori di circuito, switch di disconnessione, e tap dei trasformatori che determinano la topologia di rete.
 \end{itemize}
 A causa dell'importanza della stima dello stato, gli effetti negativi dell'\emph{iniettare} misurazioni scorrette sono studiati in letteratura \cite{baddatainj}.  Le misurazioni scorrette possono avvenire a causa di anormalità di misura impreviste, o iniezioni dovute ad attacchi malevoli. Ad esempio, \cite{falsedatainj} è il lavoro pionieristico nello studio degli attacchi di \emph{bad data injection} che non possono essere rilevati (chiamati \emph{stealth attacks}), e mostra come un attaccante possa portare a compimento tali attacchi ``\emph{stealth}" falsificando le misure del flusso elettrico alle unità terminali remote (RTUs), manomettendo l'eterogenea rete di comunicazione o infiltrandosi all'interno del sistema della supervisione di controllo e dell'acquisizione dati (SCADA) attraverso la LAN dell'ufficio del centro di controllo. Si consideri che un sistema SCADA o un sistema di misurazione su larga area (WAMS) ottiene informazioni sulla rete elettrica (valori delle misure, stato degli interruttori, ecc.) a specifici tempi e luoghi. I centri di controllo usano le informazioni collezionate per scopi diversi, ad esempio la risoluzione di un problema di stima dello stato. In \cite{baddatainj2}, viene mostrata la fattibilità degli  attacchi di bad data injection non rilevabili, con l'obiettivo di manipolare i prezzi del mercato elettrico.
 \begin{figure}[h]
@@ -267,8 +267,8 @@ In particolare, lo switch di servizio e la possibilità di connessione/disconnes
 Mentre le misure di sicurezza come la cifratura dei dati ed i sistemi di rilevamento delle intrusioni (IDS) offrono un certo livello di protezione per i sistemi AMI, essi non sono d'aiuto nel caso in cui un attaccante sia capace di compromettere il sistema e far eseguire comandi malevoli a centinaia di migliaia (o milioni) di dispositivi.\\
 Le contromisure adottate, presenti in letteratura, fanno uso di ritardi casuali per l'esecuzione dei comandi RCD rendendo così la Smart Grid più resistente:\\
 \begin{enumerate}
-	\item prevenendo rapidi cambiamenti nel carico che potrebbero destabilizzare il sistema elettrico;
-	\item dando il tempo di rilevare e fermare un attacco in corso.
+	\item Prevenendo rapidi cambiamenti nel carico che potrebbero destabilizzare il sistema elettrico;
+	\item Dando il tempo di rilevare e fermare un attacco in corso.
 \end{enumerate}
 Tali meccanismi di ritardo sono tecnicamente fattibili: alcuni meter supportano un ritardo configurabile prima di rispristinare il servizio dopo un guasto \cite{disconnectfaqs}.
 \subsection{Modellare attacchi di Remote Disconnect su AMI}
@@ -285,8 +285,8 @@ Il modello del sistema include un \emph{outage management system} (OMS), presso 
 \subsubsection{Modello dell'attaccante}
 Si consideri un attaccante con due scopi possibili:
 \begin{enumerate}
-	\item denial-of-electrical-service per i clienti di un'azienda durante un determinato periodo di tempo;
-	\item disturbo fisico della frequenza della rete elettrica attraverso l'eliminazione del carico.
+	\item Denial-of-electrical-service per i clienti di un'azienda durante un determinato periodo di tempo;
+	\item Disturbo fisico della frequenza della rete elettrica attraverso l'eliminazione del carico.
 \end{enumerate}
 L'impatto del primo attacco, un attacco di disconnessione su vasta scala in una importante città, può essere devastante ed è discusso in dettaglio in \cite{offswitch}. Oltre questo scenario da caso pessimo, gli attacchi RCD su scala minore (ad esempio a livello del vicinato) possono comunque avere serie ripercussioni, ed essere meno impegnativi per gli attaccanti \cite{amithreats}. Il secondo attacco, la connessione/disconnessione mirata di meter per modificare i parametri del sistema elettrico, discusso in \cite{remotecontrol}. Tale attacco richiederebbe un alto livello di conoscenza del sistema così come un alto numero di dispositivi compromessi.\\
 Si modella un attaccante forte per entrambi gli scenari come segue: si assuma che l'attaccante abbia la conoscenza esatta dell'infrastruttura della compagnia (inclusa la topologia di rete, le specifiche degli smart meter e le strategie di controllo) e delle contromisure impiegate dal sistema. L'attaccante può trasmettere messaggi di disconnessione ad ogni meter e tali comandi sono accettati come autentici. Questa astrazione tiene conto di un vasto numero di vettori d'attacco possibili; ad esempio, la compromissione della master key dell'unità AMI, lo sfruttamento di una falla di un protocollo debole e attacchi dall'interno da parte di un operatore AMI. L'attaccante può prevenire la trasmissione di messaggi sul canale di comunicazione primario, se necessario (ad esempio, facendo uso di jammer). L'attaccante è limitato all'interazione con l'unità, DCU e smart meter, inoltre, non può attaccare direttamente l'OMS, la compagnia o canali di comunicazione secondari.
@@ -324,7 +324,7 @@ Sebbene le compagnie siano sempre state capaci di eliminare il carico aprendo gl
 \subsection{Progettazione delle contromisure di delay}
 Introdurre delay prima dell'esecuzione di comandi RCD dovrebbe avere un basso impatto sui casi d'uso visti nella sezione precedente, finché il delay è tenuto al di sotto di una certa soglia. Questo delay massimo è indicato da $d_{max}$, che è variabile dalle decine di minuti alle 2 ore circa, in base agli scenari. Si vede ora come usare questo periodo di delay per migliorare la capacità di recupero della Smart Grid.\\
 \subsubsection{Contromisura Delay: il modello}
-Si consideri una compagnia con $n$ RCD-enabled smart meter. Lo scopo dell'azienda è di minimizzare il numero totale di meter disconnessi progettando una distribuzione appropriata dei delay temporali su $[0, d_{max}]$. Come anticipato nel Modello del sistema, si considera un processo di rilevamento che coinvolge un sistema di gestione delle interruzioni, che riceve comunicazioni sui guasti da parte degli utenti. \cite{delay} sviluppa due modelli per il processo di rilevamento da parte del OMS, con differenti livelli di astrazione: un modello semplificato per la valutazione analitica, ed un altro più dettagliato da utilizzare all'interno di simulazioni.\\
+Si consideri una compagnia con $n$ RCD-enabled smart meter. Lo scopo dell'azienda è di minimizzare il numero totale di meter disconnessi progettando una distribuzione appropriata dei delay temporali su $[0, d_{max}]$. Come anticipato nel Modello del sistema, si considera un processo di rilevamento che coinvolge un sistema di gestione delle interruzioni, che riceve comunicazioni sui guasti da parte degli utenti. \cite{delay} sviluppa due modelli per il processo di rilevamento da parte dell'OMS, con differenti livelli di astrazione: un modello semplificato per la valutazione analitica, ed un altro più dettagliato da utilizzare all'interno di simulazioni.\\
 Nel modello semplificato si assume che l'azienda sia capace di rilevare e fermare un attacco in corso entro $d$ minuti $(d < d_{max})$ una volta che $\tau$ meter siano stati disconnessi in una determinata finestra temporale. In questo modello, $d$ include il tempo necessario affinché i clienti interessati (disconnessi) possano segnalare il guasto, ed il tempo necessario alla compagnia per investigare e concludere che sta avvenendo un attacco, ed inviare comandi che fermino tutte le connessioni in maniera \emph{fail-safe}.\\
 Nel modello più dettagliato, si assume che l'attacco sia rilevato una volta che siano state ricevute $\tau^\prime$ segnalazioni di guasto da parte dei clienti tramite l'OMS durante un periodo temporale (i tempi di segnalazione individuali sono campionati da una specifica distribuzione).
 Quando questa condizione è verificata, l'azienda ha tempo aggiuntivo, $d^\prime$, per investigare prima di inviare comandi \emph{fail-safe}. In ogni caso, il valore di $\tau$ $(o$ $\tau^\prime)$ dovrebbe corrispondere ad una piccola frazione del numero totale di meter, ma deve essere grande abbastanza da escludere la maggior parte dei guasti non relativi alla sicurezza. Il tempo di risposta $d$ $(o$ $d^\prime)$ dovrebbe essere circa dello stesso ordine di $d_{max}$. L'intervallo temporale impostato per il rilevamento in accordo alla finestra temporale dell'obiettivo dell'attaccante, che si assume essere nell'ordine delle ore.
@@ -351,11 +351,11 @@ Utilizzando questa distribuzione geometrica ed il modello definito in precedenza
 \end{figure}
 La Figura \ref{dist_perf_img} riassume i risultati analitici per i tre meccanismi di delay. Per ognuno di essi, il numero di meter disconnessi cresce ad un tasso asintotico differente rispetto ad $n$. Come illustrato nel setting d'esempio, secondo il meccanismo di delay geometrico, fin quando $d_{max}$ è poche volte (ad esempio, $6\times$) maggiore di $d$, il numero di meter disconnessi sarà piccolo $(< 1\%$ di $n)$. In confronto, secondo il meccanismo di delay uniforme, un numero significativamente maggiore di meter $(> 10\%$ di $n)$ sarebbe disconnesso. Per il meccanismo di delay di Bernoulli, il numero di meter disconnessi è nell'ordine di $\sqrt{\tau n}$, quindi dipende altamente dalla soglia di rilevamento $\tau$. Quando $\tau$ è circa lo $0.2\%$ di $n$ (come nei setting d'esempio), il numero di meter disconnessi può comunque raggiungere circa l'$8\%$ di $n$. Un confronto di questi tre meccanismi di delay suggerisce:
 \begin{enumerate}
-	\item se possibile, un'azienda dovrebbe rendere $d_{max}$ svariate volte maggiore di $d$, ed utilizzare il meccanismo di delay geometrico;
-	\item altrimenti, se $\lceil d_{max}/d \rceil = 2$ ed il meccanismo di distribuzione geometrico degenera al Bernoulliano, la compagnia deve portare la sua soglia di rilevamento $\tau$ al valore minore possibile per favorire la propria capacità di recupero sotto attacchi RCD.
+	\item Se possibile, un'azienda dovrebbe rendere $d_{max}$ svariate volte maggiore di $d$, ed utilizzare il meccanismo di delay geometrico;
+	\item Altrimenti, se $\lceil d_{max}/d \rceil = 2$ ed il meccanismo di distribuzione geometrico degenera al Bernoulliano, la compagnia deve portare la sua soglia di rilevamento $\tau$ al valore minore possibile per favorire la propria capacità di recupero sotto attacchi RCD.
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Replay Attack}
+%\section{Replay Attack}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Jamming}
 L'infrastruttura di comunicazione svolge un ruolo predominante nelle Smart Grid. Si occupa principalmente di broadcast real-time del prezzo della corrente, di riportare i consumi energetici e di monitorare lo stato del sistema. Grazie allo scambio di informazioni in tempo reale un utente è in grado di determinare il proprio consumo energetico ottimale.\newline
@@ -415,44 +415,12 @@ con expectation:\newline
 dove $P_{ij}^{t}$ è la probabilità di transizione tra i livelli di consumo $i$ e $j$ dopo $t$ slot temporali, e varianza:\newline
 \indent$Var[\delta D] = P(T < t) \times \sqrt{M} \sum\limits_{i=1}^{L} \pi_{i} \Big\{\sum\limits_{j}P_{ij}^{t}d_{j}^{2}(p_{n}) - \Big[\sum\limits_{j}P_{ij}^{t}d_{j}^{2}(p_{n})\Big]^2\Big\}$.\newline
 L'idea è quindi quella di diffondere le informazioni relative ai cambiamenti dei consumi energetici in un intervallo di tempo molto più grande lasciando che la randomness intrinseca del mercato possa contrattaccare i cambiamenti dei jammed user.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Web Application} già discussa nell'OSSTMM
-\section{Rilevamento}
-\section{Power Fingerprinting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Rilevamento}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Power Fingerprinting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\section{Optimal Malicious Attack Construction and Robust Detection in Smart Grid Cyber Security Analysis}
-
-
-\begin{thebibliography}{99}
-\bibitem{standard14908} International Organization for Standardization. ISO/IEC 14908-1:2012:Information technology – Control network protocol – Part 1: Protocol stack, 2012.
-\bibitem{wep1} Andreas Klein. \emph{Attacks on the RC4 stream cipher.} Des. Codes Cryptography, 48(3):269–286, 2008.
-\bibitem{wep2} Erik Tews, Ralf-Philipp Weinmann, and Andrei Pyshkin. \emph{Breaking 104 bit WEP in less than 60 seconds.} In Sehun Kim, Moti Yung, and Hyung-Woo Lee, editors, Information Security Applications, 8th International Workshop, WISA 2007, Jeju Island, Korea, August 27-29, 2007, Revised Selected Papers, volume 4867 of Lecture Notes in Computer Science, pages 188–202. Springer, 2007.
-\bibitem{aircrackng} Aircrack-ng. \url{http://www.aircrack-ng.org/}
-\bibitem{kali} Kali Linux. \url{https://www.kali.org/}
-\bibitem{wireshark} Wireshark. \url{https://www.wireshark.org/}
-\bibitem{nmap} Nmap. \url{https://www.nmap.org/}
-\bibitem{nessus} Nessus. \url{https://www.nessus.org/}
-\bibitem{cainabel} Cain \& Abel. \url{http://www.oxid.it/}
-\bibitem{metasploit} Metasploit. \url{http://www.metasploit.com/}
-\bibitem{monticelli} A. Monticelli, ``Electric Power System State Estimation," Proc. IEEE, vol. 88, Feb. 2000, pp. 262–82.
-\bibitem{baddatainj} M. Esmalifalak, Z. Han, and L. Song, ``Effect of Stealthy Bad Data Injection On Network Congestion In Market Based Power System," IEEE WCNC 2012, Paris, France, Apr. 2010.
-\bibitem{falsedatainj} Y. Liu, M. K. Reiter, and P. Ning, ``False Data Injection Attacks Against State Estimation in Electric Power Grids," 16th ACM Conf. Computer and Commun. Security, Gaithersburg, MD, Nov. 2009, pp. 21–30.
-\bibitem{baddatainj2} L. Xie, Y. Mo, and B. Sinopoli, ``False Data Injection Attacks in Electricity Markets," 1st IEEE Int’l. Conf. Smart Grid Commun., Gaithersburg, MD, Oct. 2010, pp. 226–31.
-\bibitem{baddatainjattackdef} Huang, Yi, et al. ``Bad data injection in smart grid: attack and defense mechanisms." Communications Magazine, IEEE 51.1 (2013): 27-33.
-\bibitem{convdef1} A. Abur and A. G. Exposito, Power System State Estimation: Theory and Implementation, Marcel Dekker, 2004.
-\bibitem{convdef2} A. J. Wood and B. F. Wollenberg, Power Generation, Operation, and Control, Wiley, 1996.
-\bibitem{lorden} H. V. Poor and Q. Hadjiliadis, Quickest Detection, Cambridge Univ. Press, 2008.
-\bibitem{esmalifalak} M. Esmalifalak et al., ``Stealth False Data Injection using Independent Component Analysis in Smart Grid," 2nd IEEE Conf. Smart Grid Commun., Brussels, Belgium, Oct. 2011.
-\bibitem{lica} J. Himberg and A. Hyvarinen, ``Independent Component Analysis for Binary Data: An Experimental Study," 3rd Int’l. Conf. Independent Component Analysis and Blind Signal Separation, Malm, Sweden, June 2001.
-\bibitem{offswitch} R. Anderson and S. Fuloria, ``Who controls the off switch?" in Proc. of the Conference on Smart Grid Communications (SmartGridComm), 2010.
-\bibitem{remotecontrol} M. Costache, V. Tudor, M. Almgren, M. Papatriantafilou, and C. Saunders, ``Remote control of smart meters: friend or foe?" in Proc. of the European Conference on Computer Network Defense (EC2ND), 2011.
-\bibitem{amithreats} D. Grochocki, J. H. Huh, R. Bobba, W. H. Sanders, A. A. Cardenas, and J. G. Jetcheva, ``AMI threats, intrusion detection requirements and deployment recommendations," in Proc. of the Conference on Smart Grid Communications (SmartGridComm), 2012.
-\bibitem{disconnectfaqs} ``GE I-210+ remote disconnect FAQs," \url{http://www.dbmss.ca/PDF\%20files/I210+_and_I210+c_Remote_Disconnect_FAQ_2.pdf}.
-\bibitem{delay} Temple, William G., Binbin Chen, and Nils Ole Tippenhauer. ``Delay makes a difference: Smart grid resilience under remote meter disconnect attack." Smart Grid Communications (SmartGridComm), 2013 IEEE International Conference on. IEEE, 2013.
-\bibitem{radio} A. Ghassemi, S. Bavarian, and L. Lampe, ``Cognitive radio for smart grid communications,'' in Proc. of the Conference on Smart Grid Communications (SmartGridComm), 2010.
-\bibitem{toggle1} ``Avista utilities update to idaho public utility commission staff on remote reconnect/disconnect pilot,'' \url{http://www.puc.idaho.gov/fileroom/ cases/elec/AVU/AVUE0709/company/20130211UPDATE\%20ON\% 20REMOTE\%20RECONNECT\%20DISCONNECT.PDF}.
-\bibitem{toggle2} ``Texas-new mexico power company’s request for approval of an advanced metering system (ams) deployment and ams surcharge,'' \url{http: //www.smartgrid.gov/sites/default/files/doc/files/TexasNew_Mexico_Power_Company_Request_For_Approval_Advance_201005.pdf}.
-\bibitem{demand} W. H. Kersting, ``Distribution system modeling and analysis.'' CRC Press, LLC, 2012.
-%
-%
-% avoid conflicts
-\bibitem{jam} F. Li and R. Bo, ``Congestion and price prediction under load variation'', IEEE Control System Magazine, vol.19, pp.59–70, Oct. 2009.
-\end{thebibliography}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
