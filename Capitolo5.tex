@@ -222,12 +222,6 @@ Il CUSUM test adattivo è ricorsivo per sua natura. Ogni ricorsione comprende du
 Il CUSUM test multi-thread estende l'algoritmo di Page. Esso considera il tasso di likelihood di $m$ misure a tempo $t$ così da determinare il tempo di stop $T_h$, che può essere descritto come $T_h = Inf\lbrace t \geq 1 | S_t > h \rbrace$, in cui la soglia di rilevamento $h$ è una funzione del tasso di falso allarme (FAR), del tasso di rilevamenti persi (MDR), e la varianza del processo, con statistiche cumulative al tempo $t$: $S_t = max_{1\geq k \geq T_h}\sum_{t=k}^{T_h}$, con $L_t$ pari alla somma della funzione del tasso di likelihood per tutte le misure $(z_{t,j}, j \in \lbrace1, 2, \ldots, m\rbrace)$ al tempo $t$. È possibile esprimere $L_t(\textbf{Z}_t)$ come\\
 \indent $\sum_{j=1}^{m}log\frac{f_1(z_{t,j})}{f_0(z_{t,j})}$,\\
 dove $f_1(z_{t,j})$ e $f_0(z_{t,j})$ corrispondono alla distribuzione della $j$-esima osservazione al tempo $t$ sotto attacco. Al tempo $t$, la statistica cumulativa $S_t$ può essere risolta ricorsivamente come $max[0, S_{t-1} + L_t(\textbf{Z}_t)]$, dove $S_0 = 0$ quando $t = 0$. Il centro di controllo fa scattare un allarme quando l'accumulazione supera una determinata soglia $h$.\\
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=.3]{imgs/attack/adaptive_CUSUM.png}
-	\caption{Il test CUSUM adattivo con intervallo di decisione.}
-	\label{cusum_img}
-\end{figure}
 A causa di un modello statistico avversario sconosciuto, il test del tasso di likelihood generalizzato (GLRT) può essere utilizzato nell'algoritmo CUSUM di Page \cite{lorden}. L'idea è quella di applicare GLRT sostituendo il parametro sconosciuto secondo la stima a maximum likelihood. Quindi, l'espressione ricorsiva del CUSUM test non è più valida in quanto GLRT ha bisogno di computare ogni elemento non noto di ogni misurazione al tempo $t$ stimandolo dalle osservazioni fino al tempo corrente $t$. In altre parole, GLRT richiede la memorizazione delle osservazioni e l'esecuzione della stima ML dei parametri sconosciuti ad ogni punto temporale. Per cui, GLRT è troppo costoso computazionalmente da implementare in pratica per effettuare rilevamento veloce.\\
 Per ridurre la complessità computazionale, è possibile applicare il test Rao \cite{lorden}, che è un modello di test asintoticamente equivalente a GLRT. Il Rao test computa le derivate rispetto al parametro non noto valutato in zero, e può essere implementato efficientemente. Inoltre, il Rao test non coinvolge la complessa computazione della stima a maximum likelihood.\\
 \subsection{Strategia di attacco}
