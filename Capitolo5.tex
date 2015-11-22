@@ -233,26 +233,27 @@ Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \
 \indent $\textbf{u} = \textbf{Gv}$,\\
 con $\textbf{u} = [u_i, i = 1,2, \ldots, m]$ che è il vettore delle osservazioni degli $m$ segnali di monitoraggio, $\textbf{G} = [g_{ij}, i = 1, 2, \ldots,m, j = 1 ,2, \ldots, n]$ è la matrice di mixing non nota, e $v = [v_i, i = 1, 2, \ldots, n]$ è il vettore delle $n$ variabili indipendenti latenti.\\
 Dato il modello e la realizzazione di \textbf{u}, ICA può inferire siala matrice di mixing \textbf{G} che il vettore \textbf{v} calcolando in maniera adattiva il vettore dei pesi \textbf{w} che massimizza una misura di \emph{non Gaussianità} del $\textbf{w}^T\textbf{u}$ calcolato.\\
-L'algoritmo è mostrato in Figura \ref{algo1}: FastICA \cite{lica}, alla riga 1, è un algoritmo popolare ed efficiente per la ICA che iterativamente trova la direzione in cui il vettore dei pesi \textbf{w} massimizza la non Gaussianità della proiezione $\textbf{w}^T\textbf{z}$ per i dati \textbf{z}. \textbf{G} deve soddisfare $\textbf{w}^T\textbf{G} = \textbf{I}$, con \textbf{I} matrice identità. Le entrate di \textbf{G} minori di una certa soglia $\epsilon$ sono rimosse. Infine, il vettore di stato \textbf{y} può essere stimato da $\textbf{w}^T\textbf{z}$.\\
-La riga 2 verifica che \textbf{z} segua un modello lineare. Se le assunzioni di linearità sono valide, $max(\textbf{z} - \textbf{Gy})$ dovrebbe essere piccolo.\\
-La riga 3 genera un attacco random tramite una variabile casuale Gaussiana, ed è aggiunto alla variabile inferita \textbf{y} alla riga 4, risultando così in un attacco stealth che non può essere rilevato.
 \begin{figure}[htbp]
 	\centering
 	\fbox{\begin{minipage}{15em}
-		Input: \textbf{z} = data matrix
-		\begin{enumerate}
-			\item $\lbrack \textbf{G}$ and $\textbf{y} \rbrack$ = FastICA(\textbf{z})
-			\item If max(\textbf{z} - \textbf{Gy})  $>$ $\epsilon$ then exit
-			\item Generate $\delta$\textbf{y} $\sim N(0, \sigma^2)$
-			\item $\textbf{z}^\prime$ = \textbf{z} + \textbf{G}(\textbf{y} + $\delta$\textbf{y})
-
-		\end{enumerate}
-		Output: false data $\textbf{z}^\prime$
+			Input: \textbf{z} = data matrix
+			\begin{enumerate}
+				\item $\lbrack \textbf{G}$ and $\textbf{y} \rbrack$ = FastICA(\textbf{z})
+				\item If max(\textbf{z} - \textbf{Gy})  $>$ $\epsilon$ then exit
+				\item Generate $\delta$\textbf{y} $\sim N(0, \sigma^2)$
+				\item $\textbf{z}^\prime$ = \textbf{z} + \textbf{G}(\textbf{y} + $\delta$\textbf{y})
+				
+			\end{enumerate}
+			Output: false data $\textbf{z}^\prime$
 		\end{minipage}
 	}
 	\caption{Stealth false data injection.}
 	\label{algo1}
-\end{figure}	
+\end{figure}
+L'algoritmo è mostrato in Figura \ref{algo1}: FastICA \cite{lica}, alla riga 1, è un algoritmo popolare ed efficiente per la ICA che iterativamente trova la direzione in cui il vettore dei pesi \textbf{w} massimizza la non Gaussianità della proiezione $\textbf{w}^T\textbf{z}$ per i dati \textbf{z}. \textbf{G} deve soddisfare $\textbf{w}^T\textbf{G} = \textbf{I}$, con \textbf{I} matrice identità. Le entrate di \textbf{G} minori di una certa soglia $\epsilon$ sono rimosse. Infine, il vettore di stato \textbf{y} può essere stimato da $\textbf{w}^T\textbf{z}$.\\
+La riga 2 verifica che \textbf{z} segua un modello lineare. Se le assunzioni di linearità sono valide, $max(\textbf{z} - \textbf{Gy})$ dovrebbe essere piccolo.\\
+La riga 3 genera un attacco random tramite una variabile casuale Gaussiana, ed è aggiunto alla variabile inferita \textbf{y} alla riga 4, risultando così in un attacco stealth che non può essere rilevato.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Disconnect Attack}
