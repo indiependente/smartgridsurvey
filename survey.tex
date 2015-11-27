@@ -42,37 +42,37 @@
 \usepackage{tocbibind}
 
 %%%%%%%%%% Uncomment if you need to write some code
- \definecolor{DarkGreen}{rgb}{0.0,0.4,0.0} % Comment color
- \definecolor{highlight}{RGB}{255,251,204} % Code highlight color
-
- \lstdefinestyle{Style1}{ % Define a style for your code snippet, multiple definitions can be made if, for example, you wish to insert multiple code snippets using different programming languages into one document
- language=Java, % Detects keywords, comments, strings, functions, etc for the language specified
- backgroundcolor=\color{highlight}, % Set the background color for the snippet - useful for highlighting
- basicstyle=\footnotesize\ttfamily, % The default font size and style of the code
- breakatwhitespace=false, % If true, only allows line breaks at white space
- breaklines=true, % Automatic line breaking (prevents code from protruding outside the box)
- captionpos=b, % Sets the caption position: b for bottom; t for top
- commentstyle=\usefont{T1}{pcr}{m}{sl}\color{DarkGreen}, % Style of comments within the code - dark green courier font
- deletekeywords={}, % If you want to delete any keywords from the current language separate them by commas
- %escapeinside={\%}, % This allows you to escape to LaTeX using the character in the bracket
- firstnumber=1, % Line numbers begin at line 1
- frame=single, % Frame around the code box, value can be: none, leftline, topline, bottomline, lines, single, shadowbox
- frameround=tttt, % Rounds the corners of the frame for the top left, top right, bottom left and bottom right positions
- keywordstyle=\color{Blue}\bf, % Functions are bold and blue
- morekeywords={}, % Add any functions no included by default here separated by commas
- numbers=left, % Location of line numbers, can take the values of: none, left, right
- numbersep=10pt, % Distance of line numbers from the code box
- numberstyle=\tiny\color{Gray}, % Style used for line numbers
- rulecolor=\color{black}, % Frame border color
- showstringspaces=false, % Don't put marks in string spaces
- showtabs=false, % Display tabs in the code as lines
- stepnumber=5, % The step distance between line numbers, i.e. how often will lines be numbered
- stringstyle=\color{Purple}, % Strings are purple
- tabsize=4, % Number of spaces per tab in the code
- }
-
- % Create a command to cleanly insert a snippet with the style above anywhere in the document
- \newcommand{\insertcode}[2]{\begin{itemize}\item[]\lstinputlisting[caption=#2,label=#1,style=Style1]{#1}\end{itemize}} % The first argument is the script location/filename and the second is a caption for the listing
+% \definecolor{DarkGreen}{rgb}{0.0,0.4,0.0} % Comment color
+% \definecolor{highlight}{RGB}{255,251,204} % Code highlight color
+%
+% \lstdefinestyle{Style1}{ % Define a style for your code snippet, multiple definitions can be made if, for example, you wish to insert multiple code snippets using different programming languages into one document
+% language=Java, % Detects keywords, comments, strings, functions, etc for the language specified
+% backgroundcolor=\color{highlight}, % Set the background color for the snippet - useful for highlighting
+% basicstyle=\footnotesize\ttfamily, % The default font size and style of the code
+% breakatwhitespace=false, % If true, only allows line breaks at white space
+% breaklines=true, % Automatic line breaking (prevents code from protruding outside the box)
+% captionpos=b, % Sets the caption position: b for bottom; t for top
+% commentstyle=\usefont{T1}{pcr}{m}{sl}\color{DarkGreen}, % Style of comments within the code - dark green courier font
+% deletekeywords={}, % If you want to delete any keywords from the current language separate them by commas
+% %escapeinside={\%}, % This allows you to escape to LaTeX using the character in the bracket
+% firstnumber=1, % Line numbers begin at line 1
+% frame=single, % Frame around the code box, value can be: none, leftline, topline, bottomline, lines, single, shadowbox
+% frameround=tttt, % Rounds the corners of the frame for the top left, top right, bottom left and bottom right positions
+% keywordstyle=\color{Blue}\bf, % Functions are bold and blue
+% morekeywords={}, % Add any functions no included by default here separated by commas
+% numbers=left, % Location of line numbers, can take the values of: none, left, right
+% numbersep=10pt, % Distance of line numbers from the code box
+% numberstyle=\tiny\color{Gray}, % Style used for line numbers
+% rulecolor=\color{black}, % Frame border color
+% showstringspaces=false, % Don't put marks in string spaces
+% showtabs=false, % Display tabs in the code as lines
+% stepnumber=5, % The step distance between line numbers, i.e. how often will lines be numbered
+% stringstyle=\color{Purple}, % Strings are purple
+% tabsize=4, % Number of spaces per tab in the code
+% }
+%
+% % Create a command to cleanly insert a snippet with the style above anywhere in the document
+% \newcommand{\insertcode}[2]{\begin{itemize}\item[]\lstinputlisting[caption=#2,label=#1,style=Style1]{#1}\end{itemize}} % The first argument is the script location/filename and the second is a caption for the listing
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage[utf8x]{inputenc}
@@ -80,6 +80,8 @@
 \usepackage[english,italian]{babel} % English language/hyphenation
 \usepackage[protrusion=true,expansion=true]{microtype} % Better typography
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{amssymb} % AMS symbols
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
 \usepackage[svgnames]{xcolor} % Enabling colors by their 'svgnames'
 \usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
 \usepackage{booktabs} % Horizontal rules in tables
@@ -126,6 +128,7 @@
 {\textsf{#1}}}{}}
 
 \newcommand{\ggll}{\mathrel{\substack{\ll\\[-.05em]\gg}}} % convergence symbol
+\SetKwProg{Fn}{Function}{}{} % Function keyword in algorithm definition
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -222,6 +225,9 @@ and advanced metering}. Federal Energy Regulatory Commission, Tech. Rep., 2013 \
 University of Illinois at Urbana Champaign, Jan. 2010.
 \bibitem{tls} T. Dierks, E. Rescorla. \emph{RFC 5246: The Transport Layer Security (TLS) Protocol}. Version 1.2, August 2008.
 \bibitem{standard14908} International Organization for Standardization. \emph{ISO/IEC 14908-1:2012: Information technology – Control network protocol – Part 1: Protocol stack}, 2012.
+\bibitem{cbcpadding} Vaudenay, S.: \emph{Security Flaws Induced by CBC Padding — Applications to SSL, IPSEC, WTLS ... }In: Knudsen, L.R. (ed.) Advances in Cryptology — EUROCRYPT 2002, International Conference on the Theory and Applications of Cryptographic Techniques, Amsterdam, The Netherlands, April 28 – May 2, 2002, Proceedings. Lecture Notes in Computer Science, vol. 2332, pp. 534–546. Springer (2002)
+\bibitem{osgp} ETSI: Open Smart Grid Protocol (OSGP). Reference DGS/OSG-001, European Telecommunications Standards Institute, Sophia Antipolis Cedex – France (January 2012). \url{http://www.osgp.org/}
+\bibitem{dumbcrypto} Jovanovic, Philipp, and Samuel Neves. \emph{Dumb Crypto in Smart Grids: Practical Cryptanalysis of the Open Smart Grid Protocol}.
 \bibitem{wep1} Andreas Klein. \emph{Attacks on the RC4 stream cipher}. Des. Codes Cryptography, 48(3):269–286, 2008.
 \bibitem{wep2} Erik Tews, Ralf-Philipp Weinmann, and Andrei Pyshkin. \emph{Breaking 104 bit WEP in less than 60 seconds.} In Sehun Kim, Moti Yung, and Hyung-Woo Lee, editors, Information Security Applications, 8th International Workshop, WISA 2007, Jeju Island, Korea, August 27-29, 2007, Revised Selected Papers, volume 4867 of Lecture Notes in Computer Science, pages 188–202. Springer, 2007.
 \bibitem{aircrackng} Aircrack-ng. \url{http://www.aircrack-ng.org/}
