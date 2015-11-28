@@ -35,7 +35,7 @@ Il primo, e potrebbe anche ultimo, blocco da 144 byte del messaggio è denotato 
 	y + z + (\neg(x + c)) \lll 1\quad if\quad b=1\\
 	y + z - (\neg(x + c)) \ggg 1\quad altrimenti.
 \end{cases}$\\
-Per aggiornare l'elemento di stato $a_j$, la funzione $f$ prende, per $0 \leq i \leq 17$ e $7 \geq j \geq 0$, due elementi di stato adiacenti $a_j$ ed $a_{j+1\, mod\, 8}$ ed un byte del messaggio $m^\prime_{8i+7-j}$ in input, ad esempio, $a_j = f_{k_{i\,mod\,12,7-j},j}$, ed in funzione del valore del bit chiave $k_{i\,mod\,12,7-j}$ uno dei due rami mostrati sopra viene valutato. Il prossimo blocco da 144 byte del messaggio è processato in maniera simile, con lo stato interno proveniente dal blocco precedente. Lo pseudocodice del digest OMA è mostrato nell'Algoritmo \ref{oma_algo} ed una visualizzazione del ciclo più interno, dove i byte del messaggio sono processati, è mostrata in Figura \ref{inneroma_img}.
+Per aggiornare l'elemento di stato $a_j$, la funzione $f$ prende, per $0 \leq i \leq 17$ e $7 \geq j \geq 0$, due elementi di stato adiacenti $a_j$ ed $a_{j+1\, mod\, 8}$ ed un byte del messaggio $m^\prime_{8i+7-j}$ in input, ad esempio, $a_j = f_{k_{i\,mod\,12,7-j},j}$, ed in funzione del valore del bit chiave $k_{i\,mod\,12,7-j}$ uno dei due rami mostrati sopra viene valutato. Il prossimo blocco da 144 byte del messaggio è processato in maniera simile, con lo stato interno proveniente dal blocco precedente. Lo pseudocodice del digest OMA è mostrato nell'Algoritmo \ref{oma_algo1} ed una visualizzazione del ciclo più interno, dove i byte del messaggio sono processati, è mostrata in Figura \ref{inneroma_img}.
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics[scale=.3]{imgs/attack/oma_innerloop.png}
@@ -46,7 +46,7 @@ Dopo la generazione del tag $t$, ne viene effettuato lo XOR con la metà bassa d
 \begin{algorithm}[H]
 \Fn{{\tt OMADigest} ($m,\,k$)}{
 	$a \gets (0,0,0,0,0,0,0,0)$\\
-	$m \gets m\|0^{-|m|\,mod\,144}$\\
+	$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
 	\ForEach{144-byte block b of m}{
 		\For{$i \gets 0$ \KwTo 0}{
 			\For{$j \gets 7$ \KwTo 0}{
@@ -56,28 +56,63 @@ Dopo la generazione del tag $t$, ne viene effettuato lo XOR con la metà bassa d
 				}
 			}
 		}
-	\Return{a}}
+	\Return{a}
+	}
 \caption{Il digest OMA di OSGP.}
-\label{oma_algo}
+\label{oma_algo1}
 \end{algorithm}
 Questa scelta è intesa per fornire ad RC4 materiale chiave in continuo cambiamento, così producendo un \textit{keystream} nuovo ad ogni messaggi, per cui, in accordo alla specifica OSGP, il numero di sequenza $n$, concatenato ad $m$, è continuamente incrementato.\\
 I sequence number sono condivisi tra mittente e destinatario in OSGP. Il destinatario di un messaggio verifica che il corretto sequence number sia stato concatenato a quest'ultimo. I messaggi con sequence number nel range $\{n, \ldots, n+8\}$ sono accettati come richieste valide. Se un messaggio con sequence number $n-1$ è ricevuto, il destinatario non esegue la richiesta, ma reinvia la risposta della richiesta (eseguita precedentemente) numero $n-1$. I numeri di sequenza fuori di tale range fanno scattare un errore ed i dispositivi OSGP rispondono con un codice di fallimento ed il corretto sequence number.\\
 Dopo che la fase di setup è terminata, $k^{\prime\prime}$ è utilizzato per cifrare $m\|n$ tramite RC4 per ottenere il ciphertext $c$. Infine, $c\|t$ è trasmesso. La taglia massima consentita dei messaggi $m\|n$ processati in OSGP è di 114 byte. Questo complica alcuni attacchi che richiedono messaggi fino a 136 byte.
-\subsection{Potenziali debolezze del protocollo}
-Sono state identificate quattro potenziali debolezze nel protocollo OSG.
-\subsubsection{Utilizzo di RC4}
-Negli ultimi anni sono state identificate varie debolezze nello stream cipher RC4. Uno dei problemi è la correlazione tra la chiave ed il \emph{keystream} di RC4 che può essere utilizzata per ricostruire la chiave. Questa debolezza è stata sfruttata con successo attraverso i vettori di inizializzazione (IVs)  utilizzati per ``rompere" WEP (Wired Equivalent Protection), standard che fa largo uso di RC4. Gli attacchi \cite{wep1}, \cite{wep2} rompono WEP in pochi secondi e tool per l'attacco come Aircrack-ng \cite{aircrackng} sono disponibili gratuitamente per effettuare penetration testing \cite{kali}.\\
-L'uso di RC4 nel protocollo OSG è simile al modo in cui RC4 era usato nello standard WEP. Mentre, per ogni messaggio, è generata una nuova chiave, solamente i primi 8 byte della chiave variano, ed i restanti 8 byte sono costanti. Inoltre, gli 8 byte iniziali vengono messi in XOR con un valore noto pubblicamente. Sebbene gli autori non siano a conoscenza di un attacco reale a tale caratteristica, ciò implica una forte correlazione tra le chiavi usate, e fornisce ad un attaccante dati interessanti da analizzare. Ulteriormente, l'impostazione è simile a quella utilizzata nello standard WEP, questo lascia intuire che l'esperienza nel campo dello \emph{statistical key recovery} permetterebbe di attuare con successo un attacco.\\
-Un altro problema di RC4 in OSGP è che è utilizzato con una autenticazione debole. Data la natura di uno stream cipher, un attaccante che entra in possesso di un \emph{ciphertext} può alterare bit in posizioni scelte. Grazie alla conoscenza dello spazio dei messaggi dello standard EN 14908, un attaccante può inviare messaggi alterati che sono validi con alta probabilità. Inoltre, egli può autenticare tali messaggi sfruttando la debolezza della funzione di digest descritta qui di seguito.
-\subsubsection{Debole funzione di digest}
-La funzione di digest utilizzata nel protocollo OSG per l'autenticazione dei messaggi è lineare ed è implementata in un modo che non solo disabilita l'autenticazione ma può inoltre lasciar decifrare un messaggio intercettato in tempo lineare nella lunghezza del messaggio. La debolezza strutturale intrinseca alla funzione di digest consente un attacco ``man-in-the-middle" (che dimezza la taglia della chiave per un attacco di forza bruta), la modifica dei messaggi in maniera controllata, ricomputazione del digest corretto senza il bisogno di cifratura - o di chiavi di autenticazione, ed utilizzando i messaggi di NACK di un dispositivo su un digest errato per ricostruire sia la chiave di autenticazione che il messaggio.
-\subsubsection{Sicurezza di broadcast non definita}
-Nonostante la funzione di broadcast sia chiamata ``Secure Broadcast", la sicurezza definita su di essa è molto bassa. Questo è particolarmente preoccupante, se si pensa che tale meccanismo è utilizzato per inviare aggiornamenti del firmware, che sono distribuiti attraverso il meccanismo di broadcast sicuro senza alcuna misura specifica atta a fornire autenticazione dalla sorgente.
-\subsubsection{Utilizzo della chiave}
-Sebbene il protocollo faccia uso di chiavi di sessione per la cifratura, utilizza una master key per l'autenticazione. Comunque, questa chiave di autenticazione è usata per derivare la cifratura delle chiavi di sessione. Quindi se la chiave di autenticazione è compromessa, tutte le chiavi di sessione sono note all'attaccante. Siccome la chiave di autenticazione è usata con un debole algoritmo di autenticazione, essa è altamente esposta ad un gran numero di attacchi, e comprometterla è ben possibile.
-\subsection{Sfruttare le debolezze strutturali}
-Queste debolezze strutturali possono essere sfruttate in vari modi. Gli attacchi adatti a tale scopo complessivamente non sono molto sofisticati, piuttosto, grazie alla debolezza dei \emph{building block} crittografici un attaccante è capace di dirottare un intero segmento PLC.\\
-Un attacco relativamente semplice punta a \textit{rompere} la funzione di digest così che un attaccante possa non solo forgiare messaggi, ma - avendo ottenuto accesso ad un messaggio autentico di sufficiente lunghezza - anche ricostruire chiavi crittografiche con basso sforzo, per poi inviare falsi comandi correttamente autenticati.
+\subsection{Analisi}
+OSGP utilizza RC4 per la cifratura senza eliminazione di alcun byte iniziale. RC4 è soggetto ad attacchi di \textit{statistical key recovery} e \textit{plaintext key recovery}, ed è dimostrato come tali siano fattibili \cite{rc4tls}, \cite{weakrc4}, \cite{rc4rand}, \cite{rc4statistical}. Comunque, in questa analisi non ci si concentra su RC4, ma sul digest OMA, si veda l'Algoritmo \ref{oma_algo1}.\\
+L'algoritmo del del digest OMA presenta più falle. Per iniziare, utilizza un semplice padding a zero byte, che risulta in messaggi con un qualsiasi numero di zeri finali che condividono lo stesso tag. Inoltre, data una tupla $(a, m, k)$ dove $a$ è lo stato del digest OMA o il tag di autenticazione, $m$ un messaggio e $k$ la OMAK, la funzione è completamente invertibile (si veda l'Algoritmo \ref{oma_algo2}) il che è una proprietà molto comoda agli attaccanti. Allo stesso modo, è anche possibile prendere uno stato interno arbitrario e continuare a processarlo come per riprendere un messaggio di cui si è fatto un digest parziale. Ciò è mostrato nell'Algoritmo \ref{oma_algo3}.
+\begin{algorithm}[H]
+	\Fn{{\tt OMABackward} ($a,m,k,n$)}{
+		\tcc{Assumes $|m|\leq144$}
+		$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
+		\For{$l \gets 0$ \KwTo $n-1$}{
+			$i,j \gets \lfloor l/8\rfloor,\,l\,mod\,8$\\
+			\eIf{$k_{(17-i)\,mod\,12,7-j} = 1$}
+				{$x \gets (a_j - a_{(j+1)\,mod\,8}-m_{143-8i-j}) \ggg 1$}
+				{$x \gets (a_{(j+1)\,mod\,8}+m_{143-8i-j}-a_j) \lll 1$}
+			$a_j \gets \neg x - j$
+		}
+		\Return{a}
+	}
+	\caption{Il ``backward'' digest OMA di OSGP, ripristina lo stato interno di $n$ byte dei messaggi.}
+	\label{oma_algo2}
+\end{algorithm}
+\begin{algorithm}[H]
+	\Fn{{\tt OMAForward} ($a,m,k,n$)}{
+		\tcc{Essentially Algorithm \ref{oma_algo1}, but start at byte $m_n$ with a known state $a$, and assume $|m| \leq 144$.}
+		$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
+		\For{$l\gets n$ \KwTo 143}{
+			$i,j \gets \lfloor l/8\rfloor,\,7-l\,mod\,8$\\
+			\eIf{$k_{i\,mod\,12,7-j} = 1$}
+				{$a_j \gets a_{(j+1)\,mod\,8}+m_{8i+7-j}+(\neg(a_j+j)) \lll 1$}
+				{$a_j \gets a_{(j+1)\,mod\,8}+m_{8i+7-j}-(\neg(a_j+j)) \ggg 1$}
+		}
+		\Return{a}
+	}
+	\caption{Il ``forward'' digest OMA di OSGP, inizia con uno stato iniziale noto e processa byte di messaggi a partire dalla posizione $n$.}
+	\label{oma_algo3}
+\end{algorithm}
+%\subsection{Potenziali debolezze del protocollo}
+%Sono state identificate quattro potenziali debolezze nel protocollo OSG.
+%\subsubsection{Utilizzo di RC4}
+%Negli ultimi anni sono state identificate varie debolezze nello stream cipher RC4. Uno dei problemi è la correlazione tra la chiave ed il \emph{keystream} di RC4 che può essere utilizzata per ricostruire la chiave. Questa debolezza è stata sfruttata con successo attraverso i vettori di inizializzazione (IVs)  utilizzati per ``rompere" WEP (Wired Equivalent Protection), standard che fa largo uso di RC4. Gli attacchi \cite{wep1}, \cite{wep2} rompono WEP in pochi secondi e tool per l'attacco come Aircrack-ng \cite{aircrackng} sono disponibili gratuitamente per effettuare penetration testing \cite{kali}.\\
+%L'uso di RC4 nel protocollo OSG è simile al modo in cui RC4 era usato nello standard WEP. Mentre, per ogni messaggio, è generata una nuova chiave, solamente i primi 8 byte della chiave variano, ed i restanti 8 byte sono costanti. Inoltre, gli 8 byte iniziali vengono messi in XOR con un valore noto pubblicamente. Sebbene gli autori non siano a conoscenza di un attacco reale a tale caratteristica, ciò implica una forte correlazione tra le chiavi usate, e fornisce ad un attaccante dati interessanti da analizzare. Ulteriormente, l'impostazione è simile a quella utilizzata nello standard WEP, questo lascia intuire che l'esperienza nel campo dello \emph{statistical key recovery} permetterebbe di attuare con successo un attacco.\\
+%Un altro problema di RC4 in OSGP è che è utilizzato con una autenticazione debole. Data la natura di uno stream cipher, un attaccante che entra in possesso di un \emph{ciphertext} può alterare bit in posizioni scelte. Grazie alla conoscenza dello spazio dei messaggi dello standard EN 14908, un attaccante può inviare messaggi alterati che sono validi con alta probabilità. Inoltre, egli può autenticare tali messaggi sfruttando la debolezza della funzione di digest descritta qui di seguito.
+%\subsubsection{Debole funzione di digest}
+%La funzione di digest utilizzata nel protocollo OSG per l'autenticazione dei messaggi è lineare ed è implementata in un modo che non solo disabilita l'autenticazione ma può inoltre lasciar decifrare un messaggio intercettato in tempo lineare nella lunghezza del messaggio. La debolezza strutturale intrinseca alla funzione di digest consente un attacco ``man-in-the-middle" (che dimezza la taglia della chiave per un attacco di forza bruta), la modifica dei messaggi in maniera controllata, ricomputazione del digest corretto senza il bisogno di cifratura - o di chiavi di autenticazione, ed utilizzando i messaggi di NACK di un dispositivo su un digest errato per ricostruire sia la chiave di autenticazione che il messaggio.
+%\subsubsection{Sicurezza di broadcast non definita}
+%Nonostante la funzione di broadcast sia chiamata ``Secure Broadcast", la sicurezza definita su di essa è molto bassa. Questo è particolarmente preoccupante, se si pensa che tale meccanismo è utilizzato per inviare aggiornamenti del firmware, che sono distribuiti attraverso il meccanismo di broadcast sicuro senza alcuna misura specifica atta a fornire autenticazione dalla sorgente.
+%\subsubsection{Utilizzo della chiave}
+%Sebbene il protocollo faccia uso di chiavi di sessione per la cifratura, utilizza una master key per l'autenticazione. Comunque, questa chiave di autenticazione è usata per derivare la cifratura delle chiavi di sessione. Quindi se la chiave di autenticazione è compromessa, tutte le chiavi di sessione sono note all'attaccante. Siccome la chiave di autenticazione è usata con un debole algoritmo di autenticazione, essa è altamente esposta ad un gran numero di attacchi, e comprometterla è ben possibile.
+%\subsection{Sfruttare le debolezze strutturali}
+%Queste debolezze strutturali possono essere sfruttate in vari modi. Gli attacchi adatti a tale scopo complessivamente non sono molto sofisticati, piuttosto, grazie alla debolezza dei \emph{building block} crittografici un attaccante è capace di dirottare un intero segmento PLC.\\
+%Un attacco relativamente semplice punta a \textit{rompere} la funzione di digest così che un attaccante possa non solo forgiare messaggi, ma - avendo ottenuto accesso ad un messaggio autentico di sufficiente lunghezza - anche ricostruire chiavi crittografiche con basso sforzo, per poi inviare falsi comandi correttamente autenticati.
 %-----------------------------------------------------------------------------
 %\section{Attacchi}
 \section{Attacking Smart Meters and Smart Devices}
