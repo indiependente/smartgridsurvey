@@ -100,7 +100,7 @@ L'algoritmo del del digest OMA presenta più falle. Per iniziare, utilizza un se
 \end{algorithm}
 \newpage
 \subsubsection{Chosen-Plaintext Key Recovery Attacks}
-Sia $a=\left(a_0,\cdots,a_7\right)$ lo stato interno a 8 byte del digest OMA. L'attacco discusso in seguito, utilizza messaggi scelti a 144 byte della forma $m=m_0 \|\cdots \|m_143$ e sfrutta le debolezze differenziali nel digest OMA.
+Sia $a=\left(a_0,\ldots,a_7\right)$ lo stato interno a 8 byte del digest OMA. L'attacco discusso in seguito, utilizza messaggi scelti a 144 byte della forma $m=m_0 \|\cdots \|m_{143}$ e sfrutta le debolezze differenziali nel digest OMA.
 \newline \newline
 \textbf{Bitwise Key Recovery}.
 Tale attacco recupera l'intera chiave un bit alla volta, attraverso la crittoanalisi differenziale. Nello specifico, sfrutta lo XOR-\textit{differential}$\left(\Delta_{m_i}, \Delta_{a_j}\right) =\,$\texttt{(80,80)}, in cui $\Delta_{m_i}$ e $\Delta_{a_j}$ sono, rispettivamente, le differenze in input e output per j = 7-i mod 8. La differenza in output è ottenuta subito dopo il \textit{processing} del byte $m_i$ del messaggio (vedi Algoritmo \ref{oma_algo1}), e può essere scritto come 
@@ -127,15 +127,16 @@ dove $r\,\in \, \{1,7\}$. Di conseguenza, si ha che $\Delta_{a'_j}\,=\,\texttt{8
 Tale \textit{leak}, combinato con l'algoritmo \ref{oma_algo2}, può trasformarsi in un \textit{chosen- plaintext key-recovery attack} che restituisce la OMAK \textit{k} bit a bit in al più 96+1 query. L'algoritmo \ref{oma_algo4} descrive questo attacco in dettaglio. Guardando in Figura \ref{osgp_img}, si può immediatamente vedere che la ricostruzione di \textit{k} rompe lo schema completo OSGP AE.
 \begin{algorithm}
 \Fn{{\tt RecoverKey}(\textit{O})}{
-   \tcc{O è un oracolo che restituisce un messaggio OMADigest con chiave k.}
+   %\tcc{O è un oracolo che restituisce un messaggio OMADigest con chiave k.}
+   \tcc{$\mathcal{O}$ is an oracle returning a message’s OMADigest under key $k$}
    $k\, \leftarrow \, \{0\}^{12}$\\
-   $m \, \xleftarrow{\$} \, \{0..255\}^{144}$
-   $a \, \leftarrow \, O(m)$
+   $m \, \xleftarrow{\$} \, \{0..255\}^{144}$\\
+   $a \, \leftarrow \, \mathcal{O}(m)$\\
    \For{$i \leftarrow 0$ \KwTo 11}{
    		\For{$j \leftarrow 0$ \KwTo 7}{
    			$m' \, \leftarrow \, m$ \\
    			$m'_{136-8i-1-j} \, \leftarrow \, m'_{136-8i-1-j} \oplus \texttt{80}$\\
-   			$a' \, \leftarrow \, O(m')$\\
+   			$a' \, \leftarrow \, \mathcal{O}(m')$\\
    			$b \, \leftarrow \, \texttt{OMABackward}(a,m,k,8i)$ \\
    			$b' \, \leftarrow \, \texttt{OMABackward}(a,m',k,8i)$ \\
    			$k_{17-i \, mod \, 12,7-j} \, \leftarrow \, (b_{j,0} \oplus b'_{j,0})$
