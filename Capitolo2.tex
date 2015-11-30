@@ -95,6 +95,17 @@ Per quanto riguarda la comunicazione bidirezionale esistono diversi protocolli:
 	\item  \emph{Open Smart Grid Protocol} (vedi Sezione \ref{sez:OSGP}), famiglia di specifiche pubblicata dall'European Telecommunications Standards Institute, usato in congiunzione con ISO/IEC 14908.
 \end{itemize}
 Gli smart meter consentono di ottenere informazioni specifiche, ciò consente alle aziende di introdurre diversi prezzi sul consumo, in base al periodo del giorno e alla stagione. Dal punto di vista dei clienti, gli smart meter permettono di conoscere il proprio consumo e potersi regolare di conseguenza. Uno studio accademico sulla base di studi esistenti ha mostrato che il consumo di energia elettrica dei proprietari di abitazione, in media, si riduce di circa il 3-5\% \cite{energycons}.
+Le misurazioni degli smart meter vengono spesso aggregate da un dispositivo elettronico, chiamato \emph{data concentrator} (vedi Figura \ref{fig:2_13}), il quale:
+\begin{itemize}
+	\item Si occupa di gestire gli smart meter ad esso collegati, in particolare le loro condizioni;
+	\item Spedisce le misurazioni aggregate alle substation e ai centri di controllo che sfruttano tali informazioni;
+	\item Punto di interazione fra i fornitori di servizi ed i consumatori.
+\end{itemize}
+\begin{figure}[h] \centering{
+\includegraphics[scale=0.4, natwidth=1003,natheight=490]{imgs/smcom2.png}}
+\caption{Data concentrator unit}\label{fig:2_13}
+\end{figure}
+
 \emph{Advanced Metering Infrastructure} è una tecnologia che non coinvolge soltanto gli smart meter, ma è anche un'infrastruttura di comunicazione, applicazioni ed interfacce  per lo scambio di dati. Un tipico sistema AMI (vedi Figura \ref{fig:2_12}) è composto da una centralina AMI per la comunicazione, una piattaforma integrata, un \emph{meter data management system} (MDMS), una rete di comunicazione AMI e terminali AMI, inclusi gli smart meter. I collegamenti di comunicazione con i clienti avviene mediante HAN, attraverso un'interfaccia che comunica con i termostati, elettrodomestici ed altri dispositivi. La centralina monitora, controlla e gestisce i protocolli di comunicazione e lo scambio dei dati con la rete. Inoltre, la centralina permette agli operatori remotamente di monitorare  e gestire la rete AMI. Il MDMS colleziona i dati degli smart meter, effettua conservazione dei dati e li gestisce.
 
 \begin{figure}[h] \centering{
