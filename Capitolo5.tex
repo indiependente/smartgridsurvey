@@ -3,24 +3,164 @@ Negli ultimi anni, un numero sempre crescente di infrastrutture critiche è stat
 Un progetto di digitalizzazione molto visibile è il passaggio dai \emph{meter} analogici ai digitali (\emph{smart}), che è attualmente in corso in vari paesi del mondo. Oltre ad una fatturazione complessivamente più precisa, uno smart meter può anche dare input agli algoritmi di controllo della grid, essere usato nei mercati energetici, comunicare con la \emph{smart home} (ad esempio, per regolare l'aria condizionata ed i sistemi di riscaldamento quando la richiesta energetica è alta), oppure per disconnettere da remoto un consumatore. In questo modo, un dispositivo precedentemente disconnesso e non critico si trasforma in un dispositivo connesso che può generare dati \emph{process-critical}.\\
 La robustezza dei dati e dei comandi di switch è vitale - se una grande quantità di famiglie viene disconnessa simultaneamente, l'energia in eccesso non ha dove andare, potrebbe danneggiare la grid. In maniera simile, se gli algoritmi di manutenzione si basano su dati provenienti da misure effettuate dagli smart meter, input errati possono produrre effetti di gran lunga peggiori delle frodi di fatturazione. Ciò pone una nuova sfida per i produttori di meter: progettare dispositivi economici, largamente distribuiti e che lavorino su canali con banda molto ristretta.
 \section{Open Smart Grid Protocol \label{sez:OSGP}}
-L'Open Smart Grid Protocol (OSGP) è stato uno dei primi protocolli di comunicazione su powerline per smart meters disponibile sul mercato, ed è largamente utilizzato per comunicare tra smart meter e l'aggregatore di dati, il quale è un dispositivo che colleziona dati provenienti da diverse centinaia di meter in un segmento di PLC (Power Line Communication) e li inoltra ad un controllore centralizzato.\\
-L'OSGP risiede nel layer delle applicazioni dello stack protocollare definito dallo standard 14908 ISO/IEC \cite{standard14908}. Nonostante l'OSGP sia principalmente utilizzato per applicazioni di smart-metering, esso è stato progettato per un utilizzo più ampio all'interno di dispositivi della Smart Grid. Lo stack protocollare è molto leggero. Tale leggerezza è ottenuta pagando in sicurezza, infatti le primitive crittografiche consigliate dal NIST  (ad esempio: Advanced Encryption Standard - AES, in \emph{authenticated mode}) sono evitate, optando per altre meno intense computazionalmente: lo stream cipher RC4 per la cifratura ed una funzione digest non standard per l'autenticazione dei messaggi.\\
+L'Open Smart Grid Protocol (OSGP) \cite{osgp} è un protocollo di comunicazione per smart grid costruito sullo stack protocollare ISO/IEC 14908-1 \cite{standard14908}, sviluppato dalla Energy Service Network Association (ESNA), ed è uno standard dell'European Telecommunications Stardards Institute (ETSI) fin dal 2012. È stato uno dei primi protocolli di comunicazione su powerline per smart meters disponibile sul mercato, ed è largamente utilizzato per comunicare tra smart meter e l'aggregatore di dati, il quale è un dispositivo che colleziona dati provenienti da diverse centinaia di meter in un segmento di PLC (Power Line Communication) e li inoltra ad un controllore centralizzato.\\
+Nonostante l'OSGP sia principalmente utilizzato per applicazioni di smart-metering, esso è stato progettato per un utilizzo più ampio all'interno di dispositivi della Smart Grid. Lo stack protocollare è molto leggero. Tale leggerezza è ottenuta pagando in sicurezza, infatti le primitive crittografiche consigliate dal NIST  (ad esempio: Advanced Encryption Standard - AES, in \emph{authenticated mode}) sono evitate, optando per altre meno intense computazionalmente: lo stream cipher RC4 per la cifratura ed una funzione digest non standard per l'autenticazione dei messaggi.\\
+\emph{authenticated encryption} (AE) è la tecnologia standard per proteggere dati che devono essere inviati su canali di comunicazione non sicuri, ed è utilizzata in un gran numero di applicazioni, come ad esempio TLS, SSH ed IPSec. In confronto ai regolari schemi di cifratura simmetrica, AE non solo assicura la \emph{privacy} del dato ma inoltre garantisce l'integrità e l'autenticità. Sfortunatamente, errori di progettazione ed implementazione degli schemi di AE sono noti e ne esistono numerosi esempi. Per nominarne solo alcuni:
+\begin{itemize}
+	\item Vaudenay 2002. Attacco CBC padding oracle al MAC-then-encrypt AE mode, consente ad un avversario di decifrare i messaggi senza accedere alla chiave segreta \cite{cbcpadding}. Questo attacco è derivato dalla mancanza di verifica di autenticità nel caso in cui il messaggio avesse il padding adeguato. Negli anni, tale strategia è stata utilizzata con successo contro TLS.
+	\item Nel 2007, un attacco \cite{wep2} al Wired Equivalent Privacy (WEP) standard, utilizzato nella maggior parte delle reti Wi-Fi 802.11, consentiva di recuperare la chiave segreta in pochi minuti a partire da poche migliaia di messaggi intercettati. L'attacco sfruttava delle debolezze in RC4.
+\end{itemize}
+Si analizza quindi lo schema AE utilizzato nell'Open Smart Grid Protocol.
 Il problema più grande è la combinazione di uno stream cipher con una funzione di digest lineare, che apre le possibilità per attacchi alle chiavi crittografiche ed ai messaggi. Ad esempio, si potrebbe sfruttare tale vulnerabilità utilizzando il ricevente di un messaggio come un ``oracolo". Dato un messaggio propriamente cifrato ed autenticato, un attaccante ipotizza una combinazione di un bit del messaggio ed un bit della chiave, invia un messaggio, appositamente confezionato, al ricevente ed utilizza la risposta del  dispositivo che rifiuti o confermi l'ipotesi. Siccome questo può essere effettuato per singoli bit, un attaccante può ricostruire la chiave principale del dispositivo (OMA key) con al più $96 \times 3$ risposte.
-\subsection{Potenziali debolezze del protocollo}
-Sono state identificate quattro potenziali debolezze nel protocollo OSG.
-\subsubsection{Utilizzo di RC4}
-Negli ultimi anni sono state identificate varie debolezze nello stream cipher RC4. Uno dei problemi è la correlazione tra la chiave ed il \emph{keystream} di RC4 che può essere utilizzata per ricostruire la chiave. Questa debolezza è stata sfruttata con successo attraverso i vettori di inizializzazione (IVs)  utilizzati per ``rompere" WEP (Wired Equivalent Protection), standard che fa largo uso di RC4. Gli attacchi \cite{wep1}, \cite{wep2} rompono WEP in pochi secondi e tool per l'attacco come Aircrack-ng \cite{aircrackng} sono disponibili gratuitamente per effettuare penetration testing \cite{kali}.\\
-L'uso di RC4 nel protocollo OSG è simile al modo in cui RC4 era usato nello standard WEP. Mentre, per ogni messaggio, è generata una nuova chiave, solamente i primi 8 byte della chiave variano, ed i restanti 8 byte sono costanti. Inoltre, gli 8 byte iniziali vengono messi in XOR con un valore noto pubblicamente. Sebbene gli autori non siano a conoscenza di un attacco reale a tale caratteristica, ciò implica una forte correlazione tra le chiavi usate, e fornisce ad un attaccante dati interessanti da analizzare. Ulteriormente, l'impostazione è simile a quella utilizzata nello standard WEP, questo lascia intuire che l'esperienza nel campo dello \emph{statistical key recovery} permetterebbe di attuare con successo un attacco.\\
-Un altro problema di RC4 in OSGP è che è utilizzato con una autenticazione debole. Data la natura di uno stream cipher, un attaccante che entra in possesso di un \emph{ciphertext} può alterare bit in posizioni scelte. Grazie alla conoscenza dello spazio dei messaggi dello standard EN 14908, un attaccante può inviare messaggi alterati che sono validi con alta probabilità. Inoltre, egli può autenticare tali messaggi sfruttando la debolezza della funzione di digest descritta qui di seguito.
-\subsubsection{Debole funzione di digest}
-La funzione di digest utilizzata nel protocollo OSG per l'autenticazione dei messaggi è lineare ed è implementata in un modo che non solo disabilita l'autenticazione ma può inoltre lasciar decifrare un messaggio intercettato in tempo lineare nella lunghezza del messaggio. La debolezza strutturale intrinseca alla funzione di digest consente un attacco ``man-in-the-middle" (che dimezza la taglia della chiave per un attacco di forza bruta), la modifica dei messaggi in maniera controllata, ricomputazione del digest corretto senza il bisogno di cifratura - o di chiavi di autenticazione, ed utilizzando i messaggi di NACK di un dispositivo su un digest errato per ricostruire sia la chiave di autenticazione che il messaggio.
-\subsubsection{Sicurezza di broadcast non definita}
-Nonostante la funzione di broadcast sia chiamata ``Secure Broadcast", la sicurezza definita su di essa è molto bassa. Questo è particolarmente preoccupante, se si pensa che tale meccanismo è utilizzato per inviare aggiornamenti del firmware, che sono distribuiti attraverso il meccanismo di broadcast sicuro senza alcuna misura specifica atta a fornire autenticazione dalla sorgente.
-\subsubsection{Utilizzo della chiave}
-Sebbene il protocollo faccia uso di chiavi di sessione per la cifratura, utilizza una master key per l'autenticazione. Comunque, questa chiave di autenticazione è usata per derivare la cifratura delle chiavi di sessione. Quindi se la chiave di autenticazione è compromessa, tutte le chiavi di sessione sono note all'attaccante. Siccome la chiave di autenticazione è usata con un debole algoritmo di autenticazione, essa è altamente esposta ad un gran numero di attacchi, e comprometterla è ben possibile.
-\subsection{Sfruttare le debolezze strutturali}
-Queste debolezze strutturali possono essere sfruttate in vari modi. Gli attacchi adatti a tale scopo complessivamente non sono molto sofisticati, piuttosto, grazie alla debolezza dei \emph{building block} crittografici un attaccante è capace di dirottare un intero segmento PLC.\\
-Un attacco relativamente semplice punta a \textit{rompere} la funzione di digest così che un attaccante possa non solo forgiare messaggi, ma - avendo ottenuto accesso ad un messaggio autentico di sufficiente lunghezza - anche ricostruire chiavi crittografiche con basso sforzo, per poi inviare falsi comandi correttamente autenticati.
+\subsection{Notazione}
+Una stringa $x$ di $n$ bit è un elemento di $\{0,1\}^n$. La taglia di $x$ in bit è denotata da $|x|$. La concatenazione di stringhe di bit è identificata da $||$. Dato un vettore di stringhe di bit $(x_0, \ldots, x_{n-1})$, si denota con $x_{i,j}$ il $j$-esimo bit della $i$-esima stringa dove $0 \leq i \leq n-1$. Quando si le stringhe di bit sono interpretate come interi si utilizza il formato little-endian denotato in esadecimale.\\
+Una stringa di bit composta da $n$ zero è denotata da $0^n$.\\
+Una rotazione ciclica di una stringa di bit $x$ di $m$ bit verso sinistra e destra sono denotate con $x \lll m$ ed $x \ggg m$, rispettivamente. La differenza di due stringhe di bit $x$ ed $x^\prime$ rispetto allo XOR è denotata da $\Delta x$, mentre la differenza rispetto all'addizione modulo $2^n$ è denotata da $\delta^{\boxminus}x$.
+\subsection{Infrastruttura Crittografica di OSGP}
+La struttura ad alto livello dello schema di cifratura autenticata (AE) di OSGP è mostrata in Figura \ref{osgp_img}.
+\begin{figure}[hbtp]
+	\centering
+	\includegraphics[scale=.5]{imgs/attack/osgp.png}
+	\caption{Lo schema AE di OSGP. Notazione: $x_0 = \{${\tt 81, 3F, 52, 9A, 7B, E3, 89, BA}$\},$ $x_1 = \{${\tt 72, B0, 91, 8D, 44, 05, AA, 57}$\},$ $k = k_1 \| k_0$ : Open Media Access Key (OMAK), $m$: messaggio, $n$: numero di sequenza, $t$: tag di autenticazione, $k^\prime = k^{\prime}_{1} \| k^{\prime}_{0}$: Base Encryption Key (BEK), $c$: ciphertex.}
+	\label{osgp_img}
+\end{figure}
+Lo schema AE di OSGP è basato su tre algoritmi: l'algoritmo EN 14908 \cite{standard14908}, lo stream cipher RC4 ed il digest OMA, un \emph{message authentication code} (MAC). Questi tre algoritmi sono combinati secondo l'approccio \textit{MAC-and-encrypt} e \textit{MAC-then-encrypt}, a formare uno schema di cifratura autenticata. Da notare che, mentre il digest OMA è descritto nella specifica OSGP \cite{osgp}, informazioni pubbliche riguardo l'algoritmo EN 14908, specificato in ISO-IEC 14908-1 \cite{standard14908}, sono difficili da recuperare. Tutte le informazioni su quest'ultimo sono state ottenute dalla specifica OSGP.\\
+La sicurezza dello schema AE di OSGP dipende dalla \textit{Open Media Access Key} (OMAK) a 96 bit $k = k_1 \| k_0$, da cui deriva tutto ciò legato alla chiave. La OMAK è solitamente univoca per ogni device ma non \textit{hardcoded} e può essere cambiata.\\
+Dalla OMAK derivano due cose: inizialmente, è computata una \emph{Base Encryption Key} (BEK) $k^\prime =  k^{\prime}_{1} \| k^{\prime}_{0}$, che è una chiave a 128 bit che compone la base della chiave di cifratura di RC4. La BEK è costruita (la specifica OSGP non è chiara su come la BEK sia rilevata, la descrizione presentata è basata sulle investigazioni svolte in \cite{dumbcrypto}. L'osservazione chiave qui è che la BEK è derivata dall'OMAK. Non è importante il modo, ed è solamente descritto per completezza) utilizzando l'algoritmo EN 14908, che sembra essere la base dell'OMA digest ma usa chiavi più piccole a 48 bit e processa i byte dei messaggi in ordine inverso. L'algoritmo EN 14908 è applicato ad ognuna delle metà $k_0$ e $k_1$ dell'OMAK e delle due costanti $x_0 = ${\tt \{ 81, 3F, 52, 9A, 7B, E3, 89, BA \}}, ed $x_1 = $ {\tt \{ 72, B0, 91, 8D, 44, 05, AA, 57 \}}. I due risultati a 64 bit sono concatenati per formare $k^{\prime}$, come mostrato in Figura \ref{osgp_img}. La BEK dipende solo dall'OMAK ed è quindi fissata fin quando $k$ resta invariato.\\
+In secondo luogo, un tag di autenticazione $t$ è prodotto utilizzando il digest OMA sul messaggio $m$ concatenato ad una \emph{sequence number} $n$ e la OMAK $k$. Si denoti con $l$ la taglia di $m\|n$ in byte. Il digest OMA inizia con gli 8 byte $a = (a_0, \ldots, a_7)$ del suo stato interno di impostati a 0. Per prima cosa, $m\|n$ è \emph{zero-padded} ad un multiplo di 144 byte, cioé\\
+\indent $m^\prime = m \| n \| 0^{-l\, mod\, 144}$.\\
+Il primo, e potrebbe anche ultimo, blocco da 144 byte del messaggio è denotato da $m^\prime = m^\prime_0 \| \cdots \| m^\prime_{143}$. Lo stato interno è continuamente aggiornato utilizzando una funzione nonlineare $f_{b,c}$ dove $b = k_{i\, mod\, 12, 7-j}$ è un bit chiave e $c = j$ è la posizione corrente nello stato. La sua specifica è riportata di seguito:\\
+\indent   $f_{b,c}(x,y,z)=
+\begin{cases}
+	y + z + (\neg(x + c)) \lll 1\quad if\quad b=1\\
+	y + z - (\neg(x + c)) \ggg 1\quad altrimenti.
+\end{cases}$\\
+Per aggiornare l'elemento di stato $a_j$, la funzione $f$ prende, per $0 \leq i \leq 17$ e $7 \geq j \geq 0$, due elementi di stato adiacenti $a_j$ ed $a_{j+1\, mod\, 8}$ ed un byte del messaggio $m^\prime_{8i+7-j}$ in input, ad esempio, $a_j = f_{k_{i\,mod\,12,7-j},j}$, ed in funzione del valore del bit chiave $k_{i\,mod\,12,7-j}$ uno dei due rami mostrati sopra viene valutato. Il prossimo blocco da 144 byte del messaggio è processato in maniera simile, con lo stato interno proveniente dal blocco precedente. Lo pseudocodice del digest OMA è mostrato nell'Algoritmo \ref{oma_algo1} ed una visualizzazione del ciclo più interno, dove i byte del messaggio sono processati, è mostrata in Figura \ref{inneroma_img}.
+\begin{figure}[hbtp]
+	\centering
+	\includegraphics[scale=.3]{imgs/attack/oma_innerloop.png}
+	\caption{Processing dei dati (da destra verso sinistra) nel digest OMA, con $\bar i = i\,mod\,12$.}
+	\label{inneroma_img}
+\end{figure}
+Dopo la generazione del tag $t$, ne viene effettuato lo XOR con la metà bassa della BEK $k^\prime$ che poi produce la chiave di cifratura di RC4 a 128 bit $k^{\prime} = k^\prime_1 \| (k^\prime_0 \oplus t)$, come mostrato in Figura \ref{osgp_img}.
+\begin{algorithm}[H]
+\Fn{{\tt OMADigest} ($m,\,k$)}{
+	$a \gets (0,0,0,0,0,0,0,0)$\\
+	$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
+	\ForEach{144-byte block b of m}{
+		\For{$i \gets 0$ \KwTo 0}{
+			\For{$j \gets 7$ \KwTo 0}{
+				\eIf{$k_{i\,mod\,12,7-j} = 1$}
+				{$a_j \gets a_{(j+1)\,mod\,8}+b_{8i+(7-j)}+(\neg(a_j+j)) \lll 1$}
+				{$a_j \gets a_{(j+1)\,mod\,8}+b_{8i+(7-j)}-(\neg(a_j+j)) \ggg 1$}
+				}
+			}
+		}
+	\Return{a}
+	}
+\caption{Il digest OMA di OSGP.}
+\label{oma_algo1}
+\end{algorithm}
+Questa scelta è intesa per fornire ad RC4 materiale chiave in continuo cambiamento, così producendo un \textit{keystream} nuovo ad ogni messaggi, per cui, in accordo alla specifica OSGP, il numero di sequenza $n$, concatenato ad $m$, è continuamente incrementato.\\
+I sequence number sono condivisi tra mittente e destinatario in OSGP. Il destinatario di un messaggio verifica che il corretto sequence number sia stato concatenato a quest'ultimo. I messaggi con sequence number nel range $\{n, \ldots, n+8\}$ sono accettati come richieste valide. Se un messaggio con sequence number $n-1$ è ricevuto, il destinatario non esegue la richiesta, ma reinvia la risposta della richiesta (eseguita precedentemente) numero $n-1$. I numeri di sequenza fuori di tale range fanno scattare un errore ed i dispositivi OSGP rispondono con un codice di fallimento ed il corretto sequence number.\\
+Dopo che la fase di setup è terminata, $k^{\prime\prime}$ è utilizzato per cifrare $m\|n$ tramite RC4 per ottenere il ciphertext $c$. Infine, $c\|t$ è trasmesso. La taglia massima consentita dei messaggi $m\|n$ processati in OSGP è di 114 byte. Questo complica alcuni attacchi che richiedono messaggi fino a 136 byte.
+\subsection{Analisi}
+OSGP utilizza RC4 per la cifratura senza eliminazione di alcun byte iniziale. RC4 è soggetto ad attacchi di \textit{statistical key recovery} e \textit{plaintext key recovery}, ed è dimostrato come tali siano fattibili \cite{rc4tls}, \cite{weakrc4}, \cite{rc4rand}, \cite{rc4statistical}. Comunque, in questa analisi non ci si concentra su RC4, ma sul digest OMA, si veda l'Algoritmo \ref{oma_algo1}.\\
+L'algoritmo del del digest OMA presenta più falle. Per iniziare, utilizza un semplice padding a zero byte, che risulta in messaggi con un qualsiasi numero di zeri finali che condividono lo stesso tag. Inoltre, data una tupla $(a, m, k)$ dove $a$ è lo stato del digest OMA o il tag di autenticazione, $m$ un messaggio e $k$ la OMAK, la funzione è completamente invertibile (si veda l'Algoritmo \ref{oma_algo2}) il che è una proprietà molto comoda agli attaccanti. Allo stesso modo, è anche possibile prendere uno stato interno arbitrario e continuare a processarlo come per riprendere un messaggio di cui si è fatto un digest parziale. Ciò è mostrato nell'Algoritmo \ref{oma_algo3}.
+\begin{algorithm}[H]
+	\Fn{{\tt OMABackward} ($a,m,k,n$)}{
+		\tcc{Assumes $|m|\leq144$}
+		$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
+		\For{$l \gets 0$ \KwTo $n-1$}{
+			$i,j \gets \lfloor l/8\rfloor,\,l\,mod\,8$\\
+			\eIf{$k_{(17-i)\,mod\,12,7-j} = 1$}
+				{$x \gets (a_j - a_{(j+1)\,mod\,8}-m_{143-8i-j}) \ggg 1$}
+				{$x \gets (a_{(j+1)\,mod\,8}+m_{143-8i-j}-a_j) \lll 1$}
+			$a_j \gets \neg x - j$
+		}
+		\Return{a}
+	}
+	\caption{Il ``backward'' digest OMA di OSGP, ripristina lo stato interno di $n$ byte dei messaggi.}
+	\label{oma_algo2}
+\end{algorithm}
+\begin{algorithm}[H]
+	\Fn{{\tt OMAForward} ($a,m,k,n$)}{
+		\tcc{Essentially Algorithm \ref{oma_algo1}, but start at byte $m_n$ with a known state $a$, and assume $|m| \leq 144$.}
+		$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
+		\For{$l\gets n$ \KwTo 143}{
+			$i,j \gets \lfloor l/8\rfloor,\,7-l\,mod\,8$\\
+			\eIf{$k_{i\,mod\,12,7-j} = 1$}
+				{$a_j \gets a_{(j+1)\,mod\,8}+m_{8i+7-j}+(\neg(a_j+j)) \lll 1$}
+				{$a_j \gets a_{(j+1)\,mod\,8}+m_{8i+7-j}-(\neg(a_j+j)) \ggg 1$}
+		}
+		\Return{a}
+	}
+	\caption{Il ``forward'' digest OMA di OSGP, inizia con uno stato iniziale noto e processa byte di messaggi a partire dalla posizione $n$.}
+	\label{oma_algo3}
+\end{algorithm}
+\newpage
+\subsubsection{Chosen-Plaintext Key Recovery Attacks}
+Sia $a=\left(a_0,\ldots,a_7\right)$ lo stato interno a 8 byte del digest OMA. L'attacco discusso in seguito, utilizza messaggi scelti a 144 byte della forma $m=m_0 \|\cdots \|m_{143}$ e sfrutta le debolezze differenziali nel digest OMA.
+\newline \newline
+\textbf{Bitwise Key Recovery}.
+Tale attacco recupera l'intera chiave un bit alla volta, attraverso la crittoanalisi differenziale. Nello specifico, sfrutta lo XOR-\textit{differential}$\left(\Delta_{m_i}, \Delta_{a_j}\right) =\,$\texttt{(80,80)}, in cui $\Delta_{m_i}$ e $\Delta_{a_j}$ sono, rispettivamente, le differenze in input e output per j = 7-i mod 8. La differenza in output è ottenuta subito dopo il \textit{processing} del byte $m_i$ del messaggio (vedi Algoritmo \ref{oma_algo1}), e può essere scritto come 
+\begin{equation*}
+\begin{split}
+&f_{k,j}\left(a_j, a_{j+1 \, mod \, 8}, m_i \oplus \texttt{80} \right) \\
+=\,&a_{j+1\,mod\,8} + \left( m_i \oplus \texttt{80} \right) \, \pm \, \left(\texttt{FF} \oplus (a_j+j) \lll r \right) \\
+=\,&\left(a_{j+1\,mod\,8} + m_i \pm ( \texttt{FF} \oplus (a_j+j) \lll r)\right)\oplus \texttt{80} \\
+=\,&f_{k,j}\left(a_j, a_{j+1 \, mod \, 8}, m_i\right) \oplus \texttt{80} 
+\end{split}
+\end{equation*}
+in cui la rotazione ciclica $r\,\in \, \{1,7\}$ e l'operazione $\pm$, dipendono dal valore del bit chiave $k \, \in \, \{0,1\}$. Questo XOR-\textit{differential} ha probabilità 1, in accordo a proprietà differenziali ben note dell'addizione modulo $2^n$ \cite{diff}, e si propaga nettamente attraverso lo stato \textit{a} per le successive 8 iterazioni, restituendo come risultato la seguente differenza
+\begin{equation*}
+\Delta_a \, = \, (\texttt{80},\texttt{80},\texttt{80},\texttt{80},\texttt{80},\texttt{80},\texttt{80},\texttt{80}).
+\end{equation*}
+L'iterazione successiva rivela un bit chiave. Linearizzando attraverso lo XOR la funzione \textit{f} di aggiornamento dello stato, la nuova differenza in output $\Delta_{a'_j}$ è della forma
+\begin{equation*}
+\begin{split}
+\Delta_{a'_j} \, = \, & ((a_{j+1 \, mod \, 8} \oplus \texttt{80}) \oplus m_i \oplus (\texttt{FF} \oplus ((a_j \oplus \texttt{80}) \oplus j) \lll r)) \, \oplus \\
+&(a_{j+1 \, mod \, 8} \oplus m_i \oplus (\texttt{FF} \oplus (a_j \oplus j) \lll r))
+\end{split}
+\end{equation*}
+dove $r\,\in \, \{1,7\}$. Di conseguenza, si ha che $\Delta_{a'_j}\,=\,\texttt{81}$ se il bit 7-i mod 8 di $k_{\lfloor i/8 \rfloor \, mod \, 12}$ sia pari a 1, e $\Delta_{a'_j}\,=\,\texttt{C0}$, se lo stesso bit chiave è 0. Sebbene l'addizione e lo XOR tra interi si comportino diversamente rispetto alla propagazione delle XOR differenze, il bit meno significativo dell'addizione tra interi e dello XOR si comportano allo stesso modo in questo caso e possono essere utilizzati per recuperare il bit chiave con probabilità 1. \newline
+Tale \textit{leak}, combinato con l'algoritmo \ref{oma_algo2}, può trasformarsi in un \textit{chosen- plaintext key-recovery attack} che restituisce la OMAK \textit{k} bit a bit in al più 96+1 query. L'algoritmo \ref{oma_algo4} descrive questo attacco in dettaglio. Guardando in Figura \ref{osgp_img}, si può immediatamente vedere che la ricostruzione di \textit{k} rompe lo schema completo OSGP AE.
+\begin{algorithm}
+\Fn{{\tt RecoverKey}(\textit{O})}{
+   %\tcc{O è un oracolo che restituisce un messaggio OMADigest con chiave k.}
+   \tcc{$\mathcal{O}$ is an oracle returning a message’s OMADigest under key $k$}
+   $k\, \leftarrow \, \{0\}^{12}$\\
+   $m \, \xleftarrow{\$} \, \{0..255\}^{144}$\\
+   $a \, \leftarrow \, \mathcal{O}(m)$\\
+   \For{$i \leftarrow 0$ \KwTo 11}{
+   		\For{$j \leftarrow 0$ \KwTo 7}{
+   			$m' \, \leftarrow \, m$ \\
+   			$m'_{136-8i-1-j} \, \leftarrow \, m'_{136-8i-1-j} \oplus \texttt{80}$\\
+   			$a' \, \leftarrow \, \mathcal{O}(m')$\\
+   			$b \, \leftarrow \, \texttt{OMABackward}(a,m,k,8i)$ \\
+   			$b' \, \leftarrow \, \texttt{OMABackward}(a,m',k,8i)$ \\
+   			$k_{17-i \, mod \, 12,7-j} \, \leftarrow \, (b_{j,0} \oplus b'_{j,0})$
+   }
+   }
+   \Return{\textit{k}}
+}\caption{Bitwise Key Recovery attack}
+\label{oma_algo4}
+\end{algorithm}
+%\subsection{Potenziali debolezze del protocollo}
+%Sono state identificate quattro potenziali debolezze nel protocollo OSG.
+%\subsubsection{Utilizzo di RC4}
+%Negli ultimi anni sono state identificate varie debolezze nello stream cipher RC4. Uno dei problemi è la correlazione tra la chiave ed il \emph{keystream} di RC4 che può essere utilizzata per ricostruire la chiave. Questa debolezza è stata sfruttata con successo attraverso i vettori di inizializzazione (IVs)  utilizzati per ``rompere" WEP (Wired Equivalent Protection), standard che fa largo uso di RC4. Gli attacchi \cite{wep1}, \cite{wep2} rompono WEP in pochi secondi e tool per l'attacco come Aircrack-ng \cite{aircrackng} sono disponibili gratuitamente per effettuare penetration testing \cite{kali}.\\
+%L'uso di RC4 nel protocollo OSG è simile al modo in cui RC4 era usato nello standard WEP. Mentre, per ogni messaggio, è generata una nuova chiave, solamente i primi 8 byte della chiave variano, ed i restanti 8 byte sono costanti. Inoltre, gli 8 byte iniziali vengono messi in XOR con un valore noto pubblicamente. Sebbene gli autori non siano a conoscenza di un attacco reale a tale caratteristica, ciò implica una forte correlazione tra le chiavi usate, e fornisce ad un attaccante dati interessanti da analizzare. Ulteriormente, l'impostazione è simile a quella utilizzata nello standard WEP, questo lascia intuire che l'esperienza nel campo dello \emph{statistical key recovery} permetterebbe di attuare con successo un attacco.\\
+%Un altro problema di RC4 in OSGP è che è utilizzato con una autenticazione debole. Data la natura di uno stream cipher, un attaccante che entra in possesso di un \emph{ciphertext} può alterare bit in posizioni scelte. Grazie alla conoscenza dello spazio dei messaggi dello standard EN 14908, un attaccante può inviare messaggi alterati che sono validi con alta probabilità. Inoltre, egli può autenticare tali messaggi sfruttando la debolezza della funzione di digest descritta qui di seguito.
+%\subsubsection{Debole funzione di digest}
+%La funzione di digest utilizzata nel protocollo OSG per l'autenticazione dei messaggi è lineare ed è implementata in un modo che non solo disabilita l'autenticazione ma può inoltre lasciar decifrare un messaggio intercettato in tempo lineare nella lunghezza del messaggio. La debolezza strutturale intrinseca alla funzione di digest consente un attacco ``man-in-the-middle" (che dimezza la taglia della chiave per un attacco di forza bruta), la modifica dei messaggi in maniera controllata, ricomputazione del digest corretto senza il bisogno di cifratura - o di chiavi di autenticazione, ed utilizzando i messaggi di NACK di un dispositivo su un digest errato per ricostruire sia la chiave di autenticazione che il messaggio.
+%\subsubsection{Sicurezza di broadcast non definita}
+%Nonostante la funzione di broadcast sia chiamata ``Secure Broadcast", la sicurezza definita su di essa è molto bassa. Questo è particolarmente preoccupante, se si pensa che tale meccanismo è utilizzato per inviare aggiornamenti del firmware, che sono distribuiti attraverso il meccanismo di broadcast sicuro senza alcuna misura specifica atta a fornire autenticazione dalla sorgente.
+%\subsubsection{Utilizzo della chiave}
+%Sebbene il protocollo faccia uso di chiavi di sessione per la cifratura, utilizza una master key per l'autenticazione. Comunque, questa chiave di autenticazione è usata per derivare la cifratura delle chiavi di sessione. Quindi se la chiave di autenticazione è compromessa, tutte le chiavi di sessione sono note all'attaccante. Siccome la chiave di autenticazione è usata con un debole algoritmo di autenticazione, essa è altamente esposta ad un gran numero di attacchi, e comprometterla è ben possibile.
+%\subsection{Sfruttare le debolezze strutturali}
+%Queste debolezze strutturali possono essere sfruttate in vari modi. Gli attacchi adatti a tale scopo complessivamente non sono molto sofisticati, piuttosto, grazie alla debolezza dei \emph{building block} crittografici un attaccante è capace di dirottare un intero segmento PLC.\\
+%Un attacco relativamente semplice punta a \textit{rompere} la funzione di digest così che un attaccante possa non solo forgiare messaggi, ma - avendo ottenuto accesso ad un messaggio autentico di sufficiente lunghezza - anche ricostruire chiavi crittografiche con basso sforzo, per poi inviare falsi comandi correttamente autenticati.
 %-----------------------------------------------------------------------------
 %\section{Attacchi}
 \section{Attacking Smart Meters and Smart Devices}
@@ -40,7 +180,7 @@ Sezioni dell'ISECOM \emph{Open Source Security Testing Methodology Manual}:
 \end{enumerate}
 Eseguire security testing in accordo all'OSSTMM richiede che ogni modulo contenuto in ogni sezione sia testato secondo sei approcci comuni al testing: dal Double Blind, in cui sia target che attaccante non abbiano informazioni prima di condurre il testing, al Tandem, dove il target e l'attaccante condividono informazioni riguardo il testing apertamente. L'approccio mostrato di seguito è quello Double Blind in quanto è quello che più si avvicina ad una situazione reale.
 \subsubsection{Information Security}
-In questa sezione risiedono otto moduli:
+In questa sezione risiedono sette moduli:
 \begin{enumerate}
 	\item Posture assessment
 	\item Information integrity review
@@ -233,26 +373,27 @@ Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \
 \indent $\textbf{u} = \textbf{Gv}$,\\
 con $\textbf{u} = [u_i, i = 1,2, \ldots, m]$ che è il vettore delle osservazioni degli $m$ segnali di monitoraggio, $\textbf{G} = [g_{ij}, i = 1, 2, \ldots,m, j = 1 ,2, \ldots, n]$ è la matrice di mixing non nota, e $v = [v_i, i = 1, 2, \ldots, n]$ è il vettore delle $n$ variabili indipendenti latenti.\\
 Dato il modello e la realizzazione di \textbf{u}, ICA può inferire siala matrice di mixing \textbf{G} che il vettore \textbf{v} calcolando in maniera adattiva il vettore dei pesi \textbf{w} che massimizza una misura di \emph{non Gaussianità} del $\textbf{w}^T\textbf{u}$ calcolato.\\
-L'algoritmo è mostrato in Figura \ref{algo1}: FastICA \cite{lica}, alla riga 1, è un algoritmo popolare ed efficiente per la ICA che iterativamente trova la direzione in cui il vettore dei pesi \textbf{w} massimizza la non Gaussianità della proiezione $\textbf{w}^T\textbf{z}$ per i dati \textbf{z}. \textbf{G} deve soddisfare $\textbf{w}^T\textbf{G} = \textbf{I}$, con \textbf{I} matrice identità. Le entrate di \textbf{G} minori di una certa soglia $\epsilon$ sono rimosse. Infine, il vettore di stato \textbf{y} può essere stimato da $\textbf{w}^T\textbf{z}$.\\
-La riga 2 verifica che \textbf{z} segua un modello lineare. Se le assunzioni di linearità sono valide, $max(\textbf{z} - \textbf{Gy})$ dovrebbe essere piccolo.\\
-La riga 3 genera un attacco random tramite una variabile casuale Gaussiana, ed è aggiunto alla variabile inferita \textbf{y} alla riga 4, risultando così in un attacco stealth che non può essere rilevato.
 \begin{figure}[htbp]
 	\centering
 	\fbox{\begin{minipage}{15em}
-		Input: \textbf{z} = data matrix
-		\begin{enumerate}
-			\item $\lbrack \textbf{G}$ and $\textbf{y} \rbrack$ = FastICA(\textbf{z})
-			\item If max(\textbf{z} - \textbf{Gy})  $>$ $\epsilon$ then exit
-			\item Generate $\delta$\textbf{y} $\sim N(0, \sigma^2)$
-			\item $\textbf{z}^\prime$ = \textbf{z} + \textbf{G}(\textbf{y} + $\delta$\textbf{y})
-
-		\end{enumerate}
-		Output: false data $\textbf{z}^\prime$
+			Input: \textbf{z} = data matrix
+			\begin{enumerate}
+				\item $\lbrack \textbf{G}$ and $\textbf{y} \rbrack$ = FastICA(\textbf{z})
+				\item If max(\textbf{z} - \textbf{Gy})  $>$ $\epsilon$ then exit
+				\item Generate $\delta$\textbf{y} $\sim N(0, \sigma^2)$
+				\item $\textbf{z}^\prime$ = \textbf{z} + \textbf{G}(\textbf{y} + $\delta$\textbf{y})
+				
+			\end{enumerate}
+			Output: false data $\textbf{z}^\prime$
 		\end{minipage}
 	}
 	\caption{Stealth false data injection.}
 	\label{algo1}
-\end{figure}	
+\end{figure}
+L'algoritmo è mostrato in Figura \ref{algo1}: FastICA \cite{lica}, alla riga 1, è un algoritmo popolare ed efficiente per la ICA che iterativamente trova la direzione in cui il vettore dei pesi \textbf{w} massimizza la non Gaussianità della proiezione $\textbf{w}^T\textbf{z}$ per i dati \textbf{z}. \textbf{G} deve soddisfare $\textbf{w}^T\textbf{G} = \textbf{I}$, con \textbf{I} matrice identità. Le entrate di \textbf{G} minori di una certa soglia $\epsilon$ sono rimosse. Infine, il vettore di stato \textbf{y} può essere stimato da $\textbf{w}^T\textbf{z}$.\\
+La riga 2 verifica che \textbf{z} segua un modello lineare. Se le assunzioni di linearità sono valide, $max(\textbf{z} - \textbf{Gy})$ dovrebbe essere piccolo.\\
+La riga 3 genera un attacco random tramite una variabile casuale Gaussiana, ed è aggiunto alla variabile inferita \textbf{y} alla riga 4, risultando così in un attacco stealth che non può essere rilevato.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Disconnect Attack}
