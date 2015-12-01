@@ -10,6 +10,13 @@ Nonostante l'OSGP sia principalmente utilizzato per applicazioni di smart-meteri
 	\item Vaudenay 2002. Attacco CBC padding oracle al MAC-then-encrypt AE mode, consente ad un avversario di decifrare i messaggi senza accedere alla chiave segreta \cite{cbcpadding}. Questo attacco è derivato dalla mancanza di verifica di autenticità nel caso in cui il messaggio avesse il padding adeguato. Negli anni, tale strategia è stata utilizzata con successo contro TLS.
 	\item Nel 2007, un attacco \cite{wep2} al Wired Equivalent Privacy (WEP) standard, utilizzato nella maggior parte delle reti Wi-Fi 802.11, consentiva di recuperare la chiave segreta in pochi minuti a partire da poche migliaia di messaggi intercettati. L'attacco sfruttava delle debolezze in RC4.
 \end{itemize}
+% Intro Security
+%%%%
+\subsection{OMA Key}
+%%%%
+\subsection{OSGP Authentication}
+%%%%
+\subsection{OSGP Encryption}
 Si analizza quindi lo schema AE utilizzato nell'Open Smart Grid Protocol.
 Il problema più grande è la combinazione di uno stream cipher con una funzione di digest lineare, che apre le possibilità per attacchi alle chiavi crittografiche ed ai messaggi. Ad esempio, si potrebbe sfruttare tale vulnerabilità utilizzando il ricevente di un messaggio come un ``oracolo". Dato un messaggio propriamente cifrato ed autenticato, un attaccante ipotizza una combinazione di un bit del messaggio ed un bit della chiave, invia un messaggio, appositamente confezionato, al ricevente ed utilizza la risposta del  dispositivo che rifiuti o confermi l'ipotesi. Siccome questo può essere effettuato per singoli bit, un attaccante può ricostruire la chiave principale del dispositivo (OMA key) con al più $96 \times 3$ risposte.
 \subsection{Notazione}
