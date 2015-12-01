@@ -12,18 +12,27 @@ Nonostante l'OSGP sia principalmente utilizzato per applicazioni di smart-meteri
 \end{itemize}
 % Intro Security
 %%%%
+In OSGP, quindi, si introducono misure per proteggere la \textit{privacy} dei clienti, restringendo l'accesso ai dati e cifrando questi ultimi per evitare che persone non autorizzate possano modificarli. Si introducono, inoltre, misure per rintracciare potenziali tentativi di eludere le funzioni di metering, che potrebbero risultare in accessi non registrati ai servizi. \newline Come detto in precedenza, OSGP è costruito sullo stack protocollare ISO/IEC 14908-1, che fornisce servizi di autenticazione, ma non include meccanismi per garantire la confidenzialità dei dati. Per questo motivo, OSGP completa la sicurezza di questo standard, aggiungendo un proprio \textit{security layer} che fornisce autenticazione e confidenzialità.
+
 \subsection{OMA Key}
+Durante il processo di produzione industriale, i dispositivi OSGP vengono configurati con una \textit{Open Media Access Key} (OMAK) univoca a 96 bit (maggiori dettagli in \ref{subsec:OSGPencr}). Tali chiavi sono poi trasmesse in maniera sicura alle utility, in modo da poter essere utilizzate poi dai data concentrator.\newline Tipicamente, l'originaria OMAK specifica per ogni dispositivo, viene poi sostituita dal data concentrator con una OMAK condivisa.\newline
+L'OMAK è utilizzata per i seguenti scopi:
+\begin{itemize}
+\item Per l'autenticazione di messaggi, illustrata in \ref{subsec:OSGPauth};
+\item Come chiave in input per l'OSGP OMA Digest Algorithm, illustrato in \ref{subsec:OSGPencr};
+\item Per la cifratura: dall'OMAK, si deriva inizialmente una Base Encryption Key (BEK) a 128 bit che, successivamente, si combina in XOR con un OSGP digest, per produrre la chiave di cifratura di RC4. Il tutto è ampiamente illustrato in \ref{subsec:OSGPinfr}.
+\end{itemize}
+
+\subsection{OSGP Authentication \label{subsec:OSGPauth}}
 %%%%
-\subsection{OSGP Authentication}
-%%%%
-\subsection{OSGP Encryption}
+\subsection{OSGP Encryption \label{subsec:OSGPencr}}
 Si analizza quindi lo schema AE utilizzato nell'Open Smart Grid Protocol.
 Il problema più grande è la combinazione di uno stream cipher con una funzione di digest lineare, che apre le possibilità per attacchi alle chiavi crittografiche ed ai messaggi. Ad esempio, si potrebbe sfruttare tale vulnerabilità utilizzando il ricevente di un messaggio come un ``oracolo". Dato un messaggio propriamente cifrato ed autenticato, un attaccante ipotizza una combinazione di un bit del messaggio ed un bit della chiave, invia un messaggio, appositamente confezionato, al ricevente ed utilizza la risposta del  dispositivo che rifiuti o confermi l'ipotesi. Siccome questo può essere effettuato per singoli bit, un attaccante può ricostruire la chiave principale del dispositivo (OMA key) con al più $96 \times 3$ risposte.
 \subsection{Notazione}
 Una stringa $x$ di $n$ bit è un elemento di $\{0,1\}^n$. La taglia di $x$ in bit è denotata da $|x|$. La concatenazione di stringhe di bit è identificata da $||$. Dato un vettore di stringhe di bit $(x_0, \ldots, x_{n-1})$, si denota con $x_{i,j}$ il $j$-esimo bit della $i$-esima stringa dove $0 \leq i \leq n-1$. Quando si le stringhe di bit sono interpretate come interi si utilizza il formato little-endian denotato in esadecimale.\\
 Una stringa di bit composta da $n$ zero è denotata da $0^n$.\\
 Una rotazione ciclica di una stringa di bit $x$ di $m$ bit verso sinistra e destra sono denotate con $x \lll m$ ed $x \ggg m$, rispettivamente. La differenza di due stringhe di bit $x$ ed $x^\prime$ rispetto allo XOR è denotata da $\Delta x$, mentre la differenza rispetto all'addizione modulo $2^n$ è denotata da $\delta^{\boxminus}x$.
-\subsection{Infrastruttura Crittografica di OSGP}
+\subsection{Infrastruttura Crittografica di OSGP \label{subsec:OSGPinfr}}
 La struttura ad alto livello dello schema di cifratura autenticata (AE) di OSGP è mostrata in Figura \ref{osgp_img}.
 \begin{figure}[hbtp]
 	\centering
