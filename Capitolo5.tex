@@ -12,10 +12,10 @@ Nonostante l'OSGP sia principalmente utilizzato per applicazioni di smart-meteri
 \end{itemize}
 % Intro Security
 %%%%
-In OSGP, quindi, si introducono misure per proteggere la \textit{privacy} dei clienti, restringendo l'accesso ai dati e cifrando questi ultimi per evitare che persone non autorizzate possano modificarli. Si introducono, inoltre, misure per rintracciare potenziali tentativi di eludere le funzioni di metering, che potrebbero risultare in accessi non registrati ai servizi. \newline Come detto in precedenza, OSGP è costruito sullo stack protocollare ISO/IEC 14908-1, che fornisce servizi di autenticazione, ma non include meccanismi per garantire la confidenzialità dei dati. Per questo motivo, OSGP completa la sicurezza di questo standard, aggiungendo un proprio \textit{security layer} che fornisce autenticazione e confidenzialità.
+In OSGP, quindi, si introducono misure per proteggere la \textit{privacy} dei clienti, restringendo l'accesso ai dati e cifrando questi ultimi per evitare che persone non autorizzate possano modificarli. Si introducono, inoltre, misure per rintracciare potenziali tentativi di eludere le funzioni di metering, che potrebbero risultare in accessi non registrati ai servizi. \newline Come detto in precedenza, OSGP è costruito sullo stack protocollare ISO/IEC 14908-1, che fornisce servizi di autenticazione, ma non include meccanismi per garantire la confidenzialità dei dati. Per questo motivo, OSGP completa la sicurezza di questo standard, aggiungendo un proprio \textit{security layer} che fornisce autenticazione e confidenzialità. \cite{osgpsec}
 
 \subsection{OMA Key}
-Durante il processo di produzione industriale, i dispositivi OSGP vengono configurati con una \textit{Open Media Access Key} (OMAK) univoca a 96 bit (maggiori dettagli in \ref{subsec:OSGPencr}). Tali chiavi sono poi trasmesse in maniera sicura alle utility, in modo da poter essere utilizzate poi dai data concentrator.\newline Tipicamente, l'originaria OMAK specifica per ogni dispositivo, viene poi sostituita dal data concentrator con una OMAK condivisa.\newline
+Durante il processo di produzione industriale, i dispositivi OSGP vengono configurati con una \textit{Open Media Access Key} (OMAK) univoca a 96 bit (maggiori dettagli in \ref{subsec:OSGPencr}). Tali chiavi sono poi trasmesse in maniera sicura alle società di servizi, in modo da poter essere utilizzate poi dai data concentrator.\newline Tipicamente, l'originaria OMAK specifica per ogni dispositivo, viene poi sostituita dal data concentrator con una OMAK condivisa.\newline
 L'OMAK è utilizzata per i seguenti scopi:
 \begin{itemize}
 \item Per l'autenticazione di messaggi, illustrata in \ref{subsec:OSGPauth};
@@ -24,7 +24,77 @@ L'OMAK è utilizzata per i seguenti scopi:
 \end{itemize}
 
 \subsection{OSGP Authentication \label{subsec:OSGPauth}}
-%%%%
+Il data concentrator OSGP utilizza autenticazione basata su digest a livello applicativo per autenticare messaggi del livello applicazione tra i dispositivi. Questa forma di autenticazione richiede la metà dei pacchetti richiesti dall'autenticazione EN 14908. Per evitare replay attack, viene effettuato l'\emph{append} di un sequence number al \emph{payload} e successivamente se ne effettua il digest complessivo.\\
+Quando il device è in fase di inizializzazione sceglie un sequence number iniziale casuale. Assumendo che il dispositivo si aspetti un sequence number $N$, esso rifiuta qualsiasi messaggio che non abbia sequence number compreso tra $N-1$ ed $N+M$, dove $M$ è pari ad 8. Quando è ricevuta una richiesta con sequence number $N-1$, la response per tale richiesta inviata originariamente, se presente, viene nuovamente inviata. Se il sequence number ricevuto in una richiesta è fuori dal range specificato ($[N-1, N+M]$), il dispositivo risponderà a tale richiesta con una NACK response contenente il messaggio di ``\emph{invalid sequence number}'', seguita dal sequence number desiderato. A quel punto sta al data concentrator iniziare ad usare il nuovo sequence number.\\
+Le richieste rispettano il seguente formato:
+\begin{table}[!h]
+	\centering
+%	\caption{My caption}
+%	\label{my-label}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		Request & Sequence (4 byte) & Digest (8 byte) \\ \hline
+	\end{tabular}
+\end{table}
+\newline
+Il digest nella fase di request è computato sui dati seguenti, utilizzando l'Algoritmo \ref{oma_algo1} che fa uso della OMA key a 96 bit.\\
+\begin{table}[!h]
+	\centering
+	%	\caption{My caption}
+	%	\label{my-label}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		Subnet (1 byte) & Node (1 byte) & Request & Sequence\\ \hline
+	\end{tabular}
+\end{table}
+\newline
+Le response seguono il seguente formato:
+\begin{table}[!h]
+	\centering
+	%	\caption{My caption}
+	%	\label{my-label}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		Response & Digest (8 byte)\\ \hline
+	\end{tabular}
+\end{table}
+\newline
+Il digest nella fase di response è computato sui seguenti dati, utilizzando come prima l'Algoritmo \ref{oma_algo1}:
+\begin{table}[!h]
+	\centering
+	%	\caption{My caption}
+	%	\label{my-label}
+	\begin{tabular}{|l|l|l|l|l|l|}
+		\hline
+		Subnet (1 byte) & Node (1 byte) & Request & Sequence & Response & Response Length (1 byte)\\ \hline
+	\end{tabular}
+\end{table}
+\newline
+Da notare che anche le response NACK sono rese sicure nel modo che abbiamo appena visto.\\
+I dispositivi OSGP possono inviare i seguenti tipi di NACK:\\
+``Subnet'' e ``Node'' nei diagrammi visti sopra si riferiscono sempre a subnet/node del target della richiesta. Ovvero, è lo stesso indirizzo in entrambe le direzioni. ``Request'' e ``Sequence'' fanno riferimento sempre ai valori nel messaggio di richiesta originale.\\
+Si assume che il dispositivo possa mantenere il suo sequence number per più riavii (\emph{power cycle}). Quindi, il primo messaggio autenticato in seguito all'accensione richiederà uno scambio extra.\\
+Tutti i dati dei device critici sono protetti dall'autenticazione basata su digest al livello applicativo sia per operazioni di lettura che di scrittura. Questo include:\\
+\begin{itemize}
+	\item Configurazione di un dispositivo OSGP
+	\item Fatturazioni e profili di carico OSGP
+	\item Richieste di cancellazione del carico
+	\item Time setting
+\end{itemize}
+Le seguenti operazioni sono protette attraverso la \textit{challenge authentication} di EN 14908. Questa verifica dell'autenticazione è responsabilità dell'interfaccia EN 14908, e non del dispositivo OSGP:
+\begin{itemize}
+	\item Indirizzamento logico di EN 14908
+	\item Modifica della authentication key
+	\item Misura di fase
+	\item Impostazioni di compatibilità
+	\item Cambio della modalità del nodo
+	\item Letture/Scritture in memoria
+\end{itemize}
+Le seguenti operazioni non sono protette da autenticazione:
+\begin{itemize}
+	\item Query di stato EN 14908
+	\item Misure della potenza del segnale
+\end{itemize}
 \subsection{OSGP Encryption \label{subsec:OSGPencr}}
 Si analizza quindi lo schema AE utilizzato nell'Open Smart Grid Protocol.
 Il problema più grande è la combinazione di uno stream cipher con una funzione di digest lineare, che apre le possibilità per attacchi alle chiavi crittografiche ed ai messaggi. Ad esempio, si potrebbe sfruttare tale vulnerabilità utilizzando il ricevente di un messaggio come un ``oracolo". Dato un messaggio propriamente cifrato ed autenticato, un attaccante ipotizza una combinazione di un bit del messaggio ed un bit della chiave, invia un messaggio, appositamente confezionato, al ricevente ed utilizza la risposta del  dispositivo che rifiuti o confermi l'ipotesi. Siccome questo può essere effettuato per singoli bit, un attaccante può ricostruire la chiave principale del dispositivo (OMA key) con al più $96 \times 3$ risposte.
@@ -119,13 +189,13 @@ L'algoritmo del del digest OMA presenta più falle. Per iniziare, utilizza un se
 Sia $a=\left(a_0,\ldots,a_7\right)$ lo stato interno a 8 byte del digest OMA. L'attacco discusso in seguito, utilizza messaggi scelti a 144 byte della forma $m=m_0 \|\cdots \|m_{143}$ e sfrutta le debolezze differenziali nel digest OMA.
 \newline \newline
 \textbf{Bitwise Key Recovery}.
-Tale attacco recupera l'intera chiave un bit alla volta, attraverso la crittoanalisi differenziale. Nello specifico, sfrutta lo XOR-\textit{differential}$\left(\Delta_{m_i}, \Delta_{a_j}\right) =\,$\texttt{(80,80)}, in cui $\Delta_{m_i}$ e $\Delta_{a_j}$ sono, rispettivamente, le differenze in input e output per j = 7-i mod 8. La differenza in output è ottenuta subito dopo il \textit{processing} del byte $m_i$ del messaggio (vedi Algoritmo \ref{oma_algo1}), e può essere scritto come 
+Tale attacco recupera l'intera chiave un bit alla volta, attraverso la crittoanalisi differenziale. Nello specifico, sfrutta lo XOR-\textit{differential}$\left(\Delta_{m_i}, \Delta_{a_j}\right) =\,$\texttt{(80,80)}, in cui $\Delta_{m_i}$ e $\Delta_{a_j}$ sono, rispettivamente, le differenze in input e output per j = 7-i mod 8. La differenza in output è ottenuta subito dopo il \textit{processing} del byte $m_i$ del messaggio (vedi Algoritmo \ref{oma_algo1}), e può essere scritto come
 \begin{equation*}
 \begin{split}
 &f_{k,j}\left(a_j, a_{j+1 \, mod \, 8}, m_i \oplus \texttt{80} \right) \\
 =\,&a_{j+1\,mod\,8} + \left( m_i \oplus \texttt{80} \right) \, \pm \, \left(\texttt{FF} \oplus (a_j+j) \lll r \right) \\
 =\,&\left(a_{j+1\,mod\,8} + m_i \pm ( \texttt{FF} \oplus (a_j+j) \lll r)\right)\oplus \texttt{80} \\
-=\,&f_{k,j}\left(a_j, a_{j+1 \, mod \, 8}, m_i\right) \oplus \texttt{80} 
+=\,&f_{k,j}\left(a_j, a_{j+1 \, mod \, 8}, m_i\right) \oplus \texttt{80}
 \end{split}
 \end{equation*}
 in cui la rotazione ciclica $r\,\in \, \{1,7\}$ e l'operazione $\pm$, dipendono dal valore del bit chiave $k \, \in \, \{0,1\}$. Questo XOR-\textit{differential} ha probabilità 1, in accordo a proprietà differenziali ben note dell'addizione modulo $2^n$ \cite{diff}, e si propaga nettamente attraverso lo stato \textit{a} per le successive 8 iterazioni, restituendo come risultato la seguente differenza
@@ -243,7 +313,7 @@ La maggior parte dei moduli applicabili al testing della sicurezza degli smart m
 \end{enumerate}
 
 \paragraph{Network Surveying}\mbox{}\\
-Punta all'identificazione dei sistemi target accessibili in rete. Nel caso di smart meter, questi sono accessibili agli attaccanti attraverso sia reti wireless che le home area network. In entrambi i casi, il Network Surveying consiste nell'ottenere informazioni sui target (\emph{information gathering}). 
+Punta all'identificazione dei sistemi target accessibili in rete. Nel caso di smart meter, questi sono accessibili agli attaccanti attraverso sia reti wireless che le home area network. In entrambi i casi, il Network Surveying consiste nell'ottenere informazioni sui target (\emph{information gathering}).
 Ciò può essere realizzato in uno dei seguenti modi: passivamente, ascoltando il traffico di passaggio sulla rete, o attivamente, facendo \emph{IP probing} in attesa di una response.\\
 
 \begin{figure}[hbtp]
@@ -333,7 +403,7 @@ A causa dell'importanza della stima dello stato, gli effetti negativi dell'\emph
 \end{figure}
 
 \subsection{Stima dello stato e Bad Data Injection}
-I sistemi elettrici in generale consistono di tre sottosistemi: generazione, trasmissione e distribuzione. Le linee di trasmissione sono utilizzate per trasmettere la corrente elettrica generata ai consumatori. In teoria, la corrente complessiva trasmessa tra il bus \emph{i} ed il bus \emph{j} dipende dalla differenza di voltaggio tra i due bus, ed è funzione dell'impedenza tra questi bus. In genere, le linee di trasmissione hanno un alto rapporto reattanza/resistenza ($X/R$), e quindi l'impedenza di una trasmissione può essere approssimata con la sua reattanza. La corrente attiva trasmessa dal bus \emph{i} al bus \emph{j} può essere scritta come 
+I sistemi elettrici in generale consistono di tre sottosistemi: generazione, trasmissione e distribuzione. Le linee di trasmissione sono utilizzate per trasmettere la corrente elettrica generata ai consumatori. In teoria, la corrente complessiva trasmessa tra il bus \emph{i} ed il bus \emph{j} dipende dalla differenza di voltaggio tra i due bus, ed è funzione dell'impedenza tra questi bus. In genere, le linee di trasmissione hanno un alto rapporto reattanza/resistenza ($X/R$), e quindi l'impedenza di una trasmissione può essere approssimata con la sua reattanza. La corrente attiva trasmessa dal bus \emph{i} al bus \emph{j} può essere scritta come
 \\
 \\
 \indent$P_{ij} = \frac{V_{i}V_{j}}{X_{ij}}sin(\theta_{i} - \theta_{j})$,
@@ -383,7 +453,7 @@ Per ridurre la complessità computazionale, è possibile applicare il test Rao \
 \subsection{Strategia di attacco}
 Gli attacchi stealth sono attuabili quando gli attaccanti hanno piena conoscenza della topologia. Una domanda importante che sorge spontanea è: \textit{se la topologia non è disponibile, può un attaccante effettuare comunque stealth bad data injection?} Sorprendentemente, \textit{si}. L'idea principale presentata in \cite{esmalifalak}, si basa su parametri del sistema variabili in un piccolo range dinamico, infatti, l'informazione sulla topologia è incorporata nelle correlazioni tra le misure di flusso di potenza. Siano $\textbf{z}(t)$ e $\textbf{x}(t)$ le misure ed i vettori di stato al tempo $t$, dove $\textbf{x}(t)$ è sconosciuto. Ad un certo tempo $t$, è impossibile inferire $\textbf{H}$ solamente a partire da $\textbf{z}(t)$. Comunque, con il passare del tempo, e la conoscenza delle proprietà stocastiche del processo casuale $\textbf{x}(t)$, si potrebbe essere in grado di inferire \textbf{H}.\\
 Nei sistemi elettrici, le variabili di stato sono generalmente una funzione non lineare dei carichi \textbf{y} e della topologia \textbf{H: x = } \emph{f}(\textbf{y, H}). Mentre la topologia è nota per essere statica in un determinato periodo temporale, i carichi possono essere modellati come \textit{indipendentemente} variabili. Se tali variazioni sono sufficientemente piccole, \emph{f} può essere approssimata utilizzando $\textbf{x} = \textbf{Ay}$, dove \textbf{A} è la matrice dei coefficienti di primo ordine dell'espansione di Taylor in \textbf{y} ($\textbf{z = HAy + e}$).\\
-Con \textbf{HA} ed \textbf{y}, è possibile portare a compimento l'attacco modificando i dati misurati come $\textbf{z}^\prime + \textbf{HA}\delta\textbf{y}$, dove $\delta\textbf{y}$ è scelto arbitrariamente. 
+Con \textbf{HA} ed \textbf{y}, è possibile portare a compimento l'attacco modificando i dati misurati come $\textbf{z}^\prime + \textbf{HA}\delta\textbf{y}$, dove $\delta\textbf{y}$ è scelto arbitrariamente.
 Il vettore di stato è stimato come $\widehat{\textbf{x}} = (\textbf{H}^T\sum_e^{-1}\textbf{H})-1\textbf{H}^T\sum_e^{-1}\textbf{z}^\prime$. Sia $\delta\textbf{x} = A\delta\textbf{y}$. Siccome $r = \textbf{z}^\prime - \textbf{H}\wedge x = \textbf{z} + \textbf{H}(\widehat{\textbf{x}} + \delta\textbf{x}), E(\textbf{r}) = 0, cov(\textbf{r}) = (\textbf{I} - \textbf{M})\sum_e$. In altre parole, la media e la varianza di \textbf{r} sono le stesse del caso senza attaccanti. Quindi, utilizzando il metodo del residuale massimo, l'attacco non può essere rilevato.\\
 Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \emph{linear independent component analysis} (ICA). La Linear ICA \cite{lica} è un metodo sviluppato di recente che ha lo scopo di trovare una rappresentazione lineare dei dati cosicché le componenti siano quanto più statisticamente indipendenti possibile. È un caso speciale della \emph{blind source separation}, formulata come segue.
 \indent $\textbf{u} = \textbf{Gv}$,\\
@@ -398,7 +468,7 @@ Dato il modello e la realizzazione di \textbf{u}, ICA può inferire siala matric
 				\item If max(\textbf{z} - \textbf{Gy})  $>$ $\epsilon$ then exit
 				\item Generate $\delta$\textbf{y} $\sim N(0, \sigma^2)$
 				\item $\textbf{z}^\prime$ = \textbf{z} + \textbf{G}(\textbf{y} + $\delta$\textbf{y})
-				
+
 			\end{enumerate}
 			Output: false data $\textbf{z}^\prime$
 		\end{minipage}
@@ -510,7 +580,7 @@ La Figura \ref{dist_perf_img} riassume i risultati analitici per i tre meccanism
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Jamming}
 L'infrastruttura di comunicazione svolge un ruolo predominante nelle Smart Grid. Si occupa principalmente di broadcast real-time del prezzo della corrente, di riportare i consumi energetici e di monitorare lo stato del sistema. Grazie allo scambio di informazioni in tempo reale un utente è in grado di determinare il proprio consumo energetico ottimale.\newline
-Così come i vantaggi, l'infrastruttura di comunicazione presenta alcune vulnerabilità. In questa sezione, si analizza in dettaglio una strategia di attacco che manipola il mercato elettrico utilizzando la tecnica del \emph{Jamming}. Questo attacco causa cambiamenti nei consumi energetici e tende quindi a destabilizzare le power grid (vedi Figura \ref{fig:jm}). 
+Così come i vantaggi, l'infrastruttura di comunicazione presenta alcune vulnerabilità. In questa sezione, si analizza in dettaglio una strategia di attacco che manipola il mercato elettrico utilizzando la tecnica del \emph{Jamming}. Questo attacco causa cambiamenti nei consumi energetici e tende quindi a destabilizzare le power grid (vedi Figura \ref{fig:jm}).
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.320]{imgs/attack/jm.png}
