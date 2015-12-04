@@ -14,9 +14,9 @@ Nonostante l'OSGP sia principalmente utilizzato per applicazioni di smart-meteri
 %%%%
 In OSGP, quindi, si introducono misure per proteggere la \textit{privacy} dei clienti, restringendo l'accesso ai dati e cifrando questi ultimi per evitare che persone non autorizzate possano modificarli. Si introducono, inoltre, misure per rintracciare potenziali tentativi di eludere le funzioni di metering, che potrebbero risultare in accessi non registrati ai servizi. \newline Come detto in precedenza, OSGP è costruito sullo stack protocollare ISO/IEC 14908-1, che fornisce servizi di autenticazione, ma non include meccanismi per garantire la confidenzialità dei dati. Per questo motivo, OSGP completa la sicurezza di questo standard, aggiungendo un proprio \textit{security layer} che fornisce autenticazione e confidenzialità. \cite{osgpsec}
 
-\subsection{OMA Key}
-Durante il processo di produzione industriale, i dispositivi OSGP vengono configurati con una \textit{Open Media Access Key} (OMAK) univoca a 96 bit (maggiori dettagli in \ref{subsec:OSGPencr}). Tali chiavi sono poi trasmesse in maniera sicura alle società di servizi, in modo da poter essere utilizzate poi dai data concentrator.\newline Tipicamente, l'originaria OMAK specifica per ogni dispositivo, viene poi sostituita dal data concentrator con una OMAK condivisa.\newline
-L'OMAK è utilizzata per i seguenti scopi:
+\subsection{OSGP Setup}
+Durante il processo di produzione industriale, i dispositivi OSGP vengono configurati con una \textit{Open Media Access Key} (OMAK) univoca a 96 bit (maggiori dettagli in \ref{subsec:OSGPencr}). Tali chiavi sono poi consegnate in maniera sicura alle società di servizi, che provvedono poi a dotare il proprio data concentrator della chiave OMAK del dispositivo afferente alla zona di competenza. \newline Il data concentrator è in grado di rilevare ogni dispositivo a lui afferente grazie ad un processo di discovery; successivamente, genera ed invia la Shared Key relativa alla sua zona di competenza ad ogni nuovo dispositivo scoperto. Tale comunicazione avviene in maniera cifrata, utilizzando come chiave di cifratura la OMAK del dispositivo. Ogni dispositivo, poi, rimpiazza la sua OMAK originaria con la Shared Key ricevuta. \newline
+OSGP è un protocollo master - slave, in cui il master è rappresentato dal data concentrator e lo slave dallo smart meter, che si basa sulla Shared Key per cifrare i messaggi scambiati durante la comunicazione. In particolare, la comunicazione è iniziata dal data concentrator il quale invia un messaggio di richiesta cifrato allo smart meter; successivamente, lo smart meter decifra il messaggio, ne verifica l'autenticità (vedi paragrafo \ref{subsec:OSGPauth}) e invia la risposta, anch'essa opportunamente cifrata. Smart meter e data concentrator sono identificati dai campi Subnet e Node ID del pacchetto di richiesta/risposta. \newline La Shared Key è, inoltre, utilizzata per i seguenti scopi:
 \begin{itemize}
 \item Per l'autenticazione di messaggi, illustrata in \ref{subsec:OSGPauth};
 \item Come chiave in input per l'OSGP OMA Digest Algorithm, illustrato in \ref{subsec:OSGPencr};
@@ -25,7 +25,7 @@ L'OMAK è utilizzata per i seguenti scopi:
 
 \subsection{OSGP Authentication \label{subsec:OSGPauth}}
 Il data concentrator OSGP utilizza autenticazione basata su digest a livello applicativo per autenticare messaggi del livello applicazione tra i dispositivi. Questa forma di autenticazione richiede la metà dei pacchetti richiesti dall'autenticazione EN 14908. Per evitare replay attack, viene effettuato l'\emph{append} di un sequence number al \emph{payload} e successivamente se ne effettua il digest complessivo.\\
-Quando il device è in fase di inizializzazione sceglie un sequence number iniziale casuale. Assumendo che il dispositivo si aspetti un sequence number $N$, esso rifiuta qualsiasi messaggio che non abbia sequence number compreso tra $N-1$ ed $N+M$, dove $M$ è pari ad 8. Quando è ricevuta una richiesta con sequence number $N-1$, la response per tale richiesta inviata originariamente, se presente, viene nuovamente inviata. Se il sequence number ricevuto in una richiesta è fuori dal range specificato ($[N-1, N+M]$), il dispositivo risponderà a tale richiesta con una NACK response contenente il messaggio di ``\emph{invalid sequence number}'', seguita dal sequence number desiderato. A quel punto sta al data concentrator iniziare ad usare il nuovo sequence number.\\
+Quando il device è in fase di inizializzazione sceglie un proprio sequence number iniziale casuale. Assumendo che il dispositivo si aspetti un sequence number $N$, esso rifiuta qualsiasi messaggio che non abbia sequence number compreso tra $N-1$ ed $N+M$, dove $M$ è pari ad 8. Quando è ricevuta una richiesta con sequence number $N-1$, la response per tale richiesta inviata originariamente, se presente, viene nuovamente inviata. Se il sequence number ricevuto in una richiesta è fuori dal range specificato ($[N-1, N+M]$), il dispositivo risponderà a tale richiesta con una NACK response contenente il messaggio di ``\emph{invalid sequence number}'', seguita dal sequence number desiderato. A quel punto sta al data concentrator iniziare ad usare il nuovo sequence number.\\
 Le richieste rispettano il seguente formato:
 \begin{table}[!h]
 	\centering
@@ -58,6 +58,7 @@ Le response seguono il seguente formato:
 		Response & Digest (8 byte)\\ \hline
 	\end{tabular}
 \end{table}
+\newline
 \newline
 Il digest nella fase di response è computato sui seguenti dati, utilizzando come prima l'Algoritmo \ref{oma_algo1}:
 \begin{table}[!h]
@@ -152,7 +153,7 @@ I sequence number sono condivisi tra mittente e destinatario in OSGP. Il destina
 Dopo che la fase di setup è terminata, $k^{\prime\prime}$ è utilizzato per cifrare $m\|n$ tramite RC4 per ottenere il ciphertext $c$. Infine, $c\|t$ è trasmesso. La taglia massima consentita dei messaggi $m\|n$ processati in OSGP è di 114 byte. Questo complica alcuni attacchi che richiedono messaggi fino a 136 byte.
 \subsection{Analisi}
 OSGP utilizza RC4 per la cifratura senza eliminazione di alcun byte iniziale. RC4 è soggetto ad attacchi di \textit{statistical key recovery} e \textit{plaintext key recovery}, ed è dimostrato come tali siano fattibili \cite{rc4tls}, \cite{weakrc4}, \cite{rc4rand}, \cite{rc4statistical}. Comunque, in questa analisi non ci si concentra su RC4, ma sul digest OMA, si veda l'Algoritmo \ref{oma_algo1}.\\
-L'algoritmo del del digest OMA presenta più falle. Per iniziare, utilizza un semplice padding a zero byte, che risulta in messaggi con un qualsiasi numero di zeri finali che condividono lo stesso tag. Inoltre, data una tupla $(a, m, k)$ dove $a$ è lo stato del digest OMA o il tag di autenticazione, $m$ un messaggio e $k$ la OMAK, la funzione è completamente invertibile (si veda l'Algoritmo \ref{oma_algo2}) il che è una proprietà molto comoda agli attaccanti. Allo stesso modo, è anche possibile prendere uno stato interno arbitrario e continuare a processarlo come per riprendere un messaggio di cui si è fatto un digest parziale. Ciò è mostrato nell'Algoritmo \ref{oma_algo3}.
+L'algoritmo del digest OMA presenta più falle. Per iniziare, utilizza un semplice padding a zero byte, che risulta in messaggi con un qualsiasi numero di zeri finali che condividono lo stesso tag. Inoltre, data una tupla $(a, m, k)$ dove $a$ è lo stato del digest OMA o il tag di autenticazione, $m$ un messaggio e $k$ la OMAK, la funzione è completamente invertibile (si veda l'Algoritmo \ref{oma_algo2}) il che è una proprietà molto comoda agli attaccanti. Allo stesso modo, è anche possibile prendere uno stato interno arbitrario e continuare a processarlo come per riprendere un messaggio di cui si è fatto un digest parziale. Ciò è mostrato nell'Algoritmo \ref{oma_algo3}.
 \begin{algorithm}[H]
 	\Fn{{\tt OMABackward} ($a,m,k,n$)}{
 		\tcc{Assumes $|m|\leq144$}
@@ -458,7 +459,7 @@ Il vettore di stato è stimato come $\widehat{\textbf{x}} = (\textbf{H}^T\sum_e^
 Per inferire \textbf{HA} ed \textbf{y}, è possibile adottare la tecnica della \emph{linear independent component analysis} (ICA). La Linear ICA \cite{lica} è un metodo sviluppato di recente che ha lo scopo di trovare una rappresentazione lineare dei dati cosicché le componenti siano quanto più statisticamente indipendenti possibile. È un caso speciale della \emph{blind source separation}, formulata come segue.
 \indent $\textbf{u} = \textbf{Gv}$,\\
 con $\textbf{u} = [u_i, i = 1,2, \ldots, m]$ che è il vettore delle osservazioni degli $m$ segnali di monitoraggio, $\textbf{G} = [g_{ij}, i = 1, 2, \ldots,m, j = 1 ,2, \ldots, n]$ è la matrice di mixing non nota, e $v = [v_i, i = 1, 2, \ldots, n]$ è il vettore delle $n$ variabili indipendenti latenti.\\
-Dato il modello e la realizzazione di \textbf{u}, ICA può inferire siala matrice di mixing \textbf{G} che il vettore \textbf{v} calcolando in maniera adattiva il vettore dei pesi \textbf{w} che massimizza una misura di \emph{non Gaussianità} del $\textbf{w}^T\textbf{u}$ calcolato.\\
+Dato il modello e la realizzazione di \textbf{u}, ICA può inferire sia la matrice di mixing \textbf{G} che il vettore \textbf{v} calcolando in maniera adattiva il vettore dei pesi \textbf{w} che massimizza una misura di \emph{non Gaussianità} del $\textbf{w}^T\textbf{u}$ calcolato.\\
 \begin{figure}[htbp]
 	\centering
 	\fbox{\begin{minipage}{15em}
