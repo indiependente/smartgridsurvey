@@ -108,10 +108,10 @@ La struttura ad alto livello dello schema di cifratura autenticata (AE) di OSGP 
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics[scale=.5]{imgs/attack/osgp.png}
-	\caption{Lo schema AE di OSGP. Notazione: $x_0 = \{${\tt 81, 3F, 52, 9A, 7B, E3, 89, BA}$\},$ $x_1 = \{${\tt 72, B0, 91, 8D, 44, 05, AA, 57}$\},$ $k = k_1 \| k_0$ : Open Media Access Key (OMAK), $m$: messaggio, $n$: numero di sequenza, $t$: tag di autenticazione, $k^\prime = k^{\prime}_{1} \| k^{\prime}_{0}$: Base Encryption Key (BEK), $c$: ciphertex.}
+	\caption{Lo schema AE di OSGP. Notazione: $x_0 = \{${\tt 81, 3F, 52, 9A, 7B, E3, 89, BA}$\},$ $x_1 = \{${\tt 72, B0, 91, 8D, 44, 05, AA, 57}$\},$ $k = k_1 \| k_0$ : Open Media Access Key (OMAK), $m$: messaggio, $n$: numero di sequenza, $t$: tag di autenticazione, $k^\prime = k^{\prime}_{1} \| k^{\prime}_{0}$: Base Encryption Key (BEK), $c$: ciphertext.}
 	\label{osgp_img}
 \end{figure}
-Lo schema AE di OSGP è basato su tre algoritmi: l'algoritmo EN 14908 \cite{standard14908}, lo stream cipher RC4 ed il digest OMA, un \emph{message authentication code} (MAC). Questi tre algoritmi sono combinati secondo l'approccio \textit{MAC-and-encrypt} e \textit{MAC-then-encrypt}, a formare uno schema di cifratura autenticata. Da notare che, mentre il digest OMA è descritto nella specifica OSGP \cite{osgp}, informazioni pubbliche riguardo l'algoritmo EN 14908, specificato in ISO-IEC 14908-1 \cite{standard14908}, sono difficili da recuperare. Tutte le informazioni su quest'ultimo sono state ottenute dalla specifica OSGP.\\
+Lo schema AE di OSGP è basato su tre algoritmi: l'algoritmo EN 14908 \cite{standard14908}, lo stream cipher RC4 ed il digest OMA, un \emph{message authentication code} (MAC). Questi tre algoritmi sono combinati secondo gli approcci \textit{MAC-and-encrypt} e \textit{MAC-then-encrypt}, a formare uno schema di cifratura autenticata. Da notare che, mentre il digest OMA è descritto nella specifica OSGP \cite{osgp}, informazioni pubbliche riguardo l'algoritmo EN 14908, specificato in ISO-IEC 14908-1 \cite{standard14908}, sono difficili da recuperare. Tutte le informazioni su quest'ultimo sono state ottenute dalla specifica OSGP.\\
 La sicurezza dello schema AE di OSGP dipende dalla \textit{Open Media Access Key} (OMAK) a 96 bit $k = k_1 \| k_0$, da cui deriva tutto ciò legato alla chiave. La OMAK è solitamente univoca per ogni device ma non \textit{hardcoded} e può essere cambiata.\\
 Dalla OMAK derivano due cose: inizialmente, è computata una \emph{Base Encryption Key} (BEK) $k^\prime =  k^{\prime}_{1} \| k^{\prime}_{0}$, che è una chiave a 128 bit che compone la base della chiave di cifratura di RC4. La BEK è costruita (la specifica OSGP non è chiara su come la BEK sia rilevata, la descrizione presentata è basata sulle investigazioni svolte in \cite{dumbcrypto}. L'osservazione chiave qui è che la BEK è derivata dall'OMAK. Non è importante il modo, ed è solamente descritto per completezza) utilizzando l'algoritmo EN 14908, che sembra essere la base dell'OMA digest ma usa chiavi più piccole a 48 bit e processa i byte dei messaggi in ordine inverso. L'algoritmo EN 14908 è applicato ad ognuna delle metà $k_0$ e $k_1$ dell'OMAK e delle due costanti $x_0 = ${\tt \{ 81, 3F, 52, 9A, 7B, E3, 89, BA \}}, ed $x_1 = $ {\tt \{ 72, B0, 91, 8D, 44, 05, AA, 57 \}}. I due risultati a 64 bit sono concatenati per formare $k^{\prime}$, come mostrato in Figura \ref{osgp_img}. La BEK dipende solo dall'OMAK ed è quindi fissata fin quando $k$ resta invariato.\\
 In secondo luogo, un tag di autenticazione $t$ è prodotto utilizzando il digest OMA sul messaggio $m$ concatenato ad una \emph{sequence number} $n$ e la OMAK $k$. Si denoti con $l$ la taglia di $m\|n$ in byte. Il digest OMA inizia con gli 8 byte $a = (a_0, \ldots, a_7)$ del suo stato interno di impostati a 0. Per prima cosa, $m\|n$ è \emph{zero-padded} ad un multiplo di 144 byte, cioé\\
@@ -135,7 +135,7 @@ Dopo la generazione del tag $t$, ne viene effettuato lo XOR con la metà bassa d
 	$a \gets (0,0,0,0,0,0,0,0)$\\
 	$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
 	\ForEach{144-byte block b of m}{
-		\For{$i \gets 0$ \KwTo 0}{
+		\For{$i \gets 0$ \KwTo 17}{
 			\For{$j \gets 7$ \KwTo 0}{
 				\eIf{$k_{i\,mod\,12,7-j} = 1$}
 				{$a_j \gets a_{(j+1)\,mod\,8}+b_{8i+(7-j)}+(\neg(a_j+j)) \lll 1$}
@@ -148,7 +148,7 @@ Dopo la generazione del tag $t$, ne viene effettuato lo XOR con la metà bassa d
 \caption{Il digest OMA di OSGP.}
 \label{oma_algo1}
 \end{algorithm}
-Questa scelta è intesa per fornire ad RC4 materiale chiave in continuo cambiamento, così producendo un \textit{keystream} nuovo ad ogni messaggi, per cui, in accordo alla specifica OSGP, il numero di sequenza $n$, concatenato ad $m$, è continuamente incrementato.\\
+Questa scelta è intesa per fornire ad RC4 materiale chiave in continuo cambiamento, così producendo un \textit{keystream} nuovo ad ogni messaggio, per cui, in accordo alla specifica OSGP, il numero di sequenza $n$, concatenato ad $m$, è continuamente incrementato.\\
 I sequence number sono condivisi tra mittente e destinatario in OSGP. Il destinatario di un messaggio verifica che il corretto sequence number sia stato concatenato a quest'ultimo. I messaggi con sequence number nel range $\{n, \ldots, n+8\}$ sono accettati come richieste valide. Se un messaggio con sequence number $n-1$ è ricevuto, il destinatario non esegue la richiesta, ma reinvia la risposta della richiesta (eseguita precedentemente) numero $n-1$. I numeri di sequenza fuori di tale range fanno scattare un errore ed i dispositivi OSGP rispondono con un codice di fallimento ed il corretto sequence number.\\
 Dopo che la fase di setup è terminata, $k^{\prime\prime}$ è utilizzato per cifrare $m\|n$ tramite RC4 per ottenere il ciphertext $c$. Infine, $c\|t$ è trasmesso. La taglia massima consentita dei messaggi $m\|n$ processati in OSGP è di 114 byte. Questo complica alcuni attacchi che richiedono messaggi fino a 136 byte.
 \subsection{Analisi}
