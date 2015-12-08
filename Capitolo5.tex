@@ -254,8 +254,8 @@ Sezioni dell'ISECOM \emph{Open Source Security Testing Methodology Manual}:
 	\item Wireless Security
 	\item Physical Security
 \end{enumerate}
-Eseguire security testing in accordo all'OSSTMM richiede che ogni modulo contenuto in ogni sezione sia testato secondo sei approcci comuni al testing: dal Double Blind, in cui sia target che attaccante non abbiano informazioni prima di condurre il testing, al Tandem, dove il target e l'attaccante condividono informazioni riguardo il testing apertamente. L'approccio mostrato di seguito è quello Double Blind in quanto è quello che più si avvicina ad una situazione reale.
-\subsubsection{Information Security}
+Eseguire security testing in accordo all'OSSTMM richiede che ogni modulo contenuto in ogni sezione sia testato secondo sei approcci comuni al testing: dal Double Blind, in cui sia target che attaccante non abbiano informazioni prima di condurre il testing, al Tandem, dove il target e l'attaccante condividono informazioni riguardo il testing apertamente. L'approccio mostrato di seguito è quello Double Blind in quanto è quello che più si avvicina ad una situazione reale. Le prime tre sezioni dell'ISECOM OSSTMM saranno analizzate in dettaglio nei paragrafi successivi.
+\paragraph{6.2.1.1 Information Security}\mbox{}\\
 In questa sezione risiedono sette moduli:
 \begin{enumerate}
 	\item Posture assessment
@@ -270,7 +270,7 @@ In questa sezione risiedono sette moduli:
 La sezione di Information Security dell'OSSTMM si concentra su \emph{information gathering} e \emph{validation}. Dalla prospettiva di un attaccante, include l'ottenimento e la revisione di informazioni riguardo la marca e modello dello smart meter target per studiarne il funzionamento, gli standard utilizzati e determinare quali attacchi possano essere più adatti rispetto ad altri.
 
 
-\subsubsection{Process Security Testing}
+\paragraph{6.2.1.2 Process Security Testing}\mbox{}\\
 La seconda sezione dell'ISECOM \emph{Open Source Security Testing Methodology Manual} si concentra sull'analisi di sicurezza dei processi del target e contiene i seguenti cinque moduli:
 \begin{enumerate}
 	\item Posture review
@@ -283,7 +283,7 @@ La seconda sezione dell'ISECOM \emph{Open Source Security Testing Methodology Ma
 La seconda sezione, quindi, si occupa di ciò che solitamente è chiamata ``social engineering". Ogni modulo punta ad ottenere informazioni da persone attraverso la coercizione e l'inganno. In relazione all'attacco di smart meter, ciò include impersonare il tecnico di una compagnia o un consumatore.\\
 Con questi metodi, sarebbe possibile ottenere informazioni di valore come specifiche tecniche o amministrative, o credenziali degli utenti.
 
-\subsubsection{Internet Technology Security Testing}
+\paragraph{6.2.1.3 Internet Technology Security Testing}\mbox{}\\
 La maggior parte dei moduli applicabili al testing della sicurezza degli smart meter è contenuta nei quattordici moduli di questa sezione:
 \begin{enumerate}
 	\item Network Surveying
@@ -314,7 +314,7 @@ Ciò può essere realizzato in uno dei seguenti modi: passivamente, ascoltando i
 \end{figure}
 
 Per l'identificazione passiva, può essere utilizzato Wireshark, Figura \ref{wireshark_img}.\cite{wireshark} Wireshark cattura il traffico che attraversa qualsiasi rete in tempo reale e fornisce l'ispezione di centinaia di protocolli. È possibile inoltre specificare gli indirizzi IP di cui effettuare lo sniffing, così da limitare la raccolta di informazione ai possibili target.\\
-Internet Control Message Protocol (ICMP) per individuare i target attivi in rete analizzando le loro response. Nel caso in cui il traffico ICMP sia bloccato, è spesso utilizzato il ping di TCP. Per entrambi i casi è utilizzato il tool di sicurezza Nmap.\cite{nmap}
+Internet Control Message Protocol (ICMP) per individuare i target attivi in rete analizzando le loro response. Nel caso in cui il traffico ICMP sia bloccato, è spesso utilizzato il ping di TCP. Per entrambi i casi è utilizzato il tool di sicurezza Nmap\cite{nmap}.
 
 \paragraph{Port Scanning}\mbox{}\\
 Consiste nel fare \emph{probing} sul target in attesa di risposte sulle 65,536 porte TCP e/o UDP. Ottenere una response significa che dei servizi sono in esecuzione sulle porte associate e che potrebbero contenere debolezze che esporrebbero il target. Il tool di port-scanning più utilizzato è Nmap, che permette di effettuare scan TCP completando l'\emph{handshake}, o attraverso scan TCP SYN che utilizza solamente i messaggi iniziali di SYN e SYN ACK dell'\emph{handshake} TCP.\\
@@ -378,7 +378,7 @@ Per un security tester, lo scopo finale è spesso quello di compromettere il tar
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{False Data Injection}
-Nelle moderne reti di Smart Grid, la rete elettrica tradizionale è potenziata dai più recenti progressi nei campi del sensing, della misurazione e dei dispositivi di controllo con una comunicazione bidirezionale tra produttore e consumatore. La produzione di elettricità, la sua trasmissione, la distribuzione ed il consumo, scambiano informazioni sullo stato della griglia che vengono recapitate agli utenti del sistema, agli operatori ed ai dispositivi.\\
+Nelle moderne Smart Grid, la rete elettrica tradizionale è potenziata dai più recenti progressi nei campi del sensing, della misurazione e dei dispositivi di controllo con una comunicazione bidirezionale tra produttore e consumatore. La produzione di elettricità, la sua trasmissione, la distribuzione ed il consumo, scambiano informazioni sullo stato della griglia che vengono recapitate agli utenti del sistema, agli operatori ed ai dispositivi.\\
 La stima dello stato ha una funzione chiave nella costruzione di modelli \emph{real-time} della rete elettrica nei centri di gestione dell'energia (EMC) \cite{monticelli}. Un modello \emph{real-time} è una rappresentazione matematica quasi statica delle attuali condizioni all'interno di una rete elettrica interconnessa. Questa rappresentazione matematica è solitamente ottenuta dai dati provenienti dalle misurazioni e dalla telemetria che avvengono a distanza di pochi secondi nel centro di controllo dell'energia (ECC). Modelli \emph{real-time} della rete possono essere utilizzati per fare scelte ottimali, rispettando vincoli tecnici come congestione delle linee di trasmissione, voltaggio e stabilità transiente. In pratica, sia economicamente che in termini di fattibilità, non è possibile misurare tutti i possibili stati nella rete; quindi, la stima dello stato è uno strumento utile per stimare tali quantità, a partire da un insieme limitato di misurazioni. Solitamente sono usati due tipi di informazione per la stima dello stato:
 \begin{itemize}
 	\item Dati analogici di sistemi come flussi Megavar sulle linee principali, il carico \emph{P} e \emph{Q} sui generatori e trasformatori, e i voltaggi dei bus di sistema;
@@ -413,7 +413,7 @@ La matrice del Jacobiano $\textbf{H} \in {\rm I\!R}$ è definita come\\
 Se la differenza di fase è piccola, il modello di approssimazione lineare della misura di corrente può essere descritto come\\
 \indent Misura sotto Operazioni Normali: $\textbf{z} =  \textbf{Hx} + \textbf{e}$.\\
 Da notare che $\textbf{H}$ è generalmente sconosciuta agli attaccanti ma nota all'ISO. Date le misure sul flusso di corrente, il vettore di stato stimato $\widehat{x}$ può essere computato come $\widehat{\textbf{x}} = (\textbf{H}^T\sum_e^{-1}\textbf{H})-1\textbf{H}^T\sum_e^{-1}\textbf{z}$.\\
-La Figura \ref{fourbuspowernet_img} mostra il sistema di test a quattro bus della IEEE: ogni bus ha il corrispondente voltaggio ($V_q$) e l'angolo di fase ($\theta_q$); il centro di controllo invia i dati delle misurazioni ($z_{qr}$) ed in seguito lo stimatore di stato inferisce gli stati del sistema che possono essere utilizzati in differenti funzioni, come ad esempio il controllo della generazione automatico (AGC), il flusso di controllo ottimale (OPF), ed il sistema di gestione dell'energia (EMS). L'operatore effettua la decifsione finale per il controllo dei generatori e la gestione del carico (per bilanciare la fornitura e la domanda).
+La Figura \ref{fourbuspowernet_img} mostra il sistema di test a quattro bus della IEEE: ogni bus ha il corrispondente voltaggio ($V_q$) e l'angolo di fase ($\theta_q$); il centro di controllo invia i dati delle misurazioni ($z_{qr}$) ed in seguito lo stimatore di stato inferisce gli stati del sistema che possono essere utilizzati in differenti funzioni, come ad esempio il controllo della generazione automatico (AGC), il flusso di controllo ottimale (OPF), ed il sistema di gestione dell'energia (EMS). L'operatore effettua la decisione finale per il controllo dei generatori e la gestione del carico (per bilanciare la fornitura e la domanda).
 \subsection{Bad Data Detection}
 Nella stima dello stato di un sistema elettrico, i ``bad data" come ad esempio bias di misurazione, derive di misura o connessioni errate devono essere identificate. Con il \emph{bad data injection}, gli attaccanti possono iniettare dati all'interno del vettore di misure $r$ ed il sistema può essere descritto come\\
 \indent Misura sotto Attacco non-Stealth: $\textbf{z}^\prime = \textbf{H}(\textbf{x}) + \textbf{b} + e$, $\textbf{a} = I\textbf{b}$.\\
@@ -627,7 +627,7 @@ A causa dei potenziali gravi danni che questo attacco può infliggere al mercato
 %dove $P_{ij}^{t}$ è la probabilità di transizione tra i livelli di consumo $i$ e $j$ dopo $t$ slot temporali, e varianza:\newline
 %\indent$Var[\delta D] = P(T < t) \times \sqrt{M} \sum\limits_{i=1}^{L} \pi_{i} \Big\{\sum\limits_{j}P_{ij}^{t}d_{j}^{2}(p_{n}) - \Big[\sum\limits_{j}P_{ij}^{t}d_{j}^{2}(p_{n})\Big]^2\Big\}$.\newline
 %L'idea è quindi quella di diffondere le informazioni relative ai cambiamenti dei consumi energetici in un intervallo di tempo molto più grande lasciando che la randomness intrinseca del mercato possa contrattaccare i cambiamenti dei jammed user.
-Ogni consumer sceglie un tempo casuale per cambiare la propria power response evitando che l’attaccante possa predire il comportamento dell’utente e quindi capire in che modo varia il prezzo della corrente
+Ogni consumer sceglie un tempo casuale per cambiare la propria power response evitando che l’attaccante possa predire il comportamento dell’utente e quindi capire in che modo varia il prezzo della corrente.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Web Application} già discussa nell'OSSTMM
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
