@@ -27,7 +27,7 @@ Durante il processo di produzione industriale, i dispositivi OSGP vengono config
 
 \subsection{Communication with authenticated encryption \label{subsec:OSGPauth}}
 OSGP è un protocollo master - slave, in cui il master è rappresentato dal data concentrator e lo slave dallo smart meter, che si basa sulla Shared Key per cifrare i messaggi scambiati durante la comunicazione. In particolare, la comunicazione è iniziata dal data concentrator il quale invia un messaggio di richiesta cifrato allo smart meter; successivamente, lo smart meter decifra il messaggio, ne verifica l'autenticità (vedi paragrafo Authentication) e invia la risposta, anch'essa opportunamente cifrata. Smart meter e data concentrator sono identificati dai campi Subnet e Node ID del pacchetto di richiesta/risposta.
-\subsubsection{Authentication}
+\subsubsection{6.1.2.1 Authentication}
 Il data concentrator OSGP utilizza autenticazione basata su digest a livello applicativo per autenticare messaggi del livello applicazione tra i dispositivi. Questa forma di autenticazione richiede la metà dei pacchetti richiesti dall'autenticazione EN 14908. Per evitare replay attack, viene effettuato l'\emph{append} di un sequence number al \emph{payload} e successivamente se ne effettua il digest complessivo.\\
 Quando il device è in fase di inizializzazione sceglie un proprio sequence number iniziale casuale. Assumendo che il dispositivo si aspetti un sequence number $N$, esso rifiuta qualsiasi messaggio che non abbia sequence number compreso tra $N-1$ ed $N+M$, dove $M$ è pari ad 8. Quando è ricevuta una richiesta con sequence number $N-1$, la response per tale richiesta inviata originariamente, se presente, viene nuovamente inviata. Se il sequence number ricevuto in una richiesta è fuori dal range specificato ($[N-1, N+M]$), il dispositivo risponderà a tale richiesta con una NACK response contenente il messaggio di ``\emph{invalid sequence number}'', seguita dal sequence number desiderato. A quel punto sta al data concentrator iniziare ad usare il nuovo sequence number.\\
 Le richieste rispettano il seguente formato:
@@ -100,15 +100,15 @@ Le seguenti operazioni non sono protette da autenticazione:
 	\item Query di stato EN 14908
 	\item Misure della potenza del segnale
 \end{itemize}
-\subsubsection{Encryption}
+\subsubsection{6.1.2.2 Encryption}
 Si analizza quindi lo schema di \emph{authenticated encryption} utilizzato nell'Open Smart Grid Protocol.\\
-Tale schema si suddivide in una parte di autenticazione ed una di cifratura e si basa su tre algoritmi: l'algoritmo EN 14908 \cite{standard14908}, lo stream cipher RC4 ed il digest OMA, un \emph{message authentication code} (MAC). Questi tre algoritmi sono combinati secondo l'approccio \textit{MAC-and-encrypt} e \textit{MAC-then-encrypt}, a formare uno schema di cifratura autenticata. Da notare che, mentre il digest OMA è descritto nella specifica OSGP \cite{osgp}, informazioni pubbliche riguardo l'algoritmo EN 14908, specificato in ISO-IEC 14908-1 \cite{standard14908}, sono difficili da recuperare. Tutte le informazioni su quest'ultimo sono state ottenute dalla specifica OSGP.\\
+Tale schema si suddivide in una parte di autenticazione ed una di cifratura e si basa su tre algoritmi: l'algoritmo EN 14908 \cite{standard14908}, lo stream cipher RC4 ed il digest OMA, quest'ultimo è un \emph{message authentication code} (MAC). Questi tre algoritmi sono combinati secondo gli approcci \textit{MAC-and-encrypt} e \textit{MAC-then-encrypt}, a formare uno schema di cifratura autenticata. Da notare che, mentre il digest OMA è descritto nella specifica OSGP \cite{osgp}, informazioni pubbliche riguardo l'algoritmo EN 14908, specificato in ISO-IEC 14908-1 \cite{standard14908}, sono difficili da recuperare. Tutte le informazioni su quest'ultimo sono state ottenute dalla specifica OSGP.\\
 %Il problema più grande è la combinazione di uno stream cipher con una funzione di digest lineare, che apre le possibilità per attacchi alle chiavi crittografiche ed ai messaggi. Ad esempio, si potrebbe sfruttare tale vulnerabilità utilizzando il ricevente di un messaggio come un ``oracolo". Dato un messaggio propriamente cifrato ed autenticato, un attaccante ipotizza una combinazione di un bit del messaggio ed un bit della chiave, invia un messaggio, appositamente confezionato, al ricevente ed utilizza la risposta del  dispositivo che rifiuti o confermi l'ipotesi. Siccome questo può essere effettuato per singoli bit, un attaccante può ricostruire la chiave principale del dispositivo (OMA key) con al più $96 \times 3$ risposte.
-\paragraph{Notazione}\mbox{}\\
+\paragraph{6.1.2.2.1 Notazione}\mbox{}\\
 Una stringa $x$ di $n$ bit è un elemento di $\{0,1\}^n$. La taglia di $x$ in bit è denotata da $|x|$. La concatenazione di stringhe di bit è identificata da $||$. Dato un vettore di stringhe di bit $(x_0, \ldots, x_{n-1})$, si denota con $x_{i,j}$ il $j$-esimo bit della $i$-esima stringa dove $0 \leq i \leq n-1$. Quando si le stringhe di bit sono interpretate come interi si utilizza il formato little-endian denotato in esadecimale.\\
 Una stringa di bit composta da $n$ zero è denotata da $0^n$.\\
 Una rotazione ciclica di una stringa di bit $x$ di $m$ bit verso sinistra e destra sono denotate con $x \lll m$ ed $x \ggg m$, rispettivamente. La differenza di due stringhe di bit $x$ ed $x^\prime$ rispetto allo XOR è denotata da $\Delta x$, mentre la differenza rispetto all'addizione modulo $2^n$ è denotata da $\delta^{\boxminus}x$.
-\paragraph{Infrastruttura Crittografica di OSGP}\mbox{}\\
+\paragraph{6.1.2.2.2 Infrastruttura Crittografica di OSGP}\mbox{}\\
 La struttura ad alto livello dello schema di cifratura autenticata (AE) di OSGP è mostrata in Figura \ref{osgp_img}.
 \begin{figure}[hbtp]
 	\centering
