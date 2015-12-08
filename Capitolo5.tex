@@ -157,7 +157,7 @@ I sequence number sono condivisi tra mittente e destinatario in OSGP. Il destina
 Dopo che la fase di setup è terminata, $k^{\prime\prime}$ è utilizzato per cifrare $m\|n$ tramite RC4 per ottenere il ciphertext $c$. Infine, $c\|t$ è trasmesso. La taglia massima consentita dei messaggi $m\|n$ processati in OSGP è di 114 byte.
 \newpage
 \subsection{Analisi}
-OSGP utilizza RC4 per la cifratura. RC4 è soggetto ad attacchi di \textit{statistical key recovery} e \textit{plaintext key recovery}, ed è dimostrato come tali siano fattibili \cite{rc4tls}, \cite{weakrc4}, \cite{rc4rand}, \cite{rc4statistical}. Comunque, in questa analisi non ci si concentra su RC4, ma sul digest OMA (vedi Algoritmo \ref{oma_algo1}). L'algoritmo del digest OMA presenta più falle. Per iniziare, utilizza un semplice padding a zero byte, che risulta in messaggi con un qualsiasi numero di zeri finali che condividono lo stesso tag. Inoltre, data una tupla $(a, m, k)$ dove $a$ è lo stato del digest OMA o il tag di autenticazione, $m$ un messaggio e $k$ la OMAK, la funzione è completamente invertibile (si veda l'Algoritmo \ref{oma_algo2}) il che è una proprietà molto comoda agli attaccanti. Allo stesso modo, è anche possibile prendere uno stato interno arbitrario e continuare a processarlo come per riprendere un messaggio di cui si è fatto un digest parziale. Ciò è mostrato nell'Algoritmo \ref{oma_algo3}.
+OSGP utilizza RC4 per la cifratura. RC4 è soggetto ad attacchi di \textit{statistical key recovery} e \textit{plaintext key recovery}, ed è dimostrato come tali siano fattibili \cite{rc4tls}, \cite{weakrc4}, \cite{rc4rand}, \cite{rc4statistical}. Comunque, in questa analisi non ci si concentra su RC4, ma sul digest OMA (vedi Algoritmo \ref{oma_algo1}). L'algoritmo del digest OMA presenta più falle. Per iniziare, utilizza un semplice padding a zero byte, che risulta in messaggi con un qualsiasi numero di zeri finali che condividono lo stesso tag. Inoltre, data una tupla $(a, m, k)$ dove $a$ è lo stato del digest OMA o il tag di autenticazione, $m$ un messaggio e $k$ la OMAK, la funzione non impedisce agli attaccanti di ottenere il messaggio originale (si veda l'Algoritmo \ref{oma_algo2}) il che è una proprietà molto comoda per loro. Allo stesso modo, è anche possibile prendere uno stato interno arbitrario e continuare a processarlo come per riprendere un messaggio di cui si è fatto un digest parziale. Ciò è mostrato nell'Algoritmo \ref{oma_algo3}.
 \begin{algorithm}[!h]
 	\Fn{{\tt OMABackward} ($a,m,k,n$)}{
 		\tcc{Assumes $|m|\leq144$}
@@ -174,7 +174,7 @@ OSGP utilizza RC4 per la cifratura. RC4 è soggetto ad attacchi di \textit{stati
 	\caption{Il ``backward'' digest OMA di OSGP, ripristina lo stato interno di $n$ byte dei messaggi.}
 	\label{oma_algo2}
 \end{algorithm}
-
+\newpage
 \begin{algorithm}[!h]
 	\Fn{{\tt OMAForward} ($a,m,k,n$)}{
 		\tcc{Essentially Algorithm \ref{oma_algo1}, but start at byte $m_n$ with a known state $a$, and assume $|m| \leq 144$.}
@@ -189,9 +189,9 @@ OSGP utilizza RC4 per la cifratura. RC4 è soggetto ad attacchi di \textit{stati
 	}
 	\caption{Il ``forward'' digest OMA di OSGP, inizia con uno stato iniziale noto e processa byte di messaggi a partire dalla posizione $n$.}
 	\label{oma_algo3}
-\end{algorithm}
-\newpage
-\subsubsection{Chosen-Plaintext Key Recovery Attacks}
+\end{algorithm} 
+Di seguito è riportato un attacco mirato a recuperare la OMAK, mediante cifratura di un testo in chiaro scelto dall'attaccante.
+\subsubsection{Chosen-Plaintext Key Recovery Attack}
 Sia $a=\left(a_0,\ldots,a_7\right)$ lo stato interno a 8 byte del digest OMA. L'attacco discusso in seguito, utilizza messaggi scelti a 144 byte della forma $m=m_0 \|\cdots \|m_{143}$ e sfrutta le debolezze differenziali nel digest OMA.
 \newline \newline
 \textbf{Bitwise Key Recovery}.
@@ -208,17 +208,17 @@ in cui la rotazione ciclica $r\,\in \, \{1,7\}$ e l'operazione $\pm$, dipendono 
 \begin{equation*}
 \Delta_a \, = \, (\texttt{80},\texttt{80},\texttt{80},\texttt{80},\texttt{80},\texttt{80},\texttt{80},\texttt{80}).
 \end{equation*}
-L'iterazione successiva rivela un bit chiave. Linearizzando attraverso lo XOR la funzione \textit{f} di aggiornamento dello stato, la nuova differenza in output $\Delta_{a'_j}$ è della forma
+L'iterazione successiva dell'algoritmo rivela un bit chiave della OMAK. Linearizzando attraverso lo XOR la funzione \textit{f} di aggiornamento dello stato, la nuova differenza in output $\Delta_{a'_j}$ è della forma
 \begin{equation*}
 \begin{split}
 \Delta_{a'_j} \, = \, & ((a_{j+1 \, mod \, 8} \oplus \texttt{80}) \oplus m_i \oplus (\texttt{FF} \oplus ((a_j \oplus \texttt{80}) \oplus j) \lll r)) \, \oplus \\
 &(a_{j+1 \, mod \, 8} \oplus m_i \oplus (\texttt{FF} \oplus (a_j \oplus j) \lll r))
 \end{split}
 \end{equation*}
-dove $r\,\in \, \{1,7\}$. Di conseguenza, si ha che $\Delta_{a'_j}\,=\,\texttt{81}$ se il bit 7-i mod 8 di $k_{\lfloor i/8 \rfloor \, mod \, 12}$ sia pari a 1, e $\Delta_{a'_j}\,=\,\texttt{C0}$, se lo stesso bit chiave è 0. Sebbene l'addizione e lo XOR tra interi si comportino diversamente rispetto alla propagazione delle XOR differenze, il bit meno significativo dell'addizione tra interi e dello XOR si comportano allo stesso modo in questo caso e possono essere utilizzati per recuperare il bit chiave con probabilità 1. \newline
-Tale \textit{leak}, combinato con l'algoritmo \ref{oma_algo2}, può trasformarsi in un \textit{chosen- plaintext key-recovery attack} che restituisce la OMAK \textit{k} bit a bit in al più 96+1 query. L'algoritmo \ref{oma_algo4} descrive questo attacco in dettaglio. Guardando in Figura \ref{osgp_img}, si può immediatamente vedere che la ricostruzione di \textit{k} rompe lo schema completo OSGP AE.
-\begin{algorithm}
-\Fn{{\tt RecoverKey}(\textit{O})}{
+dove $r\,\in \, \{1,7\}$. Di conseguenza, si ha che $\Delta_{a'_j}\,=\,\texttt{81}$ se il bit 7-i mod 8 di $k_{\lfloor i/8 \rfloor \, mod \, 12}$ è pari a 1, e $\Delta_{a'_j}\,=\,\texttt{C0}$, se lo stesso bit chiave è 0. Sebbene l'addizione e lo XOR tra interi si comportino diversamente rispetto alla propagazione delle differenze XOR, il bit meno significativo dell'addizione tra interi e dello XOR si comportano allo stesso modo in questo caso e possono essere utilizzati per recuperare il bit chiave con probabilità 1. \newline
+Tale \textit{leak}, combinato con l'Algoritmo \ref{oma_algo2}, può trasformarsi in un \textit{chosen- plaintext key-recovery attack} che restituisce la OMAK \textit{k} bit a bit in al più 96+1 query. L'algoritmo \ref{oma_algo4} descrive questo attacco in dettaglio. Guardando in Figura \ref{osgp_img}, si può immediatamente vedere che la ricostruzione di \textit{k} rompe lo schema completo OSGP AE.
+\begin{algorithm}[h]
+\Fn{{\tt RecoverKey}(\textit{$\mathcal{O}$})}{
    %\tcc{O è un oracolo che restituisce un messaggio OMADigest con chiave k.}
    \tcc{$\mathcal{O}$ is an oracle returning a message’s OMADigest under key $k$}
    $k\, \leftarrow \, \{0\}^{12}$\\
@@ -238,23 +238,7 @@ Tale \textit{leak}, combinato con l'algoritmo \ref{oma_algo2}, può trasformarsi
 }\caption{Bitwise Key Recovery attack}
 \label{oma_algo4}
 \end{algorithm}
-%\subsection{Potenziali debolezze del protocollo}
-%Sono state identificate quattro potenziali debolezze nel protocollo OSG.
-%\subsubsection{Utilizzo di RC4}
-%Negli ultimi anni sono state identificate varie debolezze nello stream cipher RC4. Uno dei problemi è la correlazione tra la chiave ed il \emph{keystream} di RC4 che può essere utilizzata per ricostruire la chiave. Questa debolezza è stata sfruttata con successo attraverso i vettori di inizializzazione (IVs)  utilizzati per ``rompere" WEP (Wired Equivalent Protection), standard che fa largo uso di RC4. Gli attacchi \cite{wep1}, \cite{wep2} rompono WEP in pochi secondi e tool per l'attacco come Aircrack-ng \cite{aircrackng} sono disponibili gratuitamente per effettuare penetration testing \cite{kali}.\\
-%L'uso di RC4 nel protocollo OSG è simile al modo in cui RC4 era usato nello standard WEP. Mentre, per ogni messaggio, è generata una nuova chiave, solamente i primi 8 byte della chiave variano, ed i restanti 8 byte sono costanti. Inoltre, gli 8 byte iniziali vengono messi in XOR con un valore noto pubblicamente. Sebbene gli autori non siano a conoscenza di un attacco reale a tale caratteristica, ciò implica una forte correlazione tra le chiavi usate, e fornisce ad un attaccante dati interessanti da analizzare. Ulteriormente, l'impostazione è simile a quella utilizzata nello standard WEP, questo lascia intuire che l'esperienza nel campo dello \emph{statistical key recovery} permetterebbe di attuare con successo un attacco.\\
-%Un altro problema di RC4 in OSGP è che è utilizzato con una autenticazione debole. Data la natura di uno stream cipher, un attaccante che entra in possesso di un \emph{ciphertext} può alterare bit in posizioni scelte. Grazie alla conoscenza dello spazio dei messaggi dello standard EN 14908, un attaccante può inviare messaggi alterati che sono validi con alta probabilità. Inoltre, egli può autenticare tali messaggi sfruttando la debolezza della funzione di digest descritta qui di seguito.
-%\subsubsection{Debole funzione di digest}
-%La funzione di digest utilizzata nel protocollo OSG per l'autenticazione dei messaggi è lineare ed è implementata in un modo che non solo disabilita l'autenticazione ma può inoltre lasciar decifrare un messaggio intercettato in tempo lineare nella lunghezza del messaggio. La debolezza strutturale intrinseca alla funzione di digest consente un attacco ``man-in-the-middle" (che dimezza la taglia della chiave per un attacco di forza bruta), la modifica dei messaggi in maniera controllata, ricomputazione del digest corretto senza il bisogno di cifratura - o di chiavi di autenticazione, ed utilizzando i messaggi di NACK di un dispositivo su un digest errato per ricostruire sia la chiave di autenticazione che il messaggio.
-%\subsubsection{Sicurezza di broadcast non definita}
-%Nonostante la funzione di broadcast sia chiamata ``Secure Broadcast", la sicurezza definita su di essa è molto bassa. Questo è particolarmente preoccupante, se si pensa che tale meccanismo è utilizzato per inviare aggiornamenti del firmware, che sono distribuiti attraverso il meccanismo di broadcast sicuro senza alcuna misura specifica atta a fornire autenticazione dalla sorgente.
-%\subsubsection{Utilizzo della chiave}
-%Sebbene il protocollo faccia uso di chiavi di sessione per la cifratura, utilizza una master key per l'autenticazione. Comunque, questa chiave di autenticazione è usata per derivare la cifratura delle chiavi di sessione. Quindi se la chiave di autenticazione è compromessa, tutte le chiavi di sessione sono note all'attaccante. Siccome la chiave di autenticazione è usata con un debole algoritmo di autenticazione, essa è altamente esposta ad un gran numero di attacchi, e comprometterla è ben possibile.
-%\subsection{Sfruttare le debolezze strutturali}
-%Queste debolezze strutturali possono essere sfruttate in vari modi. Gli attacchi adatti a tale scopo complessivamente non sono molto sofisticati, piuttosto, grazie alla debolezza dei \emph{building block} crittografici un attaccante è capace di dirottare un intero segmento PLC.\\
-%Un attacco relativamente semplice punta a \textit{rompere} la funzione di digest così che un attaccante possa non solo forgiare messaggi, ma - avendo ottenuto accesso ad un messaggio autentico di sufficiente lunghezza - anche ricostruire chiavi crittografiche con basso sforzo, per poi inviare falsi comandi correttamente autenticati.
-%-----------------------------------------------------------------------------
-%\section{Attacchi}
+\newpage
 \section{Attacking Smart Meters and Smart Devices}
 Uno dei maggiori argomenti utilizzati per mettere in sicurezza gli smart meter è che i consumatori avranno accesso fisico, e potenzialmente anche logico, a tali dispositivi. Sebbene i consumatori avessero accesso ai vecchi meter, questi ultimi non operavano utilizzando tecnologie familiari ai consumatori o a cui potessero avere accesso. A causa della prevalenza di queste tecnologie ben note, gli smart meter possono essere trattati come obiettivi tradizionali, quando ci si trova ad applicare metodologie di \emph{security testing} su di essi.\\
 Di seguito vengono analizzate due tra le più comuni metodologie di security testing e come queste possano essere applicate al testing degli smart meter.
