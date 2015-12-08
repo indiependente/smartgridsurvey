@@ -225,8 +225,8 @@ Tale \textit{leak}, combinato con l'algoritmo \ref{oma_algo2}, può trasformarsi
    			$m'_{136-8i-1-j} \, \leftarrow \, m'_{136-8i-1-j} \oplus \texttt{80}$\\
    			$a' \, \leftarrow \, \mathcal{O}(m')$\\
    			$b \, \leftarrow \, \texttt{OMABackward}(a,m,k,8i)$ \\
-   			$b' \, \leftarrow \, \texttt{OMABackward}(a,m',k,8i)$ \\
-   			$k_{17-i \, mod \, 12,7-j} \, \leftarrow \, (b_{j,0} \oplus b'_{j,0})$
+   			$b' \, \leftarrow \, \texttt{OMABackward}(a',m',k,8i)$ \\
+   			$k_{(17-i) \, mod \, 12,7-j} \, \leftarrow \, (b_{j,0} \oplus b'_{j,0})$
    }
    }
    \Return{\textit{k}}
