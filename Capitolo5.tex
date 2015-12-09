@@ -163,7 +163,8 @@ OSGP utilizza RC4 per la cifratura. RC4 è soggetto ad attacchi di \textit{stati
 		\tcc{Assumes $|m|\leq144$}
 		$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
 		\For{$l \gets 0$ \KwTo $n-1$}{
-			$i,j \gets \lfloor l/8\rfloor,\,l\,mod\,8$\\
+			$i \, \gets \, \lfloor l/8\rfloor$\\
+			$j \, \gets \, l\,mod\,8$\\
 			\eIf{$k_{(17-i)\,mod\,12,7-j} = 1$}
 				{$x \gets (a_j - a_{(j+1)\,mod\,8}-m_{143-8i-j}) \ggg 1$}
 				{$x \gets (a_{(j+1)\,mod\,8}+m_{143-8i-j}-a_j) \lll 1$}
@@ -180,7 +181,8 @@ OSGP utilizza RC4 per la cifratura. RC4 è soggetto ad attacchi di \textit{stati
 		\tcc{Essentially Algorithm \ref{oma_algo1}, but start at byte $m_n$ with a known state $a$, and assume $|m| \leq 144$.}
 		$m \gets m\,\|\,0^{-|m|\,mod\,144}$\\
 		\For{$l\gets n$ \KwTo 143}{
-			$i,j \gets \lfloor l/8\rfloor,\,7-l\,mod\,8$\\
+			$i \, \gets \, \lfloor l/8\rfloor$\\
+			$j \, \gets \, 7-l\,mod\,8$\\
 			\eIf{$k_{i\,mod\,12,7-j} = 1$}
 				{$a_j \gets a_{(j+1)\,mod\,8}+m_{8i+7-j}+(\neg(a_j+j)) \lll 1$}
 				{$a_j \gets a_{(j+1)\,mod\,8}+m_{8i+7-j}-(\neg(a_j+j)) \ggg 1$}
@@ -195,7 +197,8 @@ Di seguito è riportato un attacco mirato a recuperare la OMAK, mediante cifratu
 Sia $a=\left(a_0,\ldots,a_7\right)$ lo stato interno a 8 byte del digest OMA. L'attacco discusso in seguito, utilizza messaggi scelti a 144 byte della forma $m=m_0 \|\cdots \|m_{143}$ e sfrutta le debolezze differenziali nel digest OMA.
 \newline \newline
 \textbf{Bitwise Key Recovery}.
-Tale attacco recupera l'intera chiave un bit alla volta, attraverso la crittoanalisi differenziale \cite{diffcrypt}. Nello specifico, sfrutta lo XOR-\textit{differential}$\left(\Delta_{m_i}, \Delta_{a_j}\right) =\,$\texttt{(80,80)}, in cui $\Delta_{m_i}$ e $\Delta_{a_j}$ sono, rispettivamente, le differenze in input e output per j = 7-i mod 8. La differenza in output è ottenuta subito dopo il \textit{processing} del byte $m_i$ del messaggio (vedi Algoritmo \ref{oma_algo1}), e può essere scritto come
+Tale attacco recupera l'intera chiave un bit alla volta, attraverso la crittoanalisi differenziale \cite{diffcrypt}. Nello specifico, sfrutta lo XOR-\textit{differential} $\left(\Delta_{m_i}, \Delta_{a_j}\right) =\,\texttt{(80,80)}\text{, in cui }\Delta_{m_i} \text{ e } \Delta_{a_j} $ sono, rispettivamente, le differenze in input e output per $j = 7-i \, mod\, 8 \text{, }\Delta_{m_i} = m_i $ (byte i-esimo del messaggio in chiaro scelto dall'attaccante) $ \oplus \, m^{\prime}_i $ (byte i-esimo del messaggio in chiaro scelto dall'attaccante $\oplus \,  \texttt{80})$, $ \Delta_{a_j} = a_j $ (byte j-esimo dello stato iniziale a calcolato sul messaggio m) $\oplus \, a^\prime_j $ (byte j-esimo dello stato calcolato sul messaggio $m^\prime$). 
+\newline La differenza in output è ottenuta subito dopo il \textit{processing} del byte $m_i$ del messaggio (vedi Algoritmo \ref{oma_algo1}), e può essere scritta come
 \begin{equation*}
 \begin{split}
 &f_{k,j}\left(a_j, a_{j+1 \, mod \, 8}, m_i \oplus \texttt{80} \right) \\
@@ -217,6 +220,7 @@ L'iterazione successiva dell'algoritmo rivela un bit chiave della OMAK. Lineariz
 \end{equation*}
 dove $r\,\in \, \{1,7\}$. Di conseguenza, si ha che $\Delta_{a'_j}\,=\,\texttt{81}$ se il bit 7-i mod 8 di $k_{\lfloor i/8 \rfloor \, mod \, 12}$ è pari a 1, e $\Delta_{a'_j}\,=\,\texttt{C0}$, se lo stesso bit chiave è 0. Sebbene l'addizione e lo XOR tra interi si comportino diversamente rispetto alla propagazione delle differenze XOR, il bit meno significativo dell'addizione tra interi e dello XOR si comportano allo stesso modo in questo caso e possono essere utilizzati per recuperare il bit chiave con probabilità 1. \newline
 Tale \textit{leak}, combinato con l'Algoritmo \ref{oma_algo2}, può trasformarsi in un \textit{chosen- plaintext key-recovery attack} che restituisce la OMAK \textit{k} bit a bit in al più 96+1 query. L'algoritmo \ref{oma_algo4} descrive questo attacco in dettaglio. Guardando in Figura \ref{osgp_img}, si può immediatamente vedere che la ricostruzione di \textit{k} rompe lo schema completo OSGP AE.
+\newpage
 \begin{algorithm}[h]
 \Fn{{\tt RecoverKey}(\textit{$\mathcal{O}$})}{
    %\tcc{O è un oracolo che restituisce un messaggio OMADigest con chiave k.}
