@@ -195,7 +195,7 @@ Di seguito è riportato un attacco mirato a recuperare la OMAK, mediante cifratu
 Sia $a=\left(a_0,\ldots,a_7\right)$ lo stato interno a 8 byte del digest OMA. L'attacco discusso in seguito, utilizza messaggi scelti a 144 byte della forma $m=m_0 \|\cdots \|m_{143}$ e sfrutta le debolezze differenziali nel digest OMA.
 \newline \newline
 \textbf{Bitwise Key Recovery}.
-Tale attacco recupera l'intera chiave un bit alla volta, attraverso la crittoanalisi differenziale. Nello specifico, sfrutta lo XOR-\textit{differential}$\left(\Delta_{m_i}, \Delta_{a_j}\right) =\,$\texttt{(80,80)}, in cui $\Delta_{m_i}$ e $\Delta_{a_j}$ sono, rispettivamente, le differenze in input e output per j = 7-i mod 8. La differenza in output è ottenuta subito dopo il \textit{processing} del byte $m_i$ del messaggio (vedi Algoritmo \ref{oma_algo1}), e può essere scritto come
+Tale attacco recupera l'intera chiave un bit alla volta, attraverso la crittoanalisi differenziale \cite{diffcrypt}. Nello specifico, sfrutta lo XOR-\textit{differential}$\left(\Delta_{m_i}, \Delta_{a_j}\right) =\,$\texttt{(80,80)}, in cui $\Delta_{m_i}$ e $\Delta_{a_j}$ sono, rispettivamente, le differenze in input e output per j = 7-i mod 8. La differenza in output è ottenuta subito dopo il \textit{processing} del byte $m_i$ del messaggio (vedi Algoritmo \ref{oma_algo1}), e può essere scritto come
 \begin{equation*}
 \begin{split}
 &f_{k,j}\left(a_j, a_{j+1 \, mod \, 8}, m_i \oplus \texttt{80} \right) \\
